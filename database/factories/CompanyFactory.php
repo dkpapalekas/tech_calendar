@@ -18,7 +18,7 @@ class CompanyFactory extends Factory
             'address' => $this->faker->address(10),
             'city' => $this->faker->city(10),
             'profession' => $this->faker->bs(10),
-            'vat' => $this->faker->randomNumber,
+            'vat' => $this->faker->numerify('########'),
             'irs' => $this->faker->text(10)
         ];
     }
