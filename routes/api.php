@@ -14,13 +14,20 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+
+// Public Routes
+Route::post('/register', 'AuthController@register');
+Route::post('/authenticate', 'AuthController@authenticate');
+
+// Protected Routes
+Route::middleware('auth:sanctum')->group(function() {
+    // CompanyController Routes
+    Route::get('/companies', [CompanyController::class, 'index']);
+    Route::post('/company', [CompanyController::class, 'store']);
+    Route::get('/companies/{id}', [CompanyController::class, 'show']);
+    Route::put('/companies/{id}', [CompanyController::class, 'update']);
+    Route::delete('/companies/{id}', [CompanyController::class, 'destroy']);
+
+    Route::post('/revoke', 'AuthController@revoke');
 });
 
-// CompanyController Routes
-Route::get('/companies', [CompanyController::class, 'index']);
-Route::post('/company', [CompanyController::class, 'store']);
-Route::get('/companies/{id}', [CompanyController::class, 'show']);
-Route::put('/companies/{id}', [CompanyController::class, 'update']);
-Route::delete('/companies/{id}', [CompanyController::class, 'destroy']);
