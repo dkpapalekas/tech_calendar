@@ -8,15 +8,17 @@ class CreateImageablesTable extends Migration
 {
     /**
      * Run the migrations.
+     * See https://laravel.com/docs/8.x/eloquent-relationships#one-to-one-polymorphic-relations for more.
      *
      * @return void
      */
     public function up()
     {
         Schema::create('imageables', function (Blueprint $table) {
-            $table->foreignId('image_id')->constrained();
+            $table->id('id');
+            $table->string('url');
             $table->morphs('imageable');
-            $table->unique(['image_id', 'imageable_id', 'imageable_type']);
+            $table->unique(['id', 'imageable_id', 'imageable_type']);
             $table->timestamps();
         });
     }
@@ -28,10 +30,6 @@ class CreateImageablesTable extends Migration
      */
     public function down()
     {
-        Schema::table('imageables', function (Blueprint $table) {
-            $table->dropForeign(['image_id']);
-            // $table->dropForeign(['imageable_id']);
-        });
         Schema::dropIfExists('imageables');
     }
 }
