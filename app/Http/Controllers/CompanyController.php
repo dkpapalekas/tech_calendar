@@ -110,13 +110,13 @@ class CompanyController extends Controller
     }
 
     /**
-     * Search
+     * Search Company based on Name or VAT
      * 
      * @param str $name
      * @return \Illuminate\Http\Response
      */
     public function search($name)
     {
-        return Company::where('name', 'like', '%'.$name.'%')->get();
+        return Company::where('name', 'like', '%'.$name.'%')->orWhere('vat', 'like', '%'.$name.'%')->get();
     }
 }
