@@ -41,6 +41,9 @@ Route::middleware('auth:sanctum')->group(function() {
     Route::delete('/customers/{id}', [CustomerController::class, 'destroy']);
     Route::get('/customers/search/{field}', [CustomerController::class, 'search']);
 
+    //Find in which company belongs the customer
+    Route::get('/customers/company/{id}', [CustomerController::class, 'company']);
+
 
     Route::post('/revoke', 'AuthController@revoke');
 });
