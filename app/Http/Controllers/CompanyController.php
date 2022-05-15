@@ -20,16 +20,6 @@ class CompanyController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -70,17 +60,6 @@ class CompanyController extends Controller
     {
         $company = Company::findOrFail($id);
         return new CompanyResource($company);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
     }
 
     /**
@@ -128,5 +107,16 @@ class CompanyController extends Controller
         if($company->delete()){
             return new CompanyResource($company);
         }
+    }
+
+    /**
+     * Search
+     * 
+     * @param str $name
+     * @return \Illuminate\Http\Response
+     */
+    public function search($name)
+    {
+        return Company::where('name', 'like', '%'.$name.'%')->get();
     }
 }
