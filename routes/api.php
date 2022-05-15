@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CompanyController;
+use App\Http\Controllers\CustomerController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -27,7 +28,19 @@ Route::middleware('auth:sanctum')->group(function() {
     Route::get('/companies/{id}', [CompanyController::class, 'show']);
     Route::put('/companies/{id}', [CompanyController::class, 'update']);
     Route::delete('/companies/{id}', [CompanyController::class, 'destroy']);
-    Route::get('/companies/search/{name}', [CompanyController::class, 'search']);
+    Route::get('/companies/search/{field}', [CompanyController::class, 'search']);
+
+    //Retrieve all the customers that belong to company with selected id
+    Route::get('/companies/customers/{id}', [CompanyController::class, 'customers']);
+
+    // CustomerController Routes
+    Route::get('/customers', [CustomerController::class, 'index']);
+    Route::post('/customer', [CustomerController::class, 'store']);
+    Route::get('/customers/{id}', [CustomerController::class, 'show']);
+    Route::put('/customers/{id}', [CustomerController::class, 'update']);
+    Route::delete('/customers/{id}', [CustomerController::class, 'destroy']);
+    Route::get('/customers/search/{field}', [CustomerController::class, 'search']);
+
 
     Route::post('/revoke', 'AuthController@revoke');
 });

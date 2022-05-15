@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Company;
 use App\Http\Resources\CompanyResource;
+use App\Http\Resources\CustomerResource;
 use Illuminate\Http\Request;
 
 class CompanyController extends Controller
@@ -115,8 +116,15 @@ class CompanyController extends Controller
      * @param str $name
      * @return \Illuminate\Http\Response
      */
-    public function search($name)
+    public function search($field)
     {
-        return Company::where('name', 'like', '%'.$name.'%')->orWhere('vat', 'like', '%'.$name.'%')->get();
+        return Company::where('name', 'like', '%'.$field.'%')->orWhere('vat', 'like', '%'.$field.'%')->get();
+    }
+
+    //Retrieve all the customers that belong to company with selected id
+    public function customers($company_id)
+    {
+        $customers = Company::find($company_id)->customers;
+        return CustomerResource::collection($customers);
     }
 }

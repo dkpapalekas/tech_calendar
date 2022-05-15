@@ -17,4 +17,10 @@ class Customer extends Model
         'telephone',
         'remarks'
     ];
+
+    public function company()
+    {
+        //will match customer with company_id
+        return $this->belongsTo(Company::class);
+    }
 }
