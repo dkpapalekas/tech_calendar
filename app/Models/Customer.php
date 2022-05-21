@@ -23,4 +23,10 @@ class Customer extends Model
         //will match customer with company_id
         return $this->belongsTo(Company::class);
     }
+
+    public function addresses()
+    {
+        //will match customer with company_id
+        return $this->hasMany(Address::class);
+    }
 }

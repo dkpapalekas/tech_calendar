@@ -124,10 +124,17 @@ class CustomerController extends Controller
         }
     }
 
-    //Find in which company belongs the customer
+    //Find in which company the customer belongs
     public function company($customer_id)
     {
         $company = Customer::find($customer_id)->company;//->id;
         return new CompanyResource($company);
+    }
+
+    //Retrieve all the addresses that belong to customer with selected id
+    public function addresses($customer_id)
+    {
+        $addresses = Customer::find($customer_id)->addresses;
+        return AddressResource::collection($addresses);
     }
 }
