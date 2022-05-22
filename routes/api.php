@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\AddressController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -33,6 +34,10 @@ Route::middleware('auth:sanctum')->group(function() {
     //Retrieve all the customers that belong to company with selected id
     Route::get('/companies/customers/{id}', [CompanyController::class, 'customers']);
 
+    //-------------------------------------------------------------------------------------
+    //-------------------------------------------------------------------------------------
+    //-------------------------------------------------------------------------------------
+
     // CustomerController Routes
     Route::get('/customers', [CustomerController::class, 'index']);
     Route::post('/customer', [CustomerController::class, 'store']);
@@ -43,7 +48,25 @@ Route::middleware('auth:sanctum')->group(function() {
 
     //Find in which company belongs the customer
     Route::get('/customers/company/{id}', [CustomerController::class, 'company']);
+    //Retrieve all the addresses that belong to customer with selected id
+    Route::get('/customers/addresses/{id}', [CustomerController::class, 'addresses']);
 
+    //-------------------------------------------------------------------------------------
+    //-------------------------------------------------------------------------------------
+    //-------------------------------------------------------------------------------------
+
+    // AddressController Routes
+    Route::get('/addresses', [AddressController::class, 'index']);
+    Route::post('/address', [AddressController::class, 'store']);
+    Route::get('/addresses/{id}', [AddressController::class, 'show']);
+    Route::put('/addresses/{id}', [AddressController::class, 'update']);
+    Route::delete('/addresses/{id}', [AddressController::class, 'destroy']);
+    Route::get('/addresses/search/{field}', [AddressController::class, 'search']);
+
+    //Find in which customer belongs the address
+    Route::get('/addresses/customer/{id}', [AddressController::class, 'customer']);
+    //Retrieve all the jobs that belong to address with selected id
+    
 
     Route::post('/revoke', 'AuthController@revoke');
 });
