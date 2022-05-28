@@ -79,7 +79,7 @@ class ApplianceApiTest extends TestCase
         ];
 
         $req = $this->actingAs($user)
-            ->post('http://localhost:8000/api/v1/appliance',$form_data)
+            ->put('http://localhost:8000/api/v1/appliance',$form_data)
             ->assertStatus(201);
     }
 
