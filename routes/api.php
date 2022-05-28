@@ -3,6 +3,7 @@
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\AddressController;
+use App\Http\Controllers\ApplianceController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -65,8 +66,28 @@ Route::middleware('auth:sanctum')->group(function() {
 
     //Find in which customer belongs the address
     Route::get('/addresses/customer/{id}', [AddressController::class, 'customer']);
-    //Retrieve all the jobs that belong to address with selected id
+    //TODO Retrieve all the jobs that belong to address with selected id
+
+    //-------------------------------------------------------------------------------------
+    //-------------------------------------------------------------------------------------
+    //-------------------------------------------------------------------------------------
     
+    // ApplianceController Routes
+    Route::get('/appliances', [ApplianceController::class, 'index']);
+    Route::post('/appliance', [ApplianceController::class, 'store']);
+    Route::get('/appliances/{id}', [ApplianceController::class, 'show']);
+    Route::put('/appliances/{id}', [ApplianceController::class, 'update']);
+    Route::delete('/appliances/{id}', [ApplianceController::class, 'destroy']);
+    Route::get('/appliances/search/{field}', [ApplianceController::class, 'search']);
+
+    // TODO uncomment when jobs
+    //Retrieve all the jobs that belong to appliance with selected id
+    //Route::get('/appliances/jobs/{id}', [ApplianceController::class, 'jobs']);
+
+    //-------------------------------------------------------------------------------------
+    //-------------------------------------------------------------------------------------
+    //-------------------------------------------------------------------------------------
 
     Route::post('/revoke', 'AuthController@revoke');
+    
 });

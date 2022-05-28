@@ -18,8 +18,8 @@ class CreateAppliancesTable extends Migration
             $table->string('name');
             $table->string('brand');
             $table->string('model');
-            $table->year('year');
-            $table->text('remarks');
+            $table->year('year')->nullable();
+            $table->text('remarks')->nullable();;
             $table->timestamps();
         });
     }
