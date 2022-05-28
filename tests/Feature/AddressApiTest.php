@@ -24,7 +24,7 @@ class AddressApiTest extends TestCase
             'number' => 6,
             'city' => 'Kalampaka',
             'floor' => 5,
-            'remarks' => 'poutso'
+            'remarks' => 'new remark'
         ];
 
         $req = $this->actingAs($user)
@@ -42,15 +42,15 @@ class AddressApiTest extends TestCase
             ->dump();
     }
 
-    // public function test_index_address()
-    // {   
-    //     $user = User::factory()->create();
+    public function test_index_address()
+    {   
+        $user = User::factory()->create();
 
-    //     $req = $this->actingAs($user)
-    //         ->get('http://localhost:8000/api/v1/addresses')
-    //         ->assertStatus(200)
-    //         ->dump();
-    // }
+        $req = $this->actingAs($user)
+            ->get('http://localhost:8000/api/v1/addresses')
+            ->assertStatus(200);
+            //->dump();
+    }
 
     public function test_update_address()
     {   

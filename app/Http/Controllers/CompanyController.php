@@ -32,7 +32,7 @@ class CompanyController extends Controller
             'name' => 'required|unique:companies|max:255',
             'address' => 'required',
             'city' => 'required',
-            'profession' => 'required',
+            'profession' => 'nullable',
             'vat' => 'required',
             'irs' => 'required',
         ]);
@@ -76,7 +76,7 @@ class CompanyController extends Controller
             'name' => 'required|unique:companies|max:255',
             'address' => 'required',
             'city' => 'required',
-            'profession' => 'required',
+            'profession' => 'nullable',
             'vat' => 'required',
             'irs' => 'required',
         ]);
@@ -118,7 +118,10 @@ class CompanyController extends Controller
      */
     public function search($field)
     {
-        return Company::where('name', 'like', '%'.$field.'%')->orWhere('vat', 'like', '%'.$field.'%')->get();
+        return Company::where('name', 'like', '%'.$field.'%')
+            ->orWhere('vat', 'like', '%'.$field.'%')
+            ->orWhere('city', 'like', '%'.$field.'%')
+            ->get();
     }
 
     //Retrieve all the customers that belong to company with selected id

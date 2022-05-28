@@ -18,7 +18,7 @@ class CreateCompaniesTable extends Migration
             $table->string('name')->unique();
             $table->string('address');
             $table->string('city');
-            $table->string('profession');
+            $table->string('profession')->nullable();
             $table->integer('vat')->unique();
             $table->string('irs');
             $table->timestamps();
