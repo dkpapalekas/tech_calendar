@@ -26,4 +26,9 @@ class Address extends Model
     }
 
     //and has many Jobs
+    public function jobs()
+    {
+        //will match customer with company_id
+        return $this->hasMany(Job::class);
+    }
 }
