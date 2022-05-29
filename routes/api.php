@@ -125,6 +125,23 @@ Route::middleware('auth:sanctum')->group(function() {
     //-------------------------------------------------------------------------------------
     //-------------------------------------------------------------------------------------
 
+    // Job_LineController Routes
+    Route::get('/job_lines', [Job_LineController::class, 'index']);
+    Route::post('/job_line', [Job_LineController::class, 'store']);
+    Route::get('/job_lines/{id}', [Job_LineController::class, 'show']);
+    Route::put('/job_lines/{id}', [Job_LineController::class, 'update']);
+    Route::delete('/job_lines/{id}', [Job_LineController::class, 'destroy']);
+    Route::get('/job_lines/search/{field}', [Job_LineController::class, 'search']);
+
+    //Find in which job belongs the job_line
+    Route::get('/job_lines/job/{id}', [Job_LineController::class, 'company']);
+    //Find in which material belongs the job_line
+    Route::get('/job_lines/material/{id}', [Job_LineController::class, 'company']);
+
+    //-------------------------------------------------------------------------------------
+    //-------------------------------------------------------------------------------------
+    //-------------------------------------------------------------------------------------
+
     Route::post('/revoke', 'AuthController@revoke');
     
 });

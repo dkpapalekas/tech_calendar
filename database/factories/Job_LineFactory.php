@@ -19,7 +19,7 @@ class Job_LineFactory extends Factory
             'quantity' => $this->faker->numberBetween(1, 8),
             'price' => $this->faker->randomNumber(2),
             'status' => 'pending',
-            'remarks'=> $this->faker->text(10)
+            'remarks' => $this->faker->text(10)
         ];
     }
 }
