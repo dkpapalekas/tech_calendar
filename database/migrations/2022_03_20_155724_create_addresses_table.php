@@ -22,6 +22,7 @@ class CreateAddressesTable extends Migration
             $table->integer('floor');
             $table->text('remarks');
             $table->timestamps();
+            $table->unique(['customer_id', 'name', 'city', 'floor']);
         });
     }
 

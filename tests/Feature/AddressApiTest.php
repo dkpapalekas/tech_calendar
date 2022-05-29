@@ -23,7 +23,7 @@ class AddressApiTest extends TestCase
             'name' => 'Apostolou Pavlou 24',
             'number' => 6,
             'city' => 'Kalampaka',
-            'floor' => 5,
+            'floor' => 7,
             'remarks' => 'new remark'
         ];
 
@@ -31,6 +31,21 @@ class AddressApiTest extends TestCase
             ->post('http://localhost:8000/api/v1/address',$form_data)
             ->assertStatus(201);
     }
+
+    // public function test_store_address_nullables()
+    // {   
+    //     $user = User::factory()->create();
+
+    //     $form_data = [
+    //         'customer_id' => 4,
+    //         'name' => 'Apostolou Pavlou 24',
+    //         'number' => 6,
+    //     ];
+
+    //     $req = $this->actingAs($user)
+    //         ->post('http://localhost:8000/api/v1/address',$form_data)
+    //         ->assertStatus(201);
+    // }
 
     public function test_get_address()
     {   

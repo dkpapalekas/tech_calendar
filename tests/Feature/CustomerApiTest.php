@@ -58,20 +58,20 @@ class CustomerApiTest extends TestCase
             ->assertStatus(201);
     }
 
-    public function test_update_customer_nullables()
+    public function test_update_customer_nullables_wrong_type()
     {   
         $user = User::factory()->create();
 
         $form_data = [
             'company_id' => 5,
             'name' => 'Andreas',
-            'surname' => 'Papalekas',
+            'surname' => 4,
             'telephone' => '6969579637',
         ];
 
         $req = $this->actingAs($user)
             ->put('http://localhost:8000/api/v1/customers/4',$form_data)
-            ->assertStatus(200);
+            ->assertStatus(302);
     }
 
     // public function test_delete_customer()

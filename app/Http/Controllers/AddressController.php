@@ -30,7 +30,11 @@ class AddressController extends Controller
     {
         $validated = $request->validate([
             'customer_id' => 'required',
-            'name' => 'required',
+            'name' => 'required|string',
+            'number' => 'required|integer',
+            'city' => 'nullable|string',
+            'floor' => 'nullable|integer',
+            'remarks' => 'nullable',
         ]);
 
         $address = new Address();
@@ -81,7 +85,11 @@ class AddressController extends Controller
     {
         $validated = $request->validate([
             'customer_id' => 'required',
-            'name' => 'required',
+            'name' => 'required|string',
+            'number' => 'required|integer',
+            'city' => 'nullable|string',
+            'floor' => 'nullable|integer',
+            'remarks' => 'nullable',
         ]);
 
         $address = Address::findOrFail($id);
