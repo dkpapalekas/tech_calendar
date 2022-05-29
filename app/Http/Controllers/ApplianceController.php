@@ -102,7 +102,7 @@ class ApplianceController extends Controller
      */
     public function destroy($id)
     {
-        $appliance = appliance::findOrFail($id);
+        $appliance = Appliance::findOrFail($id);
 
         if($appliance->delete()){
             return new ApplianceResource($appliance);

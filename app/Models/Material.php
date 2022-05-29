@@ -5,22 +5,19 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Appliance extends Model
+class Material extends Model
 {
     use HasFactory;
 
-    protected $table = 'appliances';
+    protected $table = 'materials';
     protected $fillable = [
         'name',
-        'brand',
-        'model',
-        'year',
         'remarks',
     ];
 
-    public function jobs()
+    public function job_lines()
     {
-        //will match jobs with appliance_id
-        return $this->hasMany(Job::class);
+        //will match customer with company_id
+        return $this->hasMany(Job_Line::class);
     }
 }

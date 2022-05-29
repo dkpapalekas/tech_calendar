@@ -88,6 +88,22 @@ Route::middleware('auth:sanctum')->group(function() {
     //-------------------------------------------------------------------------------------
     //-------------------------------------------------------------------------------------
 
+    // MaterialController Routes
+    Route::get('/materials', [MaterialController::class, 'index']);
+    Route::post('/material', [MaterialController::class, 'store']);
+    Route::get('/materials/{id}', [MaterialController::class, 'show']);
+    Route::put('/materials/{id}', [MaterialController::class, 'update']);
+    Route::delete('/materials/{id}', [MaterialController::class, 'destroy']);
+    Route::get('/materials/search/{field}', [MaterialController::class, 'search']);
+
+    //TODO uncomment when job_lines 
+    // //Retrieve all the job_lines that belong to material with selected id
+    // Route::get('/materials/job_lines/{id}', [MaterialController::class, 'job_lines']);
+
+    //-------------------------------------------------------------------------------------
+    //-------------------------------------------------------------------------------------
+    //-------------------------------------------------------------------------------------
+
     Route::post('/revoke', 'AuthController@revoke');
     
 });
