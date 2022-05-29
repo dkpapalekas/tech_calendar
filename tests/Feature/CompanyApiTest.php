@@ -62,7 +62,6 @@ class CompanyApiTest extends TestCase
             'irs' => 'new remark'
         ];
 
-        //need Error assertion
         $req = $this->actingAs($user)
             ->post('http://localhost:8000/api/v1/company',$form_data)
             ->assertStatus(500);
@@ -84,8 +83,8 @@ class CompanyApiTest extends TestCase
 
         $req = $this->actingAs($user)
             ->get('http://localhost:8000/api/v1/companies')
-            ->assertStatus(200);
-            //->dump();
+            ->assertStatus(200)
+            ->dump();
     }
 
     public function test_update_company()
