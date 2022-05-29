@@ -16,13 +16,19 @@ class Job extends Model
         'client_status',
         'date',
         'agreed_price',
-        'is_completed'
+        'is_completed',
     ];
 
     public function address()
     {
         //will match customer with company_id
         return $this->belongsTo(Address::class);
+    }
+
+    public function appliance()
+    {
+        //will match customer with company_id
+        return $this->belongsTo(Appliance::class);
     }
 
     public function job_lines()
