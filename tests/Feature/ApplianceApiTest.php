@@ -79,8 +79,8 @@ class ApplianceApiTest extends TestCase
         ];
 
         $req = $this->actingAs($user)
-            ->put('http://localhost:8000/api/v1/appliance',$form_data)
-            ->assertStatus(201);
+            ->put('http://localhost:8000/api/v1/appliances/5',$form_data)
+            ->assertStatus(200);
     }
 
     public function test_delete_appliance()

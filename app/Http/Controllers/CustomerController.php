@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Customer;
 use App\Http\Resources\CompanyResource;
+use App\Http\Resources\AddressResource;
 use App\Http\Resources\CustomerResource;
 use Illuminate\Http\Request;
 
@@ -32,7 +33,8 @@ class CustomerController extends Controller
             'company_id' => 'required',
             'name' => 'required',
             'surname' => 'required',
-            'telephone' => 'required',
+            'telephone' => 'nullable',
+            'remarks' => 'nullable',
         ]);
 
         $customer = new Customer();
@@ -84,7 +86,8 @@ class CustomerController extends Controller
             'company_id' => 'required',
             'name' => 'required',
             'surname' => 'required',
-            'telephone' => 'required',
+            'telephone' => 'nullable',
+            'remarks' => 'nullable',
         ]);
 
         $customer = Customer::findOrFail($id);

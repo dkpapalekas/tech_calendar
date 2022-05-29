@@ -18,8 +18,8 @@ class CreateCustomersTable extends Migration
             $table->foreignId('company_id')->constrained();
             $table->string('name');
             $table->string('surname');
-            $table->integer('telephone')->unique();
-            $table->text('remarks');
+            $table->string('telephone')->nullable()->unique();
+            $table->text('remarks')->nullable();
             $table->timestamps();
         });
     }
