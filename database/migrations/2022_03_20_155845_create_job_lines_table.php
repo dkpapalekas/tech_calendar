@@ -20,7 +20,7 @@ class CreateJobLinesTable extends Migration
             $table->float('quantity', 6, 2);
             $table->float('price', 6, 2);
             $table->string('status');
-            $table->text('remarks');
+            $table->text('remarks')->nullable();
             $table->timestamps();
         });
     }

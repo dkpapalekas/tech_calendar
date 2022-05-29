@@ -25,9 +25,9 @@ class Job_Line extends Model
         return $this->belongsTo(Job::class);
     }
 
-    public function materials()
+    public function material()
     {
         //will match job_line with material_id
-        return $this->hasMany(Material::class);
+        return $this->belongsTo(Material::class);
     }
 }
