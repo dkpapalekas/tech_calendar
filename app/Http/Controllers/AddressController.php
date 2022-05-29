@@ -129,4 +129,9 @@ class AddressController extends Controller
     }
 
     // add retrieve all jobs of an address (like all addressesof customer)
+    public function jobs($address_id)
+    {
+        $jobs = Address::find($address_id)->jobs;
+        return JobResource::collection($jobs);
+    }
 }

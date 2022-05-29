@@ -5,6 +5,9 @@ use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\AddressController;
 use App\Http\Controllers\ApplianceController;
 use App\Http\Controllers\MaterialController;
+use App\Http\Controllers\JobController;
+use App\Http\Controllers\Job_LineController;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -81,9 +84,8 @@ Route::middleware('auth:sanctum')->group(function() {
     Route::delete('/appliances/{id}', [ApplianceController::class, 'destroy']);
     Route::get('/appliances/search/{field}', [ApplianceController::class, 'search']);
 
-    // TODO uncomment when jobs
     //Retrieve all the jobs that belong to appliance with selected id
-    //Route::get('/appliances/jobs/{id}', [ApplianceController::class, 'jobs']);
+    Route::get('/appliances/jobs/{id}', [ApplianceController::class, 'jobs']);
 
     //-------------------------------------------------------------------------------------
     //-------------------------------------------------------------------------------------
@@ -97,9 +99,27 @@ Route::middleware('auth:sanctum')->group(function() {
     Route::delete('/materials/{id}', [MaterialController::class, 'destroy']);
     Route::get('/materials/search/{field}', [MaterialController::class, 'search']);
 
-    //TODO uncomment when job_lines 
-    // //Retrieve all the job_lines that belong to material with selected id
-    // Route::get('/materials/job_lines/{id}', [MaterialController::class, 'job_lines']);
+    //Retrieve all the job_lines that belong to material with selected id
+    Route::get('/materials/job_lines/{id}', [MaterialController::class, 'job_lines']);
+
+    //-------------------------------------------------------------------------------------
+    //-------------------------------------------------------------------------------------
+    //-------------------------------------------------------------------------------------
+
+    // JobController Routes
+    Route::get('/jobs', [JobController::class, 'index']);
+    Route::post('/job', [JobController::class, 'store']);
+    Route::get('/jobs/{id}', [JobController::class, 'show']);
+    Route::put('/jobs/{id}', [JobController::class, 'update']);
+    Route::delete('/jobs/{id}', [JobController::class, 'destroy']);
+    Route::get('/jobs/search/{field}', [JobController::class, 'search']);
+
+    //Find in which address belongs the job
+    Route::get('/jobs/address/{id}', [JobController::class, 'address']);
+    //Find in which appliance belongs the job
+    Route::get('/jobs/appliance/{id}', [JobController::class, 'appliance']);
+    //Retrieve all the job_lines that belong to job with selected id
+    Route::get('/jobs/job_lines/{id}', [JobController::class, 'job_lines']);
 
     //-------------------------------------------------------------------------------------
     //-------------------------------------------------------------------------------------
