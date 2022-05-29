@@ -35,6 +35,22 @@ class CustomerApiTest extends TestCase
             'company_id' => 5,
             'name' => 'Dimitrios',
             'surname' => 'Papalekas',
+            'telephone' => '6967539637',
+        ];
+
+        $req = $this->actingAs($user)
+            ->post('http://localhost:8000/api/v1/customer',$form_data)
+            ->assertStatus(201);
+    }
+
+    public function test_store_customer_no_company()
+    {   
+        $user = User::factory()->create();
+
+        $form_data = [
+            'name' => 'unemployed Dimitrios',
+            'surname' => 'Papalekas',
+            'telephone' => '6967579637',
         ];
 
         $req = $this->actingAs($user)
@@ -50,6 +66,7 @@ class CustomerApiTest extends TestCase
             'company_id' => 5,
             'name' => 'Andreas',
             'surname' => 'Papalekas',
+            'telephone' => '6969579637',
         ];
 
         $req = $this->actingAs($user)

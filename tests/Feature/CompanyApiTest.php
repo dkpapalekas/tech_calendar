@@ -101,8 +101,24 @@ class CompanyApiTest extends TestCase
         ];
 
         $req = $this->actingAs($user)
-            ->post('http://localhost:8000/api/v1/company',$form_data)
-            ->assertStatus(201);
+            ->put('http://localhost:8000/api/v1/companies/4',$form_data)
+            ->assertStatus(200);
+    }
+
+    public function test_update_missing_company()
+    {   
+        $user = User::factory()->create();
+
+        $form_data = [
+            'name' => 'Updated missing Company',
+            'address' => 'Perikleous 24',
+            'vat' => 132458,
+            'irs' => 'new remark'
+        ];
+
+        $req = $this->actingAs($user)
+            ->put('http://localhost:8000/api/v1/companies/6',$form_data)
+            ->assertStatus(302);
     }
 
     // public function test_delete_company()

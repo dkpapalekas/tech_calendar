@@ -30,10 +30,10 @@ class CustomerController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'company_id' => 'required',
-            'name' => 'required',
-            'surname' => 'required',
-            'telephone' => 'nullable',
+            'company_id' => 'nullable|integer',
+            'name' => 'required|string',
+            'surname' => 'required|string',
+            'telephone' => 'required|string',
             'remarks' => 'nullable',
         ]);
 
@@ -72,10 +72,10 @@ class CustomerController extends Controller
     public function update(Request $request, $id)
     {
         $validated = $request->validate([
-            'company_id' => 'required',
-            'name' => 'required',
-            'surname' => 'required',
-            'telephone' => 'nullable',
+            'company_id' => 'nullable|integer',
+            'name' => 'required|string',
+            'surname' => 'required|string',
+            'telephone' => 'required|string',
             'remarks' => 'nullable',
         ]);
 
