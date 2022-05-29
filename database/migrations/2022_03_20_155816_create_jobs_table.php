@@ -18,7 +18,7 @@ class CreateJobsTable extends Migration
             $table->foreignId('address_id')->constrained();
             $table->foreignId('appliance_id')->constrained();
             $table->string('client_status');
-            $table->date('date');
+            $table->datetime('date');
             $table->float('agreed_price', 6, 2);
             $table->boolean('is_completed');
             $table->timestamps();

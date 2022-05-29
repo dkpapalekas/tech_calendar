@@ -20,5 +20,7 @@ class DatabaseSeeder extends Seeder
         \App\Models\Address::factory(10)->create();
         \App\Models\Appliance::factory(10)->create();
         \App\Models\Material::factory(10)->create();
+        \App\Models\Job::factory(10)->create();
+        \App\Models\Job_Line::factory(10)->create();
     }
 }
