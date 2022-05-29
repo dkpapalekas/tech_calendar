@@ -4,9 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Material;
 use App\Http\Resources\MaterialResource;
-
-//TODO add when job lines created
-//use App\Http\Resources\Job_LineResource;
+use App\Http\Resources\Job_LineResource;
 
 use Illuminate\Http\Request;
 
@@ -103,11 +101,10 @@ class MaterialController extends Controller
             ->get();
     }
 
-    // TODO uncomment when job_lines created
-    // //Retrieve all the job_lines that belong to material with selected id
-    // public function job_lines($material_id)
-    // {
-    //     $job_lines = Material::find($material_id)->jobs;
-    //     return Job_LineResource::collection($job_liness);
-    // }
+    //Retrieve all the job_lines that belong to material with selected id
+    public function job_lines($material_id)
+    {
+        $job_lines = Material::find($material_id)->jobs;
+        return Job_LineResource::collection($job_liness);
+    }
 }

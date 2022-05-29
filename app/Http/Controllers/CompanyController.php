@@ -30,11 +30,11 @@ class CompanyController extends Controller
     {   
         $validated = $request->validate([
             'name' => 'required|unique:companies|max:255',
-            'address' => 'required',
-            'city' => 'required',
-            'profession' => 'nullable',
-            'vat' => 'required',
-            'irs' => 'required',
+            'address' => 'required|string',
+            'city' => 'required|string',
+            'profession' => 'nullable|string',
+            'vat' => 'required|integer',
+            'irs' => 'nullable|string',
         ]);
 
         $company = new Company();
@@ -74,11 +74,11 @@ class CompanyController extends Controller
     {   
         $validated = $request->validate([
             'name' => 'required|unique:companies|max:255',
-            'address' => 'required',
-            'city' => 'required',
-            'profession' => 'nullable',
-            'vat' => 'required',
-            'irs' => 'required',
+            'address' => 'required|string',
+            'city' => 'required|string',
+            'profession' => 'nullable|string',
+            'vat' => 'required|integer',
+            'irs' => 'nullable|string',
         ]);
 
         $company = Company::findOrFail($id);

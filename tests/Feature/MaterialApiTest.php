@@ -88,15 +88,14 @@ class MaterialApiTest extends TestCase
             ->assertStatus(200);
     }
 
-    //TODO uncomment after job_lines created
-    // //Retrieve all the job_lines that belong to material with selected id
-    // public function test_job_lines_material()
-    // {   
-    //     $user = User::factory()->create();
+    //Retrieve all the job_lines that belong to material with selected id
+    public function test_job_lines_material()
+    {   
+        $user = User::factory()->create();
 
-    //     $req = $this->actingAs($user)
-    //         ->get('http://localhost:8000/api/v1/materials/job_lines/3')
-    //         ->assertStatus(200)
-    //         ->dump();
-    // }
+        $req = $this->actingAs($user)
+            ->get('http://localhost:8000/api/v1/materials/job_lines/3')
+            ->assertStatus(200)
+            ->dump();
+    }
 }

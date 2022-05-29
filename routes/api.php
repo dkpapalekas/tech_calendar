@@ -70,7 +70,9 @@ Route::middleware('auth:sanctum')->group(function() {
 
     //Find in which customer belongs the address
     Route::get('/addresses/customer/{id}', [AddressController::class, 'customer']);
-    //TODO Retrieve all the jobs that belong to address with selected id
+    //Retrieve all the jobs that belong to address with selected id
+    Route::get('/addresses/jobs/{id}', [AddressController::class, 'customer']);
+
 
     //-------------------------------------------------------------------------------------
     //-------------------------------------------------------------------------------------

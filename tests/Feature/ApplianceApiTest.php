@@ -102,15 +102,14 @@ class ApplianceApiTest extends TestCase
             ->assertStatus(200);
     }
 
-    //TODO uncomment after jobs created
-    // //Retrieve all the jobs that belong to appliance with selected id
-    // public function test_jobs_appliance()
-    // {   
-    //     $user = User::factory()->create();
+    //Retrieve all the jobs that belong to appliance with selected id
+    public function test_jobs_appliance()
+    {   
+        $user = User::factory()->create();
 
-    //     $req = $this->actingAs($user)
-    //         ->get('http://localhost:8000/api/v1/appliances/jobs/3')
-    //         ->assertStatus(200)
-    //         ->dump();
-    // }
+        $req = $this->actingAs($user)
+            ->get('http://localhost:8000/api/v1/appliances/jobs/3')
+            ->assertStatus(200)
+            ->dump();
+    }
 }

@@ -20,7 +20,7 @@ class CreateCompaniesTable extends Migration
             $table->string('city');
             $table->string('profession')->nullable();
             $table->integer('vat')->unique();
-            $table->string('irs');
+            $table->string('irs')->nullable();
             $table->timestamps();
         });
     }
