@@ -9,11 +9,7 @@ use App\Models\User;
 
 class CustomerApiTest extends TestCase
 {
-    /**
-     * A basic feature test example.
-     *
-     * @return void
-     */
+    
     public function test_store_customer()
     {   
         $user = User::factory()->create();

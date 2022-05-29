@@ -101,7 +101,7 @@ class JobController extends Controller
     {
         return Customer::where('address_id', 'like', '%'.$field.'%')
             ->orWhere('appliance_id', 'like', '%'.$field.'%')
-            ->orWhere('is_completed', 'like', '%'.$field.'%')
+            ->orWhere('date', 'like', '%'.$field.'%')
             ->get();
     }
 
