@@ -70,15 +70,15 @@ class AddressApiTest extends TestCase
             ->assertStatus(200);
     }
 
-    public function test_delete_address()
-    {   
-        $user = User::factory()->create();
+    // public function test_delete_address()
+    // {   
+    //     $user = User::factory()->create();
 
-        $req = $this->actingAs($user)
-            ->delete('http://localhost:8000/api/v1/addresses/6')
-            ->assertStatus(200)
-            ->dump();
-    }
+    //     $req = $this->actingAs($user)
+    //         ->delete('http://localhost:8000/api/v1/addresses/6')
+    //         ->assertStatus(200)
+    //         ->dump();
+    // }
 
     public function test_search_address()
     {   

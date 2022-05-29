@@ -106,15 +106,15 @@ class CompanyApiTest extends TestCase
             ->assertStatus(201);
     }
 
-    public function test_delete_company()
-    {   
-        $user = User::factory()->create();
+    // public function test_delete_company()
+    // {   
+    //     $user = User::factory()->create();
 
-        $req = $this->actingAs($user)
-            ->delete('http://localhost:8000/api/v1/companies/6')
-            ->assertStatus(200)
-            ->dump();
-    }
+    //     $req = $this->actingAs($user)
+    //         ->delete('http://localhost:8000/api/v1/companies/6')
+    //         ->assertStatus(200)
+    //         ->dump();
+    // }
 
     public function test_search_company()
     {   
