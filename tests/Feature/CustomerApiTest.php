@@ -98,7 +98,7 @@ class CustomerApiTest extends TestCase
         $user = User::factory()->create();
 
         $req = $this->actingAs($user)
-            ->get('http://localhost:8000/api/v1/customers/company/4')
+            ->get('http://localhost:8000/api/v1/customers/company/8')
             ->assertStatus(200)
             ->dump();
     }
@@ -108,7 +108,7 @@ class CustomerApiTest extends TestCase
         $user = User::factory()->create();
 
         $req = $this->actingAs($user)
-            ->get('http://localhost:8000/api/v1/customers/addresses/4')
+            ->get('http://localhost:8000/api/v1/customers/addresses/3')
             ->assertStatus(200)
             ->dump();
     }
