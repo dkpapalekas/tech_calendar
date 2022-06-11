@@ -56,6 +56,14 @@ Route::middleware('auth:sanctum')->group(function() {
     //Retrieve all the addresses that belong to customer with selected id
     Route::get('/customers/addresses/{id}', [CustomerController::class, 'addresses']);
 
+    //find all jobs of a customer (completed or uncompleted)
+    //the grouping can be done front-end
+    Route::get('/customers/jobs/{id}', [CustomerController::class, 'jobs']);
+    Route::get('/customers/pending_jobs/{id}', [CustomerController::class, 'pending_jobs']);
+
+    //Retrieve all appliances belonging to the customer
+    Route::get('/customers/appliances/{id}', [CustomerController::class, 'appliances']);
+
     //-------------------------------------------------------------------------------------
     //-------------------------------------------------------------------------------------
     //-------------------------------------------------------------------------------------

@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Customer;
+use App\Models\Address;
+use App\Models\Job;
 use App\Http\Resources\CompanyResource;
 use App\Http\Resources\AddressResource;
+use App\Http\Resources\JobResource;
 use App\Http\Resources\CustomerResource;
 use Illuminate\Http\Request;
 
@@ -128,5 +131,57 @@ class CustomerController extends Controller
     {
         $addresses = Customer::find($customer_id)->addresses;
         return AddressResource::collection($addresses);
+    }
+
+    //Retrieve all the JOBS that belong to customer with selected id
+    public function jobs($customer_id)
+    {
+        $addresses = Customer::find($customer_id)->addresses;
+        $addresses_ids =  AddressResource::collection($addresses)->map(function ($address) {
+            return $address->id;
+        });
+        $jobs = $addresses_ids-> map(function ($id){
+            return Address::find($id)->jobs;
+        });
+
+        return $jobs->flatten();
+    }
+
+    //Retrieve all PENDING JOBS that belong to customer with selected id
+    public function pending_jobs($customer_id)
+    {
+        $addresses = Customer::find($customer_id)->addresses;
+        $addresses_ids =  AddressResource::collection($addresses)->map(function ($address) {
+            return $address->id;
+        });
+        $jobs = $addresses_ids-> map(function ($id){
+            return Address::find($id)->jobs;
+        });
+        $pending_jobs = $jobs->flatten()
+        ->filter(function ($job){
+            return $job->is_completed == 0;
+        });
+        return $pending_jobs->flatten();
+    }
+
+    //Retrieve all appliances that belong to customer with selected id
+    public function appliances($customer_id)
+    {
+        $addresses = Customer::find($customer_id)->addresses;
+        $addresses_ids =  AddressResource::collection($addresses)->map(function ($address) {
+            return $address->id;
+        });
+        $jobs = $addresses_ids-> map(function ($id){
+            return Address::find($id)->jobs;
+        });
+        $jobs = $jobs->flatten();
+        $job_ids = JobResource::collection($jobs)->map(function ($job) {
+            return $job->id;
+        });
+        $appliances = $job_ids->map(function ($id){
+            return Job::find($id)->appliance;
+        });
+
+        return $appliances->flatten();
     }
 }
