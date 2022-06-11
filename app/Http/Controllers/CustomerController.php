@@ -5,9 +5,11 @@ namespace App\Http\Controllers;
 use App\Models\Customer;
 use App\Models\Address;
 use App\Models\Job;
+use App\Models\Job_Line;
 use App\Http\Resources\CompanyResource;
 use App\Http\Resources\AddressResource;
 use App\Http\Resources\JobResource;
+use App\Http\Resources\Job_LineResource;
 use App\Http\Resources\CustomerResource;
 use Illuminate\Http\Request;
 
@@ -183,5 +185,34 @@ class CustomerController extends Controller
         });
 
         return $appliances->flatten();
+    }
+
+    //Retrieve all materials that belong to customer with selected id
+    public function materials($customer_id)
+    {
+        $addresses = Customer::find($customer_id)->addresses;
+        $addresses_ids =  AddressResource::collection($addresses)->map(function ($address) {
+            return $address->id;
+        });
+        $jobs = $addresses_ids-> map(function ($id){
+            return Address::find($id)->jobs;
+        });
+        $jobs = $jobs->flatten();
+        $job_ids = JobResource::collection($jobs)->map(function ($job) {
+            return $job->id;
+        });
+        $job_lines = $job_ids->map(function ($id){
+            return Job::find($id)->job_lines;
+        })->flatten();
+
+        $job_lines_ids = Job_LineResource::collection($job_lines)->map(function ($job_line) {
+            return $job_line->id;
+        });
+
+        $materials = $job_lines_ids-> map(function ($id){
+            return Job_Line::find($id)->material;
+        });
+
+        return $materials->flatten();
     }
 }

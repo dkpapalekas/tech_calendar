@@ -56,6 +56,7 @@ Route::middleware('auth:sanctum')->group(function() {
     //Retrieve all the addresses that belong to customer with selected id
     Route::get('/customers/addresses/{id}', [CustomerController::class, 'addresses']);
 
+    //ultraqueries
     //find all jobs of a customer (completed or uncompleted)
     //the grouping can be done front-end
     Route::get('/customers/jobs/{id}', [CustomerController::class, 'jobs']);
@@ -63,6 +64,9 @@ Route::middleware('auth:sanctum')->group(function() {
 
     //Retrieve all appliances belonging to the customer
     Route::get('/customers/appliances/{id}', [CustomerController::class, 'appliances']);
+
+    //Retrieve all materials belonging to the customer
+    Route::get('/customers/materials/{id}', [CustomerController::class, 'materials']);
 
     //-------------------------------------------------------------------------------------
     //-------------------------------------------------------------------------------------
@@ -130,6 +134,9 @@ Route::middleware('auth:sanctum')->group(function() {
     Route::get('/jobs/appliance/{id}', [JobController::class, 'appliance']);
     //Retrieve all the job_lines that belong to job with selected id
     Route::get('/jobs/job_lines/{id}', [JobController::class, 'job_lines']);
+
+    //Retrieve all materials of a job
+    Route::get('/jobs/materials/{id}', [JobController::class, 'materials']);
 
     //-------------------------------------------------------------------------------------
     //-------------------------------------------------------------------------------------

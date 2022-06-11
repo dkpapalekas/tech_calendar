@@ -3,10 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Job;
+use App\Models\Job_Line;
 use App\Http\Resources\JobResource;
 use App\Http\Resources\AddressResource;
 use App\Http\Resources\ApplianceResource;
-use App\Http\Resources\Job_LinesResource;
+use App\Http\Resources\Job_LineResource;
 use Illuminate\Http\Request;
 
 class JobController extends Controller
@@ -134,11 +135,25 @@ class JobController extends Controller
         return new ApplianceResource($appliance);
     }
 
-    //Retrieve all the addresses that belong to customer with selected id
-    //                 job_lines                 job
+    //Retrieve all the job_lines that belong to job with selected id                                 
     public function job_lines($job_id)
     {
         $job_lines = Job::find($job_id)->job_lines;
         return Job_LineResource::collection($job_lines);
+    }
+
+    //Retrieve all the materials that belong to job with selected id                                 
+    public function materials($job_id)
+    {
+        $job_lines = Job::find($job_id)->job_lines;
+        $job_lines_ids = Job_LineResource::collection($job_lines)->map(function ($job_line) {
+            return $job_line->id;
+        });
+
+        $materials = $job_lines_ids-> map(function ($id){
+            return Job_Line::find($id)->material;
+        });
+
+        return $materials->flatten();
     }
 }
