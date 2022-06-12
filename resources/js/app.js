@@ -13,6 +13,7 @@ Vue.use(BootstrapVue)
 
 // My Vue Files
 import App from './views/App.vue'
+import Test from './views/Test.vue'
 
 let router = new VueRouter({
     mode: 'history',
@@ -21,6 +22,10 @@ let router = new VueRouter({
         {
             path: '/',
             component: App,
+        },
+        {
+            path: '/test',
+            component: Test,
         }
     ]
 });
