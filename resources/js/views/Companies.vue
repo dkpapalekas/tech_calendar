@@ -35,6 +35,9 @@
                 <h5 class="text-center">  </h5>
                 <button type="button" @click="clearSelected" class="btn btn-primary">Clear selections</button>
                 <button type="button" @click="deleteCompany()" class="btn btn-danger">Delete Selected</button>
+                <b-button v-b-modal.modal-prevent-closing @click="NewCompany()">Add New</b-button>
+                <b-button @click="SelectedCompany()">Edit Selected</b-button>
+                <!-- <b-button v-b-modal.modal-prevent-closing @click="SelectedCompany()">Edit Selected</b-button> -->
             </div>
         </div>
         <br>
@@ -73,6 +76,105 @@
                 </b-table>
             </div>
         </div>
+        <b-modal
+            id="modal-prevent-closing"
+            ref="modal"
+            title="New Entry"
+            @show="resetModal"
+            @hidden="resetModal"
+            @ok="handleOk"
+            >
+            <form ref="form" @submit.stop.prevent="handleSubmit">
+                <b-form-group
+                label="Ονομασία"
+                label-for="name-input"
+                invalid-feedback="Name is required"
+                :state="company.nameState"
+                >
+                <b-form-input
+                    id="name-input"
+                    v-model="company.name"
+                    :state="company.nameState"
+                    required
+                ></b-form-input>
+                </b-form-group>
+            </form>
+            <form ref="form" @submit.stop.prevent="handleSubmit">
+                <b-form-group
+                label="address"
+                label-for="address-input"
+                invalid-feedback="address is required"
+                :state="company.addressState"
+                >
+                <b-form-input
+                    id="address-input"
+                    v-model="company.address"
+                    :state="company.addressState"
+                    required
+                ></b-form-input>
+                </b-form-group>
+            </form>
+            <form ref="form" @submit.stop.prevent="handleSubmit">
+                <b-form-group
+                label="city"
+                label-for="city-input"
+                invalid-feedback="city is required"
+                :state="company.cityState"
+                >
+                <b-form-input
+                    id="city-input"
+                    v-model="company.city"
+                    :state="company.cityState"
+                    required
+                ></b-form-input>
+                </b-form-group>
+            </form>
+            <form ref="form" @submit.stop.prevent="handleSubmit">
+                <b-form-group
+                label="profession"
+                label-for="profession-input"
+                invalid-feedback="profession is required"
+                :state="company.professionState"
+                >
+                <b-form-input
+                    id="profession-input"
+                    v-model="company.profession"
+                    :state="company.professionState"
+                    required
+                ></b-form-input>
+                </b-form-group>
+            </form>
+            <form ref="form" @submit.stop.prevent="handleSubmit">
+                <b-form-group
+                label="vat"
+                label-for="vat-input"
+                invalid-feedback="vat is required"
+                :state="company.vatState"
+                >
+                <b-form-input
+                    id="vat-input"
+                    v-model="company.vat"
+                    :state="company.vatState"
+                    required
+                ></b-form-input>
+                </b-form-group>
+            </form>
+            <form ref="form" @submit.stop.prevent="handleSubmit">
+                <b-form-group
+                label="irs"
+                label-for="irs-input"
+                invalid-feedback="irs is required"
+                :state="company.irsState"
+                >
+                <b-form-input
+                    id="irs-input"
+                    v-model="company.irs"
+                    :state="company.irsState"
+                    required
+                ></b-form-input>
+                </b-form-group>
+            </form>
+        </b-modal>
     </div>
 </template>
 
@@ -86,6 +188,20 @@
         data() {
             return {
                 companies: {},
+                company: {
+                    name: "",
+                    address: "",
+                    city: "",
+                    profession: "",
+                    vat: "",
+                    irs: "",
+                    nameState: null,
+                    addressState: null,
+                    cityState: null,
+                    professionState: null,
+                    vatState: null,
+                    irsState: null,
+                },
                 currentUser: {},
                 token: localStorage.getItem('token'),
                 errors: [],
@@ -130,7 +246,27 @@
                     console.log(errors)
                 });
             },
-            
+
+            SelectedCompany(){
+                if(!this.selected[0]) {
+                    Swal.fire(
+                            'First Select Company',
+                            'No Company Has been selected',
+                            'error'
+                    )
+                }
+                else {
+                    this.$bvModal.show('modal-prevent-closing')
+                    this.company = this.selected[0];
+                }
+            },
+
+            NewCompany(){
+                    Object.keys(this.company).forEach(key => {
+                        this.company[key] = null;
+                    })
+            },
+
             deleteCompany(){
                 Swal.fire({
                     title: 'Are you sure?',
@@ -162,7 +298,7 @@
                     }
                 })
             },
-
+            //TODO Add logout to navbar
             logout(){
                 axios.post('api/v1/revoke').then((response) => {
                     localStorage.removeItem('token')
@@ -189,6 +325,37 @@
             clearSelected() {
                 this.$refs.selectableTable.clearSelected()
             },
+            checkFormValidity() {
+                const valid = this.$refs.form.checkValidity()
+                this.company.nameState = valid
+                this.company.addressState = valid
+                this.company.cityState = valid
+                this.company.professionState = valid
+                this.company.vatState = valid
+                this.company.irsState = valid
+                return valid
+            },
+            resetModal() {
+                this.name = ''
+                this.nameState = null
+            },
+            handleOk(bvModalEvent) {
+                // Prevent modal from closing
+                bvModalEvent.preventDefault()
+                // Trigger submit handler
+                this.handleSubmit()
+                console.log('>><<>><<>>', this.company)
+            },
+            handleSubmit() {
+                // Exit when the form isn't valid
+                if (!this.checkFormValidity()) {
+                    return
+                }
+                // Hide the modal manually
+                this.$nextTick(() => {
+                    this.$bvModal.hide('modal-prevent-closing')
+                })
+            }
         },
 
         mounted() {
