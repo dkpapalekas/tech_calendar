@@ -2,42 +2,37 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-10">
-                <h5 class="text-center">Welcome to the SPA in Laravel & Vue JS</h5>
-<!--            <button class="btn btn-danger" @click="logout">Logout</button> -->
+                <h5 class="text-center">Welcome to the SPA in the Laravel & Vue JS</h5>
+                <button class="btn btn-danger" @click="logout">Logout</button>
                 <router-link class="btn btn-primary float-right" to="/register">Register</router-link>
             </div>
         </div>
         <br>
         <div class="row justify-content-center">
             <div class="col-md-10">
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Name</th>
-                            <th>Address</th>
-                            <th>City</th>
-                            <th>Profession</th>
-                            <th>Vat</th>
-                            <th>IRS</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr v-for="(company, index) in companies" :key="index">
-                            <td>{{index + 1}}</td>
-                            <td>{{company.name}}</td>
-                            <td>{{company.address}}</td>
-                            <td>{{company.city}}</td>
-                            <td>{{company.profession}}</td>
-                            <td>{{company.vat}}</td>
-                            <td>{{company.irs}}</td>
-                            <td>
-                                <router-link :to="{name: 'edit', params: {id: company.id}}" class="btn btn-success">Edit</router-link>
-                                <a @click="deleteCompany(company.id)" class="btn btn-danger">Delete</a>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+                <b-table striped hover 
+                    :items="companies_items" 
+                    :fields="fields"
+                    :select-mode="selectMode"
+                    responsive="sm"
+                    ref="selectableTable"
+                    selectable
+                    @row-selected="onRowSelected"
+                >
+
+                    <!-- Example scoped slot for select state illustrative purposes -->
+                    <template #cell(selected)="{ rowSelected }">
+                        <template v-if="rowSelected">
+                            <span aria-hidden="true">&check;</span>
+                            <span class="sr-only">Selected</span>
+                        </template>
+                        <template v-else>
+                            <span aria-hidden="true">&nbsp;</span>
+                            <span class="sr-only">Not selected</span>
+                        </template>
+                    </template>
+                </b-table>
+                <b-button size="sm" @click="clearSelected">Clear selected</b-button>
             </div>
         </div>
     </div>
@@ -56,6 +51,10 @@
                 currentUser: {},
                 token: localStorage.getItem('token'),
                 errors: [],
+                fields: ['id', 'name', 'address', 'city', 'profession', 'vat', 'irs'],
+                companies_items: [],
+                selected: [],
+                selectMode: 'single',
             }
         },
         methods: {
@@ -63,12 +62,13 @@
                 const axios = require('axios');
                 axios.get('api/v1/companies').then((response) => {
                     this.companies = response.data.data
-                    console.log(response.data.data)
-                    console.log(this.companies)
+                    this.companies_items = response.data.data
+                    // console.log(response.data.data)
                 }).catch((errors) => {
                     console.log(errors)
                 });
             },
+            
             deleteCompany(company_id){
                 Swal.fire({
                     title: 'Are you sure?',
@@ -82,7 +82,7 @@
                     if (result.isConfirmed) {
                         axios.delete('api/v1/companies/' + company_id).then((response) => {
                             this.getCompanies()
-                            console.log(response)
+                            // console.log(response)
                         }).catch((errors) => {
                             console.log(errors)
                             this.errors.push(errors)
@@ -100,6 +100,7 @@
                     }
                 })
             },
+
             logout(){
                 axios.post('api/logout').then((response) => {
                     localStorage.removeItem('token')
@@ -107,8 +108,22 @@
                 }).catch((errors) => {
                     console.log(errors)
                 })
-            }
+            },
+
+            onRowSelected(items) {
+                this.selected = items
+                if (this.selected.length) {
+                    console.log(this.selected)
+                    console.log(this.selected[0].id)
+                    console.log(this.selected[0].vat)
+                }
+
+            },
+            clearSelected() {
+                this.$refs.selectableTable.clearSelected()
+            },
         },
+
         mounted() {
             window.axios.defaults.headers.common['Authorization'] = `Bearer ${this.token}`
             this.getCompanies()
