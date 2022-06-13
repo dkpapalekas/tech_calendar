@@ -16,7 +16,7 @@ class CompanyController extends Controller
      */
     public function index()
     {
-        $companies = Company::paginate(10);
+        $companies = Company::paginate(100);
         return CompanyResource::collection($companies);
     }
 
@@ -73,7 +73,7 @@ class CompanyController extends Controller
     public function update(Request $request, $id)
     {   
         $validated = $request->validate([
-            'name' => 'required|unique:companies|max:255',
+            'name' => 'required|max:255',
             'address' => 'required|string',
             'city' => 'required|string',
             'profession' => 'nullable|string',

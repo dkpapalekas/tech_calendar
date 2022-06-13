@@ -2,7 +2,7 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-10">
-                <h5 class="text-center">Welcome to the SPA in the Laravel & Vue JS</h5>
+                <h5 class="text-center">Εταιρείες</h5>
                 <button class="btn btn-danger" @click="logout">Logout</button>
                 <router-link class="btn btn-primary float-right" to="/register">Register</router-link>
             </div>
@@ -35,7 +35,7 @@
                 <h5 class="text-center">  </h5>
                 <button type="button" @click="clearSelected" class="btn btn-primary">Clear selections</button>
                 <button type="button" @click="deleteCompany()" class="btn btn-danger">Delete Selected</button>
-                <b-button v-b-modal.modal-prevent-closing @click="NewCompany()">Add New</b-button>
+                <b-button variant="success" v-b-modal.modal-prevent-closing @click="NewCompany()">Add New</b-button>
                 <b-button @click="SelectedCompany()">Edit Selected</b-button>
                 <!-- <b-button v-b-modal.modal-prevent-closing @click="SelectedCompany()">Edit Selected</b-button> -->
             </div>
@@ -243,7 +243,6 @@
             getCompanies(){
                 const axios = require('axios');
                 axios.get('api/v1/companies').then((response) => {
-                    this.companies = response.data.data
                     this.items = response.data.data
                     // console.log(response.data.data)
                 }).catch((errors) => {
@@ -268,7 +267,7 @@
 
             NewCompany(){
                 Object.keys(this.temp_company).forEach(key => {
-                    this.company[key] = null;
+                    this.temp_company[key] = null;
                 })
                 this.cu = 'create'
             },
@@ -301,7 +300,6 @@
                     )
                     })
             },
-
             deleteCompany(){
                 Swal.fire({
                     title: 'Are you sure?',
@@ -384,6 +382,7 @@
             handleSubmit() {
                 // Exit when the form isn't valid
                 if (!this.checkFormValidity()) {
+                    this.getCompanies()
                     return
                 }
                 else {
@@ -400,6 +399,7 @@
                 this.$nextTick(() => {
                     this.$bvModal.hide('modal-prevent-closing')
                 })
+                this.getCompanies()
             }
         },
 
