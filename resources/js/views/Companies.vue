@@ -164,7 +164,7 @@
             },
 
             logout(){
-                axios.post('api/logout').then((response) => {
+                axios.post('api/v1/revoke').then((response) => {
                     localStorage.removeItem('token')
                     this.$router.push('/')
                 }).catch((errors) => {
@@ -193,6 +193,13 @@
 
         mounted() {
             window.axios.defaults.headers.common['Authorization'] = `Bearer ${this.token}`
+            if(!this.token) {
+                Swal.fire(
+                    'Access Denied!',
+                    'Log in to see information',
+                    'error'
+                )
+            }
             this.getCompanies()
         }
     }
