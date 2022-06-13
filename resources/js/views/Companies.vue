@@ -89,12 +89,12 @@
                 label="Ονομασία"
                 label-for="name-input"
                 invalid-feedback="Name is required"
-                :state="company.nameState"
+                :state="modal_state.nameState"
                 >
                 <b-form-input
                     id="name-input"
-                    v-model="company.name"
-                    :state="company.nameState"
+                    v-model="temp_company.name"
+                    :state="modal_state.nameState"
                     required
                 ></b-form-input>
                 </b-form-group>
@@ -104,12 +104,12 @@
                 label="address"
                 label-for="address-input"
                 invalid-feedback="address is required"
-                :state="company.addressState"
+                :state="modal_state.addressState"
                 >
                 <b-form-input
                     id="address-input"
-                    v-model="company.address"
-                    :state="company.addressState"
+                    v-model="temp_company.address"
+                    :state="modal_state.addressState"
                     required
                 ></b-form-input>
                 </b-form-group>
@@ -119,12 +119,12 @@
                 label="city"
                 label-for="city-input"
                 invalid-feedback="city is required"
-                :state="company.cityState"
+                :state="modal_state.cityState"
                 >
                 <b-form-input
                     id="city-input"
-                    v-model="company.city"
-                    :state="company.cityState"
+                    v-model="temp_company.city"
+                    :state="modal_state.cityState"
                     required
                 ></b-form-input>
                 </b-form-group>
@@ -134,12 +134,12 @@
                 label="profession"
                 label-for="profession-input"
                 invalid-feedback="profession is required"
-                :state="company.professionState"
+                :state="modal_state.professionState"
                 >
                 <b-form-input
                     id="profession-input"
-                    v-model="company.profession"
-                    :state="company.professionState"
+                    v-model="temp_company.profession"
+                    :state="modal_state.professionState"
                     required
                 ></b-form-input>
                 </b-form-group>
@@ -149,12 +149,12 @@
                 label="vat"
                 label-for="vat-input"
                 invalid-feedback="vat is required"
-                :state="company.vatState"
+                :state="modal_state.vatState"
                 >
                 <b-form-input
                     id="vat-input"
-                    v-model="company.vat"
-                    :state="company.vatState"
+                    v-model="temp_company.vat"
+                    :state="modal_state.vatState"
                     required
                 ></b-form-input>
                 </b-form-group>
@@ -164,12 +164,12 @@
                 label="irs"
                 label-for="irs-input"
                 invalid-feedback="irs is required"
-                :state="company.irsState"
+                :state="modal_state.irsState"
                 >
                 <b-form-input
                     id="irs-input"
-                    v-model="company.irs"
-                    :state="company.irsState"
+                    v-model="temp_company.irs"
+                    :state="modal_state.irsState"
                     required
                 ></b-form-input>
                 </b-form-group>
@@ -188,19 +188,22 @@
         data() {
             return {
                 companies: {},
-                company: {
+                company: {},
+                temp_company: {
                     name: "",
                     address: "",
                     city: "",
                     profession: "",
                     vat: "",
                     irs: "",
+                },
+                modal_state: {
                     nameState: null,
                     addressState: null,
                     cityState: null,
                     professionState: null,
                     vatState: null,
-                    irsState: null,
+                    irsState: null,                  
                 },
                 currentUser: {},
                 token: localStorage.getItem('token'),
@@ -222,6 +225,7 @@
                 sortDirection: 'asc',
                 filter: null,
                 filterOn: [],
+                cu: "",
             }
         },
         computed: {
@@ -256,14 +260,45 @@
                     )
                 }
                 else {
+                    this.cu = 'update'
                     this.$bvModal.show('modal-prevent-closing')
-                    this.company = this.selected[0];
+                    this.temp_company = this.selected[0];
                 }
             },
 
             NewCompany(){
-                    Object.keys(this.company).forEach(key => {
-                        this.company[key] = null;
+                Object.keys(this.temp_company).forEach(key => {
+                    this.company[key] = null;
+                })
+                this.cu = 'create'
+            },
+
+            createCompany(){
+                axios.post('api/v1/company/', this.company).then((response) => {
+                        this.getCompanies()
+                        // console.log(response)
+                    }).catch((errors) => {
+                        console.log(errors)
+                        this.errors.push(errors)
+                        Swal.fire(
+                        'Adding new - error!',
+                        'something went wrong',
+                        'error'
+                    )
+                    })
+            },
+            updateCompany(){
+                axios.put('api/v1/companies/' + this.selected[0].id, this.company).then((response) => {
+                        this.getCompanies()
+                        // console.log(response)
+                    }).catch((errors) => {
+                        console.log(errors)
+                        this.errors.push(errors)
+                        Swal.fire(
+                        'Updating - error!',
+                        'something went wrong',
+                        'error'
+                    )
                     })
             },
 
@@ -327,12 +362,12 @@
             },
             checkFormValidity() {
                 const valid = this.$refs.form.checkValidity()
-                this.company.nameState = valid
-                this.company.addressState = valid
-                this.company.cityState = valid
-                this.company.professionState = valid
-                this.company.vatState = valid
-                this.company.irsState = valid
+                this.modal_state.nameState = valid
+                this.modal_state.addressState = valid
+                this.modal_state.cityState = valid
+                this.modal_state.professionState = valid
+                this.modal_state.vatState = valid
+                this.modal_state.irsState = valid
                 return valid
             },
             resetModal() {
@@ -344,12 +379,22 @@
                 bvModalEvent.preventDefault()
                 // Trigger submit handler
                 this.handleSubmit()
-                console.log('>><<>><<>>', this.company)
+                console.log('>><<>><<> from ok \n', this.company)
             },
             handleSubmit() {
                 // Exit when the form isn't valid
                 if (!this.checkFormValidity()) {
                     return
+                }
+                else {
+                    this.company = this.temp_company;
+                    console.log('>><<>><<> from submit \n', this.company)
+                    if(this.cu == 'create'){
+                        this.createCompany();
+                    }
+                    else if(this.cu == 'update'){
+                        this.updateCompany();
+                    }
                 }
                 // Hide the modal manually
                 this.$nextTick(() => {
