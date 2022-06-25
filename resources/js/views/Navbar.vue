@@ -24,7 +24,8 @@
             <em>User</em>
           </template>
           <b-dropdown-item><router-link to="/login">Log In</router-link></b-dropdown-item>
-          <b-dropdown-item href="#"><button class="btn btn-danger" @click="logout">Logout</button></b-dropdown-item>
+          <b-dropdown-item><router-link to="/register">Create New</router-link></b-dropdown-item>
+          <b-dropdown-item><button class="btn btn-danger" @click="logout">Logout</button></b-dropdown-item>
         </b-nav-item-dropdown>
       </b-navbar-nav>
     </b-collapse>

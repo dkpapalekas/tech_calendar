@@ -38,7 +38,7 @@ class CustomerController extends Controller
             'company_id' => 'nullable|integer',
             'name' => 'required|string',
             'surname' => 'required|string',
-            'telephone' => 'required|string',
+            'telephone' => 'required|string|unique:customers',
             'remarks' => 'nullable',
         ]);
 
@@ -80,7 +80,7 @@ class CustomerController extends Controller
             'company_id' => 'nullable|integer',
             'name' => 'required|string',
             'surname' => 'required|string',
-            'telephone' => 'required|string',
+            'telephone' => 'required|string|unique:customers',
             'remarks' => 'nullable',
         ]);
 
