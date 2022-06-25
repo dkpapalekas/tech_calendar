@@ -1,11 +1,14 @@
 <template>
     <div class="container">
         <div class="row justify-content-center">
+            <!-- title and login,logout-->
             <div class="col-md-10">
                 <h5 class="text-center">Εταιρείες</h5>
                 <button class="btn btn-danger" @click="logout">Logout</button>
                 <router-link class="btn btn-primary float-right" to="/register">Register</router-link>
             </div>
+
+            <!-- filter -->
             <div class="col-md-10">
                 <b-col lg="6" class="my-1">
                     <b-form-group
@@ -31,6 +34,8 @@
                     </b-form-group>
                 </b-col>
             </div>
+
+            <!-- crud opts -->
             <div class="col-md-10">
                 <h5 class="text-center">  </h5>
                 <button type="button" @click="clearSelected" class="btn btn-primary">Clear selections</button>
@@ -41,6 +46,8 @@
             </div>
         </div>
         <br>
+
+        <!-- table -->
         <div class="row justify-content-center">
             <div class="col-md-10">
                 <b-table striped hover 
@@ -76,6 +83,8 @@
                 </b-table>
             </div>
         </div>
+
+        <!-- modal -->
         <b-modal
             id="modal-prevent-closing"
             ref="modal"
