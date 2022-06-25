@@ -12,6 +12,7 @@
       <b-navbar-nav>
         <b-nav-item><div class="menu-item"><router-link to="/">Home</router-link></div></b-nav-item>
         <b-nav-item><div class="menu-item"><router-link to="/companies">Companies</router-link></div></b-nav-item>
+        <b-nav-item><div class="menu-item"><router-link to="/customers">Customers</router-link></div></b-nav-item>
       </b-navbar-nav>
 
       <!-- Right aligned nav items -->

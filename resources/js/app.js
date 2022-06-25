@@ -19,6 +19,7 @@ import Test from './views/Test.vue'
 import Login from './views/Login.vue'
 import Register from './views/Register.vue'
 import Companies from './views/Companies.vue'
+import Customers from './views/Customers.vue'
 
 
 let router = new VueRouter({
@@ -44,6 +45,10 @@ let router = new VueRouter({
         {
             path: '/companies',
             component: Companies,
+        },
+        {
+            path: '/customers',
+            component: Customers,
         },
     ]
 });
