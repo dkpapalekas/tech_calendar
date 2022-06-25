@@ -1,5 +1,8 @@
 <template>
     <div class="container">
+        <div>
+            <Navbar></Navbar>
+        </div>
         <div class="row justify-content-center">
             <!-- title and login,logout-->
             <div class="col-md-10">
@@ -188,12 +191,17 @@
 </template>
 
 <script>
+    import Navbar from './Navbar.vue'
     import axios from 'axios'
     window.axios = require('axios')
     import swal from 'sweetalert2';
     window.Swal = swal; 
 
     export default {
+        components:{
+            Navbar // register component
+        },
+
         data() {
             return {
                 companies: {},
