@@ -7,8 +7,6 @@
             <!-- title and login,logout-->
             <div class="col-md-10">
                 <h5 class="text-center">Εταιρείες</h5>
-                <button class="btn btn-danger" @click="logout">Logout</button>
-                <router-link class="btn btn-primary float-right" to="/register">Register</router-link>
             </div>
 
             <!-- filter -->
@@ -346,15 +344,6 @@
                             'success'
                         )
                     }
-                })
-            },
-            //TODO Add logout to navbar
-            logout(){
-                axios.post('api/v1/revoke').then((response) => {
-                    localStorage.removeItem('token')
-                    this.$router.push('/')
-                }).catch((errors) => {
-                    console.log(errors)
                 })
             },
                   onFiltered(filteredItems) {
