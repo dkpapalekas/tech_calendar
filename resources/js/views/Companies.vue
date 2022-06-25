@@ -63,7 +63,8 @@
                     label-sort-asc=""
                     label-sort-desc=""
                     label-sort-clear=""
-                    responsive="sm"
+                    responsive = 'sm'
+                    stacked
                     ref="selectableTable"
                     selectable
                     @row-selected="onRowSelected"

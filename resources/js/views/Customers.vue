@@ -64,6 +64,7 @@
                     label-sort-desc=""
                     label-sort-clear=""
                     responsive="sm"
+                    stacked
                     ref="selectableTable"
                     selectable
                     @row-selected="onRowSelected"
