@@ -40,9 +40,9 @@
             <div class="col-md-10">
                 <h5 class="text-center">  </h5>
                 <button type="button" @click="clearSelected" class="btn btn-primary">Clear selections</button>
-                <button type="button" @click="deleteAddress()" class="btn btn-danger">Delete Selected</button>
-                <b-button variant="success" v-b-modal.modal-prevent-closing @click="NewAddress()">Add New</b-button>
-                <b-button @click="SelectedAddress()">Edit Selected</b-button>
+                <button type="button" @click="deleteCRUD()" class="btn btn-danger">Delete Selected</button>
+                <b-button variant="success" v-b-modal.modal-prevent-closing @click="NewEntry()">Add New</b-button>
+                <b-button @click="Selected_modal()">Edit Selected</b-button>
             </div>
         </div>
         <br>
@@ -103,7 +103,7 @@
                 >
                 <b-form-input
                     id="name-input"
-                    v-model="temp_address.name"
+                    v-model="temp_page_table.name"
                     :state="modal_state.nameState"
                     required
                 ></b-form-input>
@@ -118,7 +118,7 @@
                 >
                 <b-form-input
                     id="number-input"
-                    v-model="temp_address.number"
+                    v-model="temp_page_table.number"
                     :state="modal_state.numberState"
                     required
                 ></b-form-input>
@@ -130,7 +130,7 @@
                 label-for="customer_id-input"
                 >
                 <b-form-select 
-                    v-model="temp_address.customer_id" 
+                    v-model="temp_page_table.customer_id" 
                     :options="customers"
                     value-field="id"
                     text-field="fullname">
@@ -146,7 +146,7 @@
                 >
                 <b-form-input
                     id="city-input"
-                    v-model="temp_address.city"
+                    v-model="temp_page_table.city"
                     :state="modal_state.cityState"
                     required
                 ></b-form-input>
@@ -161,7 +161,7 @@
                 >
                 <b-form-input
                     id="floor-input"
-                    v-model="temp_address.floor"
+                    v-model="temp_page_table.floor"
                     :state="modal_state.floorState"
                     required
                 ></b-form-input>
@@ -176,7 +176,7 @@
                 >
                 <b-form-input
                     id="remarks-input"
-                    v-model="temp_address.remarks"
+                    v-model="temp_page_table.remarks"
                     :state="modal_state.remarksState"
                     required
                 ></b-form-input>
@@ -202,8 +202,8 @@
             return {
                 //parent table
                 customers: [],
-                address: {},
-                temp_address: {
+                page_table: {},
+                temp_page_table: {
                     customer_id: null,
                     name: "",
                     number: "",
@@ -257,7 +257,7 @@
 
         methods: {
             init(){
-                this.getAddresses()
+                this.getCRUD()
                 this.getCustomers()
             },
 
@@ -283,7 +283,7 @@
                 });
             },
 
-            getAddresses(){
+            getCRUD(){
                 const axios = require('axios');
 
                 if (this.parent_id) {
@@ -296,7 +296,7 @@
                 }
                 else {
                     this.items = []
-                    axios.get('api/v1/addresses').then((response) => {
+                    axios.get('api/v1' + this.path_url).then((response) => {
                         this.items = response.data.data
                     }).catch((errors) => {
                         console.log(errors)
@@ -304,30 +304,30 @@
                 }
             },
 
-            SelectedAddress(){
+            Selected_modal(){
                 if(!this.selected[0]) {
                     Swal.fire(
-                            'First Select Address',
-                            'No Address Has been selected',
+                            'First Select entry',
+                            'No entry Has been selected',
                             'error'
                     )
                 }
                 else {
                     this.cu = 'update'
                     this.$bvModal.show('modal-prevent-closing')
-                    this.temp_address = this.selected[0];
+                    this.temp_page_table = this.selected[0];
                 }
             },
 
-            NewAddress(){
-                Object.keys(this.temp_address).forEach(key => {
-                    this.temp_address[key] = null;
+            NewEntry(){
+                Object.keys(this.temp_page_table).forEach(key => {
+                    this.temp_page_table[key] = null;
                 })
                 this.cu = 'create'
             },
 
-            createAddress(){
-                axios.post('api/v1/address/', this.address).then((response) => {
+            createCRUD(){
+                axios.post('api/v1' + this.path_url, this.page_table).then((response) => {
                         this.init()
                     }).catch((errors) => {
                         console.log(errors)
@@ -339,8 +339,8 @@
                     )
                     })
             },
-            updateAddress(){
-                axios.put('api/v1/addresses/' + this.selected[0].id, this.address).then((response) => {
+            updateCRUD(){
+                axios.put('api/v1' + this.path_url + '/' + this.selected[0].id, this.page_table).then((response) => {
                         this.init()
                     }).catch((errors) => {
                         console.log(errors)
@@ -352,11 +352,11 @@
                     )
                     })
             },
-            deleteAddress(){
+            deleteCRUD(){
                 if(!this.selected[0]) {
                     Swal.fire(
-                        'First Select Address',
-                        'No Address Has been selected',
+                        'First Select entry',
+                        'No entry Has been selected',
                         'error'
                     )
                 }
@@ -371,14 +371,14 @@
                     confirmButtonText: 'Yes, delete it!'
                     }).then((result) => {
                         if (result.isConfirmed) {
-                            axios.delete('api/v1/addresses/' + this.selected[0].id).then((response) => {
+                            axios.delete('api/v1' + this.path_url + '/' + this.selected[0].id).then((response) => {
                                 this.init()
                             }).catch((errors) => {
                                 console.log(errors)
                                 this.errors.push(errors)
                                 Swal.fire(
                                 'error!',
-                                'You have added addresses for this customer',
+                                'You have added children for this entry',
                                 'error'
                             )
                             })
@@ -427,7 +427,7 @@
                 bvModalEvent.preventDefault()
                 // Trigger submit handler
                 this.handleSubmit()
-                console.log('>><<>><<> from ok \n', this.address)
+                console.log('>><<>><<> from ok \n', this.page_table)
             },
             handleSubmit() {
                 // Exit when the form isn't valid
@@ -436,13 +436,13 @@
                     return
                 }
                 else {
-                    this.address = this.temp_address;
-                    console.log('>><<>><<> from submit \n', this.address)
+                    this.page_table = this.temp_page_table;
+                    console.log('>><<>><<> from submit \n', this.page_table)
                     if(this.cu == 'create'){
-                        this.createAddress();
+                        this.createCRUD();
                     }
                     else if(this.cu == 'update'){
-                        this.updateAddress();
+                        this.updateCRUD();
                     }
                 }
                 // Hide the modal manually
@@ -464,6 +464,7 @@
             }
             this.parent_id = this.$route.params.id
             console.log('param', this.parent_id)
+            this.path_url = this.$route.path
             this.init();
         },
     }

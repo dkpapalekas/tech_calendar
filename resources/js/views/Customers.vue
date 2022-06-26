@@ -40,10 +40,10 @@
             <div class="col-md-10">
                 <h5 class="text-center">  </h5>
                 <button type="button" @click="clearSelected" class="btn btn-primary">Clear selections</button>
-                <button type="button" @click="deleteCustomer()" class="btn btn-danger">Delete Selected</button>
-                <b-button variant="success" v-b-modal.modal-prevent-closing @click="NewCustomer()">Add New</b-button>
-                <b-button @click="SelectedCustomer()">Edit Selected</b-button>
-                <b-button @click="SelectedAddresses()">See Customer Addresses</b-button>
+                <button type="button" @click="deleteCRUD()" class="btn btn-danger">Delete Selected</button>
+                <b-button variant="success" v-b-modal.modal-prevent-closing @click="NewEntry()">Add New</b-button>
+                <b-button @click="Selected_modal()">Edit Selected</b-button>
+                <b-button @click="SelectedChildren()">See Customer Addresses</b-button>
             </div>
         </div>
         <br>
@@ -104,7 +104,7 @@
                 >
                 <b-form-input
                     id="name-input"
-                    v-model="temp_customer.name"
+                    v-model="temp_page_table.name"
                     :state="modal_state.nameState"
                     required
                 ></b-form-input>
@@ -119,7 +119,7 @@
                 >
                 <b-form-input
                     id="surname-input"
-                    v-model="temp_customer.surname"
+                    v-model="temp_page_table.surname"
                     :state="modal_state.surnameState"
                     required
                 ></b-form-input>
@@ -131,7 +131,7 @@
                 label-for="company_id-input"
                 >
                 <b-form-select 
-                    v-model="temp_customer.company_id" 
+                    v-model="temp_page_table.company_id" 
                     :options="companies"
                     value-field="id"
                     text-field="name">
@@ -147,7 +147,7 @@
                 >
                 <b-form-input
                     id="telephone-input"
-                    v-model="temp_customer.telephone"
+                    v-model="temp_page_table.telephone"
                     :state="modal_state.telephoneState"
                     required
                 ></b-form-input>
@@ -162,7 +162,7 @@
                 >
                 <b-form-input
                     id="remarks-input"
-                    v-model="temp_customer.remarks"
+                    v-model="temp_page_table.remarks"
                     :state="modal_state.remarksState"
                     required
                 ></b-form-input>
@@ -188,8 +188,8 @@
             return {
                 //parent table
                 companies: [],
-                customer: {},
-                temp_customer: {
+                page_table: {},
+                temp_page_table: {
                     company_id: null,
                     name: "",
                     surname: "",
@@ -206,6 +206,7 @@
                 token: localStorage.getItem('token'),
                 errors: [],
                 fields: [
+                    {key: 'id', label: 'ID', sortable: true, sortDirection: 'desc', },
                     {key: 'name', label: 'Ονομα', sortable: true, sortDirection: 'desc', },
                     {key: 'surname', label: 'Επώνυμο', sortable: true, sortDirection: 'desc', },
                     {key: 'telephone', label: 'Τηλέφωνο', sortable: true, sortDirection: 'desc', },
@@ -223,6 +224,7 @@
                 filterOn: [],
                 //GET options
                 cu: "",
+                path_url: "",
                 parent_id: 0,
             }
         },
@@ -239,7 +241,7 @@
 
         methods: {
             init(){
-                this.getCustomers()
+                this.getCRUD()
                 this.getCompanies()
             },
 
@@ -264,7 +266,7 @@
                 });
             },
 
-            getCustomers(){
+            getCRUD(){
                 const axios = require('axios');
 
                 if (this.parent_id) {
@@ -277,7 +279,7 @@
                 }
                 else {
                     this.items = []
-                    axios.get('api/v1/customers').then((response) => {
+                    axios.get('api/v1' + this.path_url).then((response) => {
                         this.items = response.data.data
                     }).catch((errors) => {
                         console.log(errors)
@@ -285,26 +287,26 @@
                 }
             },
 
-            SelectedCustomer(){
+            Selected_modal(){
                 if(!this.selected[0]) {
                     Swal.fire(
-                            'First Select Customer',
-                            'No Customer Has been selected',
+                            'First Select entry',
+                            'No entry Has been selected',
                             'error'
                     )
                 }
                 else {
                     this.cu = 'update'
                     this.$bvModal.show('modal-prevent-closing')
-                    this.temp_customer = this.selected[0];
+                    this.temp_page_table = this.selected[0];
                 }
             },
 
-            SelectedAddresses(){
+            SelectedChildren(){
                 if(!this.selected[0]) {
                     Swal.fire(
-                            'First Select customer',
-                            'No customer Has been selected',
+                            'First Select entry',
+                            'No entry Has been selected',
                             'error'
                     )
                 }
@@ -313,15 +315,15 @@
                 }
             },
 
-            NewCustomer(){
-                Object.keys(this.temp_customer).forEach(key => {
-                    this.temp_customer[key] = null;
+            NewEntry(){
+                Object.keys(this.temp_page_table).forEach(key => {
+                    this.temp_page_table[key] = null;
                 })
                 this.cu = 'create'
             },
 
-            createCustomer(){
-                axios.post('api/v1/customer/', this.customer).then((response) => {
+            createCRUD(){
+                axios.post('api/v1' + this.path_url, this.page_table).then((response) => {
                         this.init()
                     }).catch((errors) => {
                         console.log(errors)
@@ -333,8 +335,8 @@
                     )
                     })
             },
-            updateCustomer(){
-                axios.put('api/v1/customers/' + this.selected[0].id, this.customer).then((response) => {
+            updateCRUD(){
+                axios.put('api/v1' + this.path_url + '/' + this.selected[0].id, this.page_table).then((response) => {
                         this.init()
                     }).catch((errors) => {
                         console.log(errors)
@@ -346,11 +348,11 @@
                     )
                     })
             },
-            deleteCustomer(){
+            deleteCRUD(){
                 if(!this.selected[0]) {
                     Swal.fire(
-                        'First Select Customer',
-                        'No Customer Has been selected',
+                        'First Select entry',
+                        'No entry Has been selected',
                         'error'
                     )
                 }
@@ -365,14 +367,14 @@
                     confirmButtonText: 'Yes, delete it!'
                     }).then((result) => {
                         if (result.isConfirmed) {
-                            axios.delete('api/v1/customers/' + this.selected[0].id).then((response) => {
+                            axios.delete('api/v1' + this.path_url + '/' + this.selected[0].id).then((response) => {
                                 this.init()
                             }).catch((errors) => {
                                 console.log(errors)
                                 this.errors.push(errors)
                                 Swal.fire(
                                 'error!',
-                                'You have added addresses for this customer',
+                                'You have added children for this entry',
                                 'error'
                             )
                             })
@@ -420,7 +422,7 @@
                 bvModalEvent.preventDefault()
                 // Trigger submit handler
                 this.handleSubmit()
-                console.log('>><<>><<> from ok \n', this.customer)
+                console.log('>><<>><<> from ok \n', this.page_table)
             },
             handleSubmit() {
                 // Exit when the form isn't valid
@@ -429,13 +431,13 @@
                     return
                 }
                 else {
-                    this.customer = this.temp_customer;
-                    console.log('>><<>><<> from submit \n', this.customer)
+                    this.page_table = this.temp_page_table;
+                    console.log('>><<>><<> from submit \n', this.page_table)
                     if(this.cu == 'create'){
-                        this.createCustomer();
+                        this.createCRUD();
                     }
                     else if(this.cu == 'update'){
-                        this.updateCustomer();
+                        this.updateCRUD();
                     }
                 }
                 // Hide the modal manually
@@ -457,6 +459,8 @@
             }
             this.parent_id = this.$route.params.id
             console.log('param', this.parent_id)
+            this.path_url = this.$route.path
+            console.log('mounted', this.path_url)
             this.init();
         },
     }

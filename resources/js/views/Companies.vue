@@ -3,12 +3,11 @@
         <div>
             <Navbar></Navbar>
         </div>
+        <!-- title -->
+        <div class="col-md-10">
+            <h5 class="text-center">Εταιρείες</h5>
+        </div>
         <div class="row justify-content-center">
-            <!-- title and login,logout-->
-            <div class="col-md-10">
-                <h5 class="text-center">Εταιρείες</h5>
-            </div>
-
             <!-- filter -->
             <div class="col-md-10">
                 <b-col lg="6" class="my-1">
@@ -42,7 +41,7 @@
                 <button type="button" @click="clearSelected" class="btn btn-primary">Clear selections</button>
                 <button type="button" @click="deleteCRUD()" class="btn btn-danger">Delete Selected</button>
                 <b-button variant="success" v-b-modal.modal-prevent-closing @click="NewEntry()">Add New</b-button>
-                <b-button @click="SelectedCRUD()">Edit Selected</b-button>
+                <b-button @click="Selected_modal()">Edit Selected</b-button>
                 <b-button @click="SelectedChildren()">See Employees</b-button>
             </div>
         </div>
@@ -244,6 +243,7 @@
                 filterOn: [],
                 cu: "",
                 path_url: "",
+                parent_id: "",
             }
         },
         computed: {
@@ -260,15 +260,26 @@
         methods: {
             getCRUD(){
                 const axios = require('axios');
-                axios.get('api/v1' + this.path_url).then((response) => {
-                    this.items = response.data.data
-                    console.log('GET',this.items, this.path_url)
-                }).catch((errors) => {
-                    console.log(errors)
-                });
+
+                if (this.parent_id) {
+                    // this.items = []
+                    // axios.get('api/v1/companies/customers/' + this.parent_id).then((response) => {
+                    //     this.items = response.data.data
+                    // }).catch((errors) => {
+                    //     console.log(errors)
+                    // });
+                }
+                else {
+                    this.items = []
+                    axios.get('api/v1' + this.path_url).then((response) => {
+                        this.items = response.data.data
+                    }).catch((errors) => {
+                        console.log(errors)
+                    });
+                } 
             },
 
-            SelectedCRUD(){
+            Selected_modal(){
                 if(!this.selected[0]) {
                     Swal.fire(
                             'First Select entry',
@@ -357,7 +368,7 @@
                                 this.errors.push(errors)
                                 Swal.fire(
                                 'error!',
-                                'You have added childer for this entry',
+                                'You have added children for this entry',
                                 'error'
                             )
                             })
