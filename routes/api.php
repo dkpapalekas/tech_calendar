@@ -30,7 +30,7 @@ Route::post('/authenticate', 'AuthController@authenticate');
 Route::middleware('auth:sanctum')->group(function() {
     // CompanyController Routes
     Route::get('/companies', [CompanyController::class, 'index']);
-    Route::post('/company', [CompanyController::class, 'store']);
+    Route::post('/companies', [CompanyController::class, 'store']);
     Route::get('/companies/{id}', [CompanyController::class, 'show']);
     Route::put('/companies/{id}', [CompanyController::class, 'update']);
     Route::delete('/companies/{id}', [CompanyController::class, 'destroy']);
@@ -45,7 +45,7 @@ Route::middleware('auth:sanctum')->group(function() {
 
     // CustomerController Routes
     Route::get('/customers', [CustomerController::class, 'index']);
-    Route::post('/customer', [CustomerController::class, 'store']);
+    Route::post('/customers', [CustomerController::class, 'store']);
     Route::get('/customers/{id}', [CustomerController::class, 'show']);
     Route::put('/customers/{id}', [CustomerController::class, 'update']);
     Route::delete('/customers/{id}', [CustomerController::class, 'destroy']);
@@ -74,7 +74,7 @@ Route::middleware('auth:sanctum')->group(function() {
 
     // AddressController Routes
     Route::get('/addresses', [AddressController::class, 'index']);
-    Route::post('/address', [AddressController::class, 'store']);
+    Route::post('/addresses', [AddressController::class, 'store']);
     Route::get('/addresses/{id}', [AddressController::class, 'show']);
     Route::put('/addresses/{id}', [AddressController::class, 'update']);
     Route::delete('/addresses/{id}', [AddressController::class, 'destroy']);
@@ -92,7 +92,7 @@ Route::middleware('auth:sanctum')->group(function() {
     
     // ApplianceController Routes
     Route::get('/appliances', [ApplianceController::class, 'index']);
-    Route::post('/appliance', [ApplianceController::class, 'store']);
+    Route::post('/appliances', [ApplianceController::class, 'store']);
     Route::get('/appliances/{id}', [ApplianceController::class, 'show']);
     Route::put('/appliances/{id}', [ApplianceController::class, 'update']);
     Route::delete('/appliances/{id}', [ApplianceController::class, 'destroy']);
@@ -107,7 +107,7 @@ Route::middleware('auth:sanctum')->group(function() {
 
     // MaterialController Routes
     Route::get('/materials', [MaterialController::class, 'index']);
-    Route::post('/material', [MaterialController::class, 'store']);
+    Route::post('/materials', [MaterialController::class, 'store']);
     Route::get('/materials/{id}', [MaterialController::class, 'show']);
     Route::put('/materials/{id}', [MaterialController::class, 'update']);
     Route::delete('/materials/{id}', [MaterialController::class, 'destroy']);
@@ -122,7 +122,7 @@ Route::middleware('auth:sanctum')->group(function() {
 
     // JobController Routes
     Route::get('/jobs', [JobController::class, 'index']);
-    Route::post('/job', [JobController::class, 'store']);
+    Route::post('/jobs', [JobController::class, 'store']);
     Route::get('/jobs/{id}', [JobController::class, 'show']);
     Route::put('/jobs/{id}', [JobController::class, 'update']);
     Route::delete('/jobs/{id}', [JobController::class, 'destroy']);
@@ -144,7 +144,7 @@ Route::middleware('auth:sanctum')->group(function() {
 
     // Job_LineController Routes
     Route::get('/job_lines', [Job_LineController::class, 'index']);
-    Route::post('/job_line', [Job_LineController::class, 'store']);
+    Route::post('/job_lines', [Job_LineController::class, 'store']);
     Route::get('/job_lines/{id}', [Job_LineController::class, 'show']);
     Route::put('/job_lines/{id}', [Job_LineController::class, 'update']);
     Route::delete('/job_lines/{id}', [Job_LineController::class, 'destroy']);

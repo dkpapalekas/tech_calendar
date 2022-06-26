@@ -23,6 +23,7 @@ class CustomerController extends Controller
     public function index()
     {
         $customers = Customer::paginate(1000);
+        $customers = $customers->sortBy('surname');
         return CustomerResource::collection($customers);
     }
 

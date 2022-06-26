@@ -6,7 +6,7 @@
         <div class="row justify-content-center">
             <!-- title and login,logout-->
             <div class="col-md-10">
-                <h5 class="text-center">Εταιρείες</h5>
+                <h5 class="text-center">Συσκευές</h5>
             </div>
 
             <!-- filter -->
@@ -41,9 +41,9 @@
                 <h5 class="text-center">  </h5>
                 <button type="button" @click="clearSelected" class="btn btn-primary">Clear selections</button>
                 <button type="button" @click="deleteCRUD()" class="btn btn-danger">Delete Selected</button>
-                <b-button variant="success" v-b-modal.modal-prevent-closing @click="NewEntry()">Add New</b-button>
-                <b-button @click="SelectedCRUD()">Edit Selected</b-button>
-                <b-button @click="SelectedChildren()">See Employees</b-button>
+                <b-button variant="success" v-b-modal.modal-prevent-closing @click="NewCompany()">Add New</b-button>
+                <b-button @click="SelectedCompany()">Edit Selected</b-button>
+                <b-button @click="SelectedEmployees()">See Employees</b-button>
             </div>
         </div>
         <br>
@@ -104,7 +104,7 @@
                 >
                 <b-form-input
                     id="name-input"
-                    v-model="temp_page_table.name"
+                    v-model="temp_company.name"
                     :state="modal_state.nameState"
                     required
                 ></b-form-input>
@@ -119,7 +119,7 @@
                 >
                 <b-form-input
                     id="address-input"
-                    v-model="temp_page_table.address"
+                    v-model="temp_company.address"
                     :state="modal_state.addressState"
                     required
                 ></b-form-input>
@@ -134,7 +134,7 @@
                 >
                 <b-form-input
                     id="city-input"
-                    v-model="temp_page_table.city"
+                    v-model="temp_company.city"
                     :state="modal_state.cityState"
                     required
                 ></b-form-input>
@@ -149,7 +149,7 @@
                 >
                 <b-form-input
                     id="profession-input"
-                    v-model="temp_page_table.profession"
+                    v-model="temp_company.profession"
                     :state="modal_state.professionState"
                     required
                 ></b-form-input>
@@ -164,7 +164,7 @@
                 >
                 <b-form-input
                     id="vat-input"
-                    v-model="temp_page_table.vat"
+                    v-model="temp_company.vat"
                     :state="modal_state.vatState"
                     required
                 ></b-form-input>
@@ -179,7 +179,7 @@
                 >
                 <b-form-input
                     id="irs-input"
-                    v-model="temp_page_table.irs"
+                    v-model="temp_company.irs"
                     :state="modal_state.irsState"
                     required
                 ></b-form-input>
@@ -205,8 +205,8 @@
         data() {
             return {
                 companies: {},
-                page_table: {},
-                temp_page_table: {
+                company: {},
+                temp_company: {
                     name: "",
                     address: "",
                     city: "",
@@ -243,7 +243,7 @@
                 filter: null,
                 filterOn: [],
                 cu: "",
-                path_url: "",
+                page_url: "",
             }
         },
         computed: {
@@ -260,34 +260,33 @@
         methods: {
             getCRUD(){
                 const axios = require('axios');
-                axios.get('api/v1' + this.path_url).then((response) => {
+                axios.get('api/v1/appliances').then((response) => {
                     this.items = response.data.data
-                    console.log('GET',this.items, this.path_url)
                 }).catch((errors) => {
                     console.log(errors)
                 });
             },
 
-            SelectedCRUD(){
+            SelectedCompany(){
                 if(!this.selected[0]) {
                     Swal.fire(
-                            'First Select entry',
-                            'No entry Has been selected',
+                            'First Select Company',
+                            'No Company Has been selected',
                             'error'
                     )
                 }
                 else {
                     this.cu = 'update'
                     this.$bvModal.show('modal-prevent-closing')
-                    this.temp_page_table = this.selected[0];
+                    this.temp_company = this.selected[0];
                 }
             },
 
-            SelectedChildren(){
+            SelectedEmployees(){
                 if(!this.selected[0]) {
                     Swal.fire(
-                            'First Select entry',
-                            'No entry Has been selected',
+                            'First Select Company',
+                            'No Company Has been selected',
                             'error'
                     )
                 }
@@ -296,15 +295,15 @@
                 }
             },
 
-            NewEntry(){
-                Object.keys(this.temp_page_table).forEach(key => {
-                    this.temp_page_table[key] = null;
+            NewCompany(){
+                Object.keys(this.temp_company).forEach(key => {
+                    this.temp_company[key] = null;
                 })
                 this.cu = 'create'
             },
 
-            createCRUD(){
-                axios.post('api/v1' + this.path_url, this.page_table).then((response) => {
+            createCompany(){
+                axios.post('api/v1/company/', this.company).then((response) => {
                         this.getCRUD()
                     }).catch((errors) => {
                         console.log(errors)
@@ -317,8 +316,8 @@
                     })
             },
 
-            updateCRUD(){
-                axios.put('api/v1' + this.path_url + '/' + this.selected[0].id, this.page_table).then((response) => {
+            updateCompany(){
+                axios.put('api/v1/companies/' + this.selected[0].id, this.company).then((response) => {
                         this.getCRUD()
                     }).catch((errors) => {
                         console.log(errors)
@@ -334,8 +333,8 @@
             deleteCRUD(){
                 if(!this.selected[0]) {
                     Swal.fire(
-                            'First Select entry',
-                            'No entry Has been selected',
+                            'First Select Company',
+                            'No Company Has been selected',
                             'error'
                     )
                 }
@@ -350,14 +349,14 @@
                     confirmButtonText: 'Yes, delete it!'
                     }).then((result) => {
                         if (result.isConfirmed) {
-                            axios.delete('api/v1' + this.path_url + '/' + this.selected[0].id).then((response) => {
+                            axios.delete('api/v1/companies/' + this.selected[0].id).then((response) => {
                                 this.getCRUD()
                             }).catch((errors) => {
                                 console.log(errors)
                                 this.errors.push(errors)
                                 Swal.fire(
                                 'error!',
-                                'You have added childer for this entry',
+                                'You have added customers for this company',
                                 'error'
                             )
                             })
@@ -412,7 +411,7 @@
                 bvModalEvent.preventDefault()
                 // Trigger submit handler
                 this.handleSubmit()
-                console.log('>><<>><<> from ok \n', this.page_table)
+                console.log('>><<>><<> from ok \n', this.company)
             },
 
             handleSubmit() {
@@ -422,13 +421,13 @@
                     return
                 }
                 else {
-                    this.page_table = this.temp_page_table;
-                    console.log('>><<>><<> from submit \n', this.page_table)
+                    this.company = this.temp_company;
+                    console.log('>><<>><<> from submit \n', this.company)
                     if(this.cu == 'create'){
-                        this.createCRUD();
+                        this.createCompany();
                     }
                     else if(this.cu == 'update'){
-                        this.updateCRUD();
+                        this.updateCompany();
                     }
                 }
                 // Hide the modal manually
@@ -448,9 +447,9 @@
                     'error'
                 )
             }
-            this.path_url = this.$route.path
-            console.log('mounted', this.path_url)
             this.getCRUD()
+            this.page_url = this.$route.path
+            console.log('url >> \n', this.page_url)
         }
     }
 </script>

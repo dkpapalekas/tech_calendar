@@ -19,6 +19,7 @@ import Register from './views/Register.vue'
 import Companies from './views/Companies.vue'
 import Customers from './views/Customers.vue'
 import Addresses from './views/Addresses.vue'
+import Appliances from './views/Appliances.vue'
 
 
 
@@ -45,6 +46,10 @@ let router = new VueRouter({
         {
             path: '/companies',
             component: Companies,
+        },
+        {
+            path: '/appliances',
+            component: Appliances,
         },
         {
             path: '/customers',

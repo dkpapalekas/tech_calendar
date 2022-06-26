@@ -16,7 +16,7 @@ class CompanyController extends Controller
      */
     public function index()
     {
-        $companies = Company::paginate(100);
+        $companies = Company::paginate(100)->sortBy('name');
         return CompanyResource::collection($companies);
     }
 
