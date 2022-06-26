@@ -17,7 +17,7 @@ class ApplianceController extends Controller
      */
     public function index()
     {
-        $appliances = Appliance::paginate(10);
+        $appliances = Appliance::paginate(1000);
         return ApplianceResource::collection($appliances);
     }
 

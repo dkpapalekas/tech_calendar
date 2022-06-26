@@ -17,7 +17,7 @@ class MaterialController extends Controller
      */
     public function index()
     {
-        $materials = Material::paginate(10);
+        $materials = Material::paginate(1000);
         return MaterialResource::collection($materials);
     }
 

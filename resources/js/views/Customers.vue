@@ -43,7 +43,6 @@
                 <button type="button" @click="deleteCustomer()" class="btn btn-danger">Delete Selected</button>
                 <b-button variant="success" v-b-modal.modal-prevent-closing @click="NewCustomer()">Add New</b-button>
                 <b-button @click="SelectedCustomer()">Edit Selected</b-button>
-                <!-- <b-button v-b-modal.modal-prevent-closing @click="SelectedCustomer()">Edit Selected</b-button> -->
             </div>
         </div>
         <br>
@@ -238,7 +237,6 @@
                 const axios = require('axios');
                 axios.get('api/v1/companies').then((response) => {
                     this.companies = response.data.data
-                    // console.log('res',this.companies)
                     this.companies.unshift({
                         id: null,
                         name: "",
@@ -291,7 +289,6 @@
             createCustomer(){
                 axios.post('api/v1/customer/', this.customer).then((response) => {
                         this.getCustomers()
-                        // console.log(response)
                     }).catch((errors) => {
                         console.log(errors)
                         this.errors.push(errors)
@@ -305,7 +302,6 @@
             updateCustomer(){
                 axios.put('api/v1/customers/' + this.selected[0].id, this.customer).then((response) => {
                         this.getCustomers()
-                        // console.log(response)
                     }).catch((errors) => {
                         console.log(errors)
                         this.errors.push(errors)
@@ -317,6 +313,14 @@
                     })
             },
             deleteCustomer(){
+                if(!this.selected[0]) {
+                    Swal.fire(
+                        'First Select Customer',
+                        'No Customer Has been selected',
+                        'error'
+                    )
+                }
+                else {
                 Swal.fire({
                     title: 'Are you sure?',
                     text: "You won't be able to revert this!",
@@ -325,29 +329,30 @@
                     confirmButtonColor: '#3085d6',
                     cancelButtonColor: '#d33',
                     confirmButtonText: 'Yes, delete it!'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        axios.delete('api/v1/customers/' + this.selected[0].id).then((response) => {
-                            this.getCustomers()
-                            // console.log(response)
-                        }).catch((errors) => {
-                            console.log(errors)
-                            this.errors.push(errors)
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            axios.delete('api/v1/customers/' + this.selected[0].id).then((response) => {
+                                this.getCustomers()
+                            }).catch((errors) => {
+                                console.log(errors)
+                                this.errors.push(errors)
+                                Swal.fire(
+                                'error!',
+                                'You have added addresses for this customer',
+                                'error'
+                            )
+                            })
                             Swal.fire(
-                            'error!',
-                            'You have added addresses for this customer',
-                            'error'
-                        )
-                        })
-                        Swal.fire(
-                            'Deleted!',
-                            'Your record has been deleted.',
-                            'success'
-                        )
-                    }
-                })
+                                'Deleted!',
+                                'Your record has been deleted.',
+                                'success'
+                            )
+                        }
+                    })
+                }
             },
-                  onFiltered(filteredItems) {
+            
+            onFiltered(filteredItems) {
                 // Trigger pagination to update the number of buttons/pages due to filtering
                 this.totalRows = filteredItems.length
                 // this.currentPage = 1
@@ -417,6 +422,6 @@
                 )
             }
             this.getCustomers()
-        }
+        },
     }
 </script>

@@ -43,7 +43,7 @@
                 <button type="button" @click="deleteCompany()" class="btn btn-danger">Delete Selected</button>
                 <b-button variant="success" v-b-modal.modal-prevent-closing @click="NewCompany()">Add New</b-button>
                 <b-button @click="SelectedCompany()">Edit Selected</b-button>
-                <!-- <b-button v-b-modal.modal-prevent-closing @click="SelectedCompany()">Edit Selected</b-button> -->
+                <b-button @click="SelectedEmployees()">See Employees</b-button>
             </div>
         </div>
         <br>
@@ -190,11 +190,12 @@
 </template>
 
 <script>
-    import Navbar from './Navbar.vue'
     import axios from 'axios'
     window.axios = require('axios')
     import swal from 'sweetalert2';
     window.Swal = swal; 
+
+    import Navbar from './Navbar.vue'
 
     export default {
         components:{
@@ -260,7 +261,6 @@
                 const axios = require('axios');
                 axios.get('api/v1/companies').then((response) => {
                     this.items = response.data.data
-                    // console.log(response.data.data)
                 }).catch((errors) => {
                     console.log(errors)
                 });
@@ -281,6 +281,19 @@
                 }
             },
 
+            SelectedEmployees(){
+                if(!this.selected[0]) {
+                    Swal.fire(
+                            'First Select Company',
+                            'No Company Has been selected',
+                            'error'
+                    )
+                }
+                else {
+                    this.$router.push('/customers/5')
+                }
+            },
+
             NewCompany(){
                 Object.keys(this.temp_company).forEach(key => {
                     this.temp_company[key] = null;
@@ -291,7 +304,6 @@
             createCompany(){
                 axios.post('api/v1/company/', this.company).then((response) => {
                         this.getCompanies()
-                        // console.log(response)
                     }).catch((errors) => {
                         console.log(errors)
                         this.errors.push(errors)
@@ -302,10 +314,10 @@
                     )
                     })
             },
+
             updateCompany(){
                 axios.put('api/v1/companies/' + this.selected[0].id, this.company).then((response) => {
                         this.getCompanies()
-                        // console.log(response)
                     }).catch((errors) => {
                         console.log(errors)
                         this.errors.push(errors)
@@ -316,8 +328,17 @@
                     )
                     })
             },
+
             deleteCompany(){
-                Swal.fire({
+                if(!this.selected[0]) {
+                    Swal.fire(
+                            'First Select Company',
+                            'No Company Has been selected',
+                            'error'
+                    )
+                }
+                else {
+                    Swal.fire({
                     title: 'Are you sure?',
                     text: "You won't be able to revert this!",
                     icon: 'warning',
@@ -325,29 +346,30 @@
                     confirmButtonColor: '#3085d6',
                     cancelButtonColor: '#d33',
                     confirmButtonText: 'Yes, delete it!'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        axios.delete('api/v1/companies/' + this.selected[0].id).then((response) => {
-                            this.getCompanies()
-                            // console.log(response)
-                        }).catch((errors) => {
-                            console.log(errors)
-                            this.errors.push(errors)
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            axios.delete('api/v1/companies/' + this.selected[0].id).then((response) => {
+                                this.getCompanies()
+                            }).catch((errors) => {
+                                console.log(errors)
+                                this.errors.push(errors)
+                                Swal.fire(
+                                'error!',
+                                'You have added customers for this company',
+                                'error'
+                            )
+                            })
                             Swal.fire(
-                            'error!',
-                            'You have added customers for this company',
-                            'error'
-                        )
-                        })
-                        Swal.fire(
-                            'Deleted!',
-                            'Your record has been deleted.',
-                            'success'
-                        )
-                    }
-                })
+                                'Deleted!',
+                                'Your record has been deleted.',
+                                'success'
+                            )
+                        }
+                    })
+                }
             },
-                  onFiltered(filteredItems) {
+
+            onFiltered(filteredItems) {
                 // Trigger pagination to update the number of buttons/pages due to filtering
                 this.totalRows = filteredItems.length
                 // this.currentPage = 1
@@ -362,9 +384,11 @@
                 }
 
             },
+
             clearSelected() {
                 this.$refs.selectableTable.clearSelected()
             },
+
             checkFormValidity() {
                 const valid = this.$refs.form.checkValidity()
                 this.modal_state.nameState = valid
@@ -375,10 +399,12 @@
                 this.modal_state.irsState = valid
                 return valid
             },
+
             resetModal() {
                 this.name = ''
                 this.nameState = null
             },
+
             handleOk(bvModalEvent) {
                 // Prevent modal from closing
                 bvModalEvent.preventDefault()
@@ -386,6 +412,7 @@
                 this.handleSubmit()
                 console.log('>><<>><<> from ok \n', this.company)
             },
+
             handleSubmit() {
                 // Exit when the form isn't valid
                 if (!this.checkFormValidity()) {

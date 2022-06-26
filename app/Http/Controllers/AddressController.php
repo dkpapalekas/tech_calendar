@@ -16,7 +16,7 @@ class AddressController extends Controller
      */
     public function index()
     {
-        $addresses = Address::paginate(10);
+        $addresses = Address::paginate(10000);
         return AddressResource::collection($addresses);
     }
 

@@ -17,7 +17,7 @@ class Job_LineController extends Controller
      */
     public function index()
     {
-        $job_lines = Job_Line::paginate(10);
+        $job_lines = Job_Line::paginate(1000);
         return Job_LineResource::collection($job_lines);
     }
 

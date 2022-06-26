@@ -1,7 +1,6 @@
 // Vue & Vue-Router
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import axios from 'axios';
 Vue.use(VueRouter)
 
 // Import Bootstrap an BootstrapVue CSS files (order is important)
@@ -13,7 +12,6 @@ import BootstrapVue from 'bootstrap-vue'
 Vue.use(BootstrapVue)
 
 // My Vue Files
-import Navbar from './views/Navbar.vue'
 import App from './views/App.vue'
 import Test from './views/Test.vue'
 import Login from './views/Login.vue'
