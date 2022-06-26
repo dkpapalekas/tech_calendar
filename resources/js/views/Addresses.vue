@@ -6,7 +6,7 @@
         <div class="row justify-content-center">
             <!-- title and login,logout-->
             <div class="col-md-10">
-                <h5 class="text-center">Πελάτες</h5>
+                <h5 class="text-center">Διευθύνσεις</h5>
             </div>
 
             <!-- filter -->
@@ -40,10 +40,9 @@
             <div class="col-md-10">
                 <h5 class="text-center">  </h5>
                 <button type="button" @click="clearSelected" class="btn btn-primary">Clear selections</button>
-                <button type="button" @click="deleteCustomer()" class="btn btn-danger">Delete Selected</button>
-                <b-button variant="success" v-b-modal.modal-prevent-closing @click="NewCustomer()">Add New</b-button>
-                <b-button @click="SelectedCustomer()">Edit Selected</b-button>
-                <b-button @click="SelectedAddresses()">See Customer Addresses</b-button>
+                <button type="button" @click="deleteAddress()" class="btn btn-danger">Delete Selected</button>
+                <b-button variant="success" v-b-modal.modal-prevent-closing @click="NewAddress()">Add New</b-button>
+                <b-button @click="SelectedAddress()">Edit Selected</b-button>
             </div>
         </div>
         <br>
@@ -97,14 +96,14 @@
             >
             <form ref="form" @submit.stop.prevent="handleSubmit">
                 <b-form-group
-                label="Ονομα"
+                label="Οδός"
                 label-for="name-input"
                 invalid-feedback="Name is required"
                 :state="modal_state.nameState"
                 >
                 <b-form-input
                     id="name-input"
-                    v-model="temp_customer.name"
+                    v-model="temp_address.name"
                     :state="modal_state.nameState"
                     required
                 ></b-form-input>
@@ -112,43 +111,58 @@
             </form>
             <form ref="form" @submit.stop.prevent="handleSubmit">
                 <b-form-group
-                label="surname"
-                label-for="surname-input"
-                invalid-feedback="surname is required"
-                :state="modal_state.surnameState"
+                label="Αριθμός"
+                label-for="number-input"
+                invalid-feedback="number is required"
+                :state="modal_state.numberState"
                 >
                 <b-form-input
-                    id="surname-input"
-                    v-model="temp_customer.surname"
-                    :state="modal_state.surnameState"
+                    id="number-input"
+                    v-model="temp_address.number"
+                    :state="modal_state.numberState"
                     required
                 ></b-form-input>
                 </b-form-group>
             </form>
             <form ref="form" @submit.stop.prevent="handleSubmit">
                 <b-form-group
-                label="Εταιρεια"
-                label-for="company_id-input"
+                label="Πελάτης"
+                label-for="customer_id-input"
                 >
                 <b-form-select 
-                    v-model="temp_customer.company_id" 
-                    :options="companies"
+                    v-model="temp_address.customer_id" 
+                    :options="customers"
                     value-field="id"
-                    text-field="name">
+                    text-field="fullname">
                 </b-form-select>
                 </b-form-group>
             </form>
             <form ref="form" @submit.stop.prevent="handleSubmit">
                 <b-form-group
-                label="telephone"
-                label-for="telephone-input"
-                invalid-feedback="telephone is required"
-                :state="modal_state.telephoneState"
+                label="Πόλη"
+                label-for="city-input"
+                invalid-feedback="city is required"
+                :state="modal_state.cityState"
                 >
                 <b-form-input
-                    id="telephone-input"
-                    v-model="temp_customer.telephone"
-                    :state="modal_state.telephoneState"
+                    id="city-input"
+                    v-model="temp_address.city"
+                    :state="modal_state.cityState"
+                    required
+                ></b-form-input>
+                </b-form-group>
+            </form>
+            <form ref="form" @submit.stop.prevent="handleSubmit">
+                <b-form-group
+                label="Οροφος"
+                label-for="floor-input"
+                invalid-feedback="floor is required"
+                :state="modal_state.floorState"
+                >
+                <b-form-input
+                    id="floor-input"
+                    v-model="temp_address.floor"
+                    :state="modal_state.floorState"
                     required
                 ></b-form-input>
                 </b-form-group>
@@ -162,7 +176,7 @@
                 >
                 <b-form-input
                     id="remarks-input"
-                    v-model="temp_customer.remarks"
+                    v-model="temp_address.remarks"
                     :state="modal_state.remarksState"
                     required
                 ></b-form-input>
@@ -187,30 +201,34 @@
         data() {
             return {
                 //parent table
-                companies: [],
-                customer: {},
-                temp_customer: {
-                    company_id: null,
+                customers: [],
+                address: {},
+                temp_address: {
+                    customer_id: null,
                     name: "",
-                    surname: "",
-                    telephone: "",
+                    number: "",
+                    city: "",
+                    floor: "",
                     remarks: "",
                 },
                 modal_state: {
                     nameState: null,
-                    surnameState: null,
-                    telephoneState: null,
+                    numberState: null,
+                    cityState: null,
+                    floorState: null,
                     remarksState: null,            
                 },
                 currentUser: {},
                 token: localStorage.getItem('token'),
                 errors: [],
                 fields: [
-                    {key: 'name', label: 'Ονομα', sortable: true, sortDirection: 'desc', },
-                    {key: 'surname', label: 'Επώνυμο', sortable: true, sortDirection: 'desc', },
-                    {key: 'telephone', label: 'Τηλέφωνο', sortable: true, sortDirection: 'desc', },
+                    {key: 'id', label: 'ID', sortable: true, sortDirection: 'desc', },
+                    {key: 'name', label: 'Οδός', sortable: true, sortDirection: 'desc', },
+                    {key: 'number', label: 'Αριθμός', sortable: true, sortDirection: 'desc', },
+                    {key: 'city', label: 'Πόλη', sortable: true, sortDirection: 'desc', },
+                    {key: 'floor', label: 'Οροφος', sortable: true, sortDirection: 'desc', },
                     {key: 'remarks', label: 'Σχόλια', sortable: true, sortDirection: 'desc', },
-                    {key: 'company_name', label: 'Εταιρεια', sortable: true, sortDirection: 'desc', },
+                    {key: 'customer_name', label: 'Πελάτης', sortable: true, sortDirection: 'desc', },
                 ],
                 items: [],
                 selected: [],
@@ -239,37 +257,38 @@
 
         methods: {
             init(){
+                this.getAddresses()
                 this.getCustomers()
-                this.getCompanies()
             },
 
-            getCompanies(){
+            getCustomers(){
                 const axios = require('axios');
-                axios.get('api/v1/companies').then((response) => {
-                    this.companies = response.data.data
-                    this.companies.unshift({
-                        id: null,
-                        name: "",
-                    })
+                axios.get('api/v1/customers').then((response) => {
+                    this.customers = response.data.data
 
+                    //custome fullname creation
+                    this.customers.forEach(customer => {
+                        customer.fullname = customer.name + ' ' + customer.surname
+                    })
+                    
                     //for each child add the name of the parent
                     this.items.forEach(child => {
-                        var parent = this.companies.find(obj => {
-                            return obj.id === child.company_id
+                        var parent = this.customers.find(obj => {
+                            return obj.id === child.customer_id
                         })
-                        child.company_name = parent.name;
+                        child.customer_name = parent.name + ' ' + parent.surname;
                     })
                 }).catch((errors) => {
                     console.log(errors)
                 });
             },
 
-            getCustomers(){
+            getAddresses(){
                 const axios = require('axios');
 
                 if (this.parent_id) {
                     this.items = []
-                    axios.get('api/v1/companies/customers/' + this.parent_id).then((response) => {
+                    axios.get('api/v1/customers/addresses/' + this.parent_id).then((response) => {
                         this.items = response.data.data
                     }).catch((errors) => {
                         console.log(errors)
@@ -277,7 +296,7 @@
                 }
                 else {
                     this.items = []
-                    axios.get('api/v1/customers').then((response) => {
+                    axios.get('api/v1/addresses').then((response) => {
                         this.items = response.data.data
                     }).catch((errors) => {
                         console.log(errors)
@@ -285,43 +304,30 @@
                 }
             },
 
-            SelectedCustomer(){
+            SelectedAddress(){
                 if(!this.selected[0]) {
                     Swal.fire(
-                            'First Select Customer',
-                            'No Customer Has been selected',
+                            'First Select Address',
+                            'No Address Has been selected',
                             'error'
                     )
                 }
                 else {
                     this.cu = 'update'
                     this.$bvModal.show('modal-prevent-closing')
-                    this.temp_customer = this.selected[0];
+                    this.temp_address = this.selected[0];
                 }
             },
 
-            SelectedAddresses(){
-                if(!this.selected[0]) {
-                    Swal.fire(
-                            'First Select customer',
-                            'No customer Has been selected',
-                            'error'
-                    )
-                }
-                else {
-                    this.$router.push('/addresses/' + this.selected[0].id)
-                }
-            },
-
-            NewCustomer(){
-                Object.keys(this.temp_customer).forEach(key => {
-                    this.temp_customer[key] = null;
+            NewAddress(){
+                Object.keys(this.temp_address).forEach(key => {
+                    this.temp_address[key] = null;
                 })
                 this.cu = 'create'
             },
 
-            createCustomer(){
-                axios.post('api/v1/customer/', this.customer).then((response) => {
+            createAddress(){
+                axios.post('api/v1/address/', this.address).then((response) => {
                         this.init()
                     }).catch((errors) => {
                         console.log(errors)
@@ -333,8 +339,8 @@
                     )
                     })
             },
-            updateCustomer(){
-                axios.put('api/v1/customers/' + this.selected[0].id, this.customer).then((response) => {
+            updateAddress(){
+                axios.put('api/v1/addresses/' + this.selected[0].id, this.address).then((response) => {
                         this.init()
                     }).catch((errors) => {
                         console.log(errors)
@@ -346,11 +352,11 @@
                     )
                     })
             },
-            deleteCustomer(){
+            deleteAddress(){
                 if(!this.selected[0]) {
                     Swal.fire(
-                        'First Select Customer',
-                        'No Customer Has been selected',
+                        'First Select Address',
+                        'No Address Has been selected',
                         'error'
                     )
                 }
@@ -365,7 +371,7 @@
                     confirmButtonText: 'Yes, delete it!'
                     }).then((result) => {
                         if (result.isConfirmed) {
-                            axios.delete('api/v1/customers/' + this.selected[0].id).then((response) => {
+                            axios.delete('api/v1/addresses/' + this.selected[0].id).then((response) => {
                                 this.init()
                             }).catch((errors) => {
                                 console.log(errors)
@@ -406,8 +412,9 @@
             checkFormValidity() {
                 const valid = this.$refs.form.checkValidity()
                 this.modal_state.nameState = valid
-                this.modal_state.surnameState = valid
-                this.modal_state.telephoneState = valid
+                this.modal_state.numberState = valid
+                this.modal_state.cityState = valid
+                this.modal_state.floorState = valid
                 this.modal_state.remarksState = valid
                 return valid
             },
@@ -420,7 +427,7 @@
                 bvModalEvent.preventDefault()
                 // Trigger submit handler
                 this.handleSubmit()
-                console.log('>><<>><<> from ok \n', this.customer)
+                console.log('>><<>><<> from ok \n', this.address)
             },
             handleSubmit() {
                 // Exit when the form isn't valid
@@ -429,13 +436,13 @@
                     return
                 }
                 else {
-                    this.customer = this.temp_customer;
-                    console.log('>><<>><<> from submit \n', this.customer)
+                    this.address = this.temp_address;
+                    console.log('>><<>><<> from submit \n', this.address)
                     if(this.cu == 'create'){
-                        this.createCustomer();
+                        this.createAddress();
                     }
                     else if(this.cu == 'update'){
-                        this.updateCustomer();
+                        this.updateAddress();
                     }
                 }
                 // Hide the modal manually
