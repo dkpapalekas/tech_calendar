@@ -3,12 +3,11 @@
         <div>
             <Navbar></Navbar>
         </div>
+        <!-- title -->
+        <div class="col-md-10">
+            <h5 class="text-center">Συσκευές</h5>
+        </div>
         <div class="row justify-content-center">
-            <!-- title and login,logout-->
-            <div class="col-md-10">
-                <h5 class="text-center">Πελάτες</h5>
-            </div>
-
             <!-- filter -->
             <div class="col-md-10">
                 <b-col lg="6" class="my-1">
@@ -43,10 +42,7 @@
                 <button type="button" @click="deleteCRUD()" class="btn btn-danger">Delete Selected</button>
                 <b-button variant="success" v-b-modal.modal-prevent-closing @click="NewEntry()">Add New</b-button>
                 <b-button @click="Selected_modal()">Edit Selected</b-button>
-            </div>
-            <div class="col-md-10">
-                <br>
-                <b-button @click="SelectedChildren()">See Customer Addresses</b-button>
+                <b-button @click="SelectedChildren()">See Jobs</b-button>
             </div>
         </div>
         <br>
@@ -66,7 +62,7 @@
                     label-sort-asc=""
                     label-sort-desc=""
                     label-sort-clear=""
-                    responsive
+                    responsive = 'sm'
                     stacked = "md"
                     ref="selectableTable"
                     selectable
@@ -100,7 +96,7 @@
             >
             <form ref="form" @submit.stop.prevent="handleSubmit">
                 <b-form-group
-                label="Ονομα"
+                label="Ονομασία"
                 label-for="name-input"
                 invalid-feedback="Name is required"
                 :state="modal_state.nameState"
@@ -115,50 +111,52 @@
             </form>
             <form ref="form" @submit.stop.prevent="handleSubmit">
                 <b-form-group
-                label="surname"
-                label-for="surname-input"
-                invalid-feedback="surname is required"
-                :state="modal_state.surnameState"
+                label="Μάρκα"
+                label-for="brand-input"
+                invalid-feedback="brand is required"
+                :state="modal_state.brandState"
                 >
                 <b-form-input
-                    id="surname-input"
-                    v-model="temp_page_table.surname"
-                    :state="modal_state.surnameState"
+                    id="brand-input"
+                    v-model="temp_page_table.brand"
+                    :state="modal_state.brandState"
                     required
                 ></b-form-input>
                 </b-form-group>
             </form>
             <form ref="form" @submit.stop.prevent="handleSubmit">
                 <b-form-group
-                label="Εταιρεια"
-                label-for="company_id-input"
-                >
-                <b-form-select 
-                    v-model="temp_page_table.company_id" 
-                    :options="companies"
-                    value-field="id"
-                    text-field="name">
-                </b-form-select>
-                </b-form-group>
-            </form>
-            <form ref="form" @submit.stop.prevent="handleSubmit">
-                <b-form-group
-                label="telephone"
-                label-for="telephone-input"
-                invalid-feedback="telephone is required"
-                :state="modal_state.telephoneState"
+                label="Μοντέλο"
+                label-for="model-input"
+                invalid-feedback="model is required"
+                :state="modal_state.modelState"
                 >
                 <b-form-input
-                    id="telephone-input"
-                    v-model="temp_page_table.telephone"
-                    :state="modal_state.telephoneState"
+                    id="model-input"
+                    v-model="temp_page_table.model"
+                    :state="modal_state.modelState"
                     required
                 ></b-form-input>
                 </b-form-group>
             </form>
             <form ref="form" @submit.stop.prevent="handleSubmit">
                 <b-form-group
-                label="remarks"
+                label="Χρονολογία"
+                label-for="year-input"
+                invalid-feedback="year is required"
+                :state="modal_state.yearState"
+                >
+                <b-form-input
+                    id="year-input"
+                    v-model="temp_page_table.year"
+                    :state="modal_state.yearState"
+                    required
+                ></b-form-input>
+                </b-form-group>
+            </form>
+            <form ref="form" @submit.stop.prevent="handleSubmit">
+                <b-form-group
+                label="Σχόλια"
                 label-for="remarks-input"
                 invalid-feedback="remarks is required"
                 :state="modal_state.remarksState"
@@ -166,7 +164,7 @@
                 <b-form-input
                     id="remarks-input"
                     v-model="temp_page_table.remarks"
-                    :state="modal_state.remarksState"
+                    :state="modal_state.irsState"
                     required
                 ></b-form-input>
                 </b-form-group>
@@ -176,11 +174,12 @@
 </template>
 
 <script>
-    import Navbar from './Navbar.vue'
     import axios from 'axios'
     window.axios = require('axios')
     import swal from 'sweetalert2';
     window.Swal = swal; 
+
+    import Navbar from './Navbar.vue'
 
     export default {
         components:{
@@ -189,46 +188,44 @@
 
         data() {
             return {
-                //parent table
-                companies: [],
+                companies: {},
                 page_table: {},
                 temp_page_table: {
-                    company_id: null,
                     name: "",
-                    surname: "",
-                    telephone: "",
+                    brand: "",
+                    model: "",
+                    year: "",
                     remarks: "",
                 },
                 modal_state: {
                     nameState: null,
-                    surnameState: null,
-                    telephoneState: null,
-                    remarksState: null,            
+                    brandState: null,
+                    modelState: null,
+                    yearState: null,
+                    remarksState: null,                  
                 },
                 currentUser: {},
                 token: localStorage.getItem('token'),
                 errors: [],
                 fields: [
                     {key: 'id', label: 'ID', sortable: true, sortDirection: 'desc', },
-                    {key: 'name', label: 'Ονομα', sortable: true, sortDirection: 'desc', },
-                    {key: 'surname', label: 'Επώνυμο', sortable: true, sortDirection: 'desc', },
-                    {key: 'telephone', label: 'Τηλέφωνο', sortable: true, sortDirection: 'desc', },
-                    {key: 'remarks', label: 'Σχόλια', sortable: true, sortDirection: 'desc', },
-                    {key: 'company_name', label: 'Εταιρεια', sortable: true, sortDirection: 'desc', },
+                    {key: 'name', label: 'Ονομασία', sortable: true, sortDirection: 'desc', },
+                    {key: 'brand', label: 'Μάρκα', sortable: true, sortDirection: 'desc', },
+                    {key: 'model', label: 'Μοαντέλο', sortable: true, sortDirection: 'desc', },
+                    {key: 'year', label: 'Χρονολογία', sortable: true, sortDirection: 'desc', },
+                    {key: 'remarks', label: 'Σχόλια', sortable: true, sortDirection: 'desc',},
                 ],
                 items: [],
                 selected: [],
-                //table options
                 selectMode: 'single',
                 sortBy: '',
                 sortDesc: false,
                 sortDirection: 'asc',
                 filter: null,
                 filterOn: [],
-                //GET options
                 cu: "",
                 path_url: "",
-                parent_id: 0,
+                parent_id: "",
             }
         },
         computed: {
@@ -243,42 +240,16 @@
         },
 
         methods: {
-            init(){
-                this.getCRUD()
-                this.getCompanies()
-            },
-
-            getCompanies(){
-                const axios = require('axios');
-                axios.get('api/v1/companies').then((response) => {
-                    this.companies = response.data.data
-                    this.companies.unshift({
-                        id: null,
-                        name: "",
-                    })
-
-                    //for each child add the name of the parent
-                    this.items.forEach(child => {
-                        var parent = this.companies.find(obj => {
-                            return obj.id === child.company_id
-                        })
-                        child.company_name = parent.name;
-                    })
-                }).catch((errors) => {
-                    console.log(errors)
-                });
-            },
-
             getCRUD(){
                 const axios = require('axios');
 
                 if (this.parent_id) {
-                    this.items = []
-                    axios.get('api/v1/companies/customers/' + this.parent_id).then((response) => {
-                        this.items = response.data.data
-                    }).catch((errors) => {
-                        console.log(errors)
-                    });
+                    // this.items = []
+                    // axios.get('api/v1/companies/customers/' + this.parent_id).then((response) => {
+                    //     this.items = response.data.data
+                    // }).catch((errors) => {
+                    //     console.log(errors)
+                    // });
                 }
                 else {
                     this.items = []
@@ -287,7 +258,7 @@
                     }).catch((errors) => {
                         console.log(errors)
                     });
-                }
+                } 
             },
 
             Selected_modal(){
@@ -314,7 +285,7 @@
                     )
                 }
                 else {
-                    this.$router.push('/addresses/' + this.selected[0].id)
+                    this.$router.push('/jobs/' + this.selected[0].id)
                 }
             },
 
@@ -327,7 +298,7 @@
 
             createCRUD(){
                 axios.post('api/v1' + this.path_url, this.page_table).then((response) => {
-                        this.init()
+                        this.getCRUD()
                     }).catch((errors) => {
                         console.log(errors)
                         this.errors.push(errors)
@@ -338,9 +309,10 @@
                     )
                     })
             },
+
             updateCRUD(){
                 axios.put('api/v1' + this.path_url + '/' + this.selected[0].id, this.page_table).then((response) => {
-                        this.init()
+                        this.getCRUD()
                     }).catch((errors) => {
                         console.log(errors)
                         this.errors.push(errors)
@@ -351,16 +323,17 @@
                     )
                     })
             },
+
             deleteCRUD(){
                 if(!this.selected[0]) {
                     Swal.fire(
-                        'First Select entry',
-                        'No entry Has been selected',
-                        'error'
+                            'First Select entry',
+                            'No entry Has been selected',
+                            'error'
                     )
                 }
                 else {
-                Swal.fire({
+                    Swal.fire({
                     title: 'Are you sure?',
                     text: "You won't be able to revert this!",
                     icon: 'warning',
@@ -371,7 +344,7 @@
                     }).then((result) => {
                         if (result.isConfirmed) {
                             axios.delete('api/v1' + this.path_url + '/' + this.selected[0].id).then((response) => {
-                                this.init()
+                                this.getCRUD()
                             }).catch((errors) => {
                                 console.log(errors)
                                 this.errors.push(errors)
@@ -390,7 +363,7 @@
                     })
                 }
             },
-            
+
             onFiltered(filteredItems) {
                 // Trigger pagination to update the number of buttons/pages due to filtering
                 this.totalRows = filteredItems.length
@@ -402,24 +375,30 @@
                 if (this.selected.length) {
                     console.log(this.selected)
                     console.log(this.selected[0].id)
+                    console.log(this.selected[0].year)
                 }
 
             },
+
             clearSelected() {
                 this.$refs.selectableTable.clearSelected()
             },
+
             checkFormValidity() {
                 const valid = this.$refs.form.checkValidity()
                 this.modal_state.nameState = valid
-                this.modal_state.surnameState = valid
-                this.modal_state.telephoneState = valid
+                this.modal_state.brandState = valid
+                this.modal_state.modelState = valid
+                this.modal_state.yearState = valid
                 this.modal_state.remarksState = valid
                 return valid
             },
+
             resetModal() {
                 this.name = ''
                 this.nameState = null
             },
+
             handleOk(bvModalEvent) {
                 // Prevent modal from closing
                 bvModalEvent.preventDefault()
@@ -427,10 +406,11 @@
                 this.handleSubmit()
                 console.log('>><<>><<> from ok \n', this.page_table)
             },
+
             handleSubmit() {
                 // Exit when the form isn't valid
                 if (!this.checkFormValidity()) {
-                    this.init()
+                    this.getCRUD()
                     return
                 }
                 else {
@@ -447,7 +427,7 @@
                 this.$nextTick(() => {
                     this.$bvModal.hide('modal-prevent-closing')
                 })
-                this.init()
+                this.getCRUD()
             }
         },
 
@@ -460,11 +440,9 @@
                     'error'
                 )
             }
-            this.parent_id = this.$route.params.id
-            console.log('param', this.parent_id)
             this.path_url = this.$route.path
             console.log('mounted', this.path_url)
-            this.init();
-        },
+            this.getCRUD()
+        }
     }
 </script>

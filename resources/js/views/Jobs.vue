@@ -6,7 +6,7 @@
         <div class="row justify-content-center">
             <!-- title and login,logout-->
             <div class="col-md-10">
-                <h5 class="text-center">Πελάτες</h5>
+                <h5 class="text-center">Εργασίες</h5>
             </div>
 
             <!-- filter -->
@@ -43,10 +43,6 @@
                 <button type="button" @click="deleteCRUD()" class="btn btn-danger">Delete Selected</button>
                 <b-button variant="success" v-b-modal.modal-prevent-closing @click="NewEntry()">Add New</b-button>
                 <b-button @click="Selected_modal()">Edit Selected</b-button>
-            </div>
-            <div class="col-md-10">
-                <br>
-                <b-button @click="SelectedChildren()">See Customer Addresses</b-button>
             </div>
         </div>
         <br>
@@ -100,77 +96,81 @@
             >
             <form ref="form" @submit.stop.prevent="handleSubmit">
                 <b-form-group
-                label="Ονομα"
-                label-for="name-input"
-                invalid-feedback="Name is required"
-                :state="modal_state.nameState"
-                >
-                <b-form-input
-                    id="name-input"
-                    v-model="temp_page_table.name"
-                    :state="modal_state.nameState"
-                    required
-                ></b-form-input>
-                </b-form-group>
-            </form>
-            <form ref="form" @submit.stop.prevent="handleSubmit">
-                <b-form-group
-                label="surname"
-                label-for="surname-input"
-                invalid-feedback="surname is required"
-                :state="modal_state.surnameState"
-                >
-                <b-form-input
-                    id="surname-input"
-                    v-model="temp_page_table.surname"
-                    :state="modal_state.surnameState"
-                    required
-                ></b-form-input>
-                </b-form-group>
-            </form>
-            <form ref="form" @submit.stop.prevent="handleSubmit">
-                <b-form-group
-                label="Εταιρεια"
-                label-for="company_id-input"
+                label="Διεύθυνση"
+                label-for="address_id-input"
                 >
                 <b-form-select 
-                    v-model="temp_page_table.company_id" 
-                    :options="companies"
+                    v-model="temp_page_table.address_id" 
+                    :options="addresses"
                     value-field="id"
-                    text-field="name">
+                    text-field="fullname">
                 </b-form-select>
                 </b-form-group>
             </form>
             <form ref="form" @submit.stop.prevent="handleSubmit">
                 <b-form-group
-                label="telephone"
-                label-for="telephone-input"
-                invalid-feedback="telephone is required"
-                :state="modal_state.telephoneState"
+                label="Συσκευή"
+                label-for="appliance_id-input"
+                >
+                <b-form-select 
+                    v-model="temp_page_table.appliance_id" 
+                    :options="appliances"
+                    value-field="id"
+                    text-field="fullname">
+                </b-form-select>
+                </b-form-group>
+            </form>
+            <form ref="form" @submit.stop.prevent="handleSubmit">
+                <b-form-group
+                label="Κατάσταση Πελάτη"
+                label-for="client_status-input"
+                >
+                <b-form-select 
+                    v-model="temp_page_table.client_status" 
+                    :options="client_statuses">
+                </b-form-select>
+                </b-form-group>
+            </form>
+            <form ref="form" @submit.stop.prevent="handleSubmit">
+                <b-form-group
+                label="Ημ/νία"
+                label-for="date-input"
+                invalid-feedback="date is required"
+                :state="modal_state.dateState"
+                >
+                <b-form-datepicker 
+                    id="example-datepicker" 
+                    v-model="temp_page_table.date" 
+                    class="mb-2">
+                </b-form-datepicker>
+                </b-form-group>
+            </form>
+            <form ref="form" @submit.stop.prevent="handleSubmit">
+                <b-form-group
+                label="Τιμή"
+                label-for="agreed_price-input"
+                invalid-feedback="agreed_price is required"
+                :state="modal_state.agreed_priceState"
                 >
                 <b-form-input
-                    id="telephone-input"
-                    v-model="temp_page_table.telephone"
-                    :state="modal_state.telephoneState"
+                    id="agreed_price-input"
+                    v-model="temp_page_table.agreed_price"
+                    :state="modal_state.agreed_priceState"
                     required
                 ></b-form-input>
                 </b-form-group>
             </form>
             <form ref="form" @submit.stop.prevent="handleSubmit">
                 <b-form-group
-                label="remarks"
-                label-for="remarks-input"
-                invalid-feedback="remarks is required"
-                :state="modal_state.remarksState"
+                label="Κατάσταση Εργασίας"
+                label-for="is_completed-input"
                 >
-                <b-form-input
-                    id="remarks-input"
-                    v-model="temp_page_table.remarks"
-                    :state="modal_state.remarksState"
-                    required
-                ></b-form-input>
+                <b-form-select 
+                    v-model="temp_page_table.is_completed" 
+                    :options="job_statuses">
+                </b-form-select>
                 </b-form-group>
-            </form>
+            </form>            
         </b-modal>
     </div>
 </template>
@@ -190,31 +190,34 @@
         data() {
             return {
                 //parent table
-                companies: [],
+                addresses: [],
+                appliances: [],
                 page_table: {},
                 temp_page_table: {
-                    company_id: null,
-                    name: "",
-                    surname: "",
-                    telephone: "",
-                    remarks: "",
+                    address_id: null,
+                    appliance_id: null,
+                    client_status: "",
+                    date: "",
+                    agreed_price: 0,
+                    is_completed: 0,
                 },
                 modal_state: {
-                    nameState: null,
-                    surnameState: null,
-                    telephoneState: null,
-                    remarksState: null,            
+                    client_statusState: null,
+                    dateState: null,
+                    agreed_priceState: null,
+                    is_completedState: null,
                 },
                 currentUser: {},
                 token: localStorage.getItem('token'),
                 errors: [],
                 fields: [
                     {key: 'id', label: 'ID', sortable: true, sortDirection: 'desc', },
-                    {key: 'name', label: 'Ονομα', sortable: true, sortDirection: 'desc', },
-                    {key: 'surname', label: 'Επώνυμο', sortable: true, sortDirection: 'desc', },
-                    {key: 'telephone', label: 'Τηλέφωνο', sortable: true, sortDirection: 'desc', },
-                    {key: 'remarks', label: 'Σχόλια', sortable: true, sortDirection: 'desc', },
-                    {key: 'company_name', label: 'Εταιρεια', sortable: true, sortDirection: 'desc', },
+                    {key: 'client_status', label: 'Κατάσταση Πελάτη', sortable: true, sortDirection: 'desc', },
+                    {key: 'date', label: 'Ημερομηνία', sortable: true, sortDirection: 'desc', },
+                    {key: 'agreed_price', label: 'Τιμή', sortable: true, sortDirection: 'desc', },
+                    {key: 'address_name', label: 'Διεύθυνση', sortable: true, sortDirection: 'desc', },
+                    {key: 'is_completed', label: 'Κατάσταση Εργασίας', sortable: true, sortDirection: 'desc', },
+                    {key: 'appliance_name', label: 'Συσκευή', sortable: true, sortDirection: 'desc', },
                 ],
                 items: [],
                 selected: [],
@@ -227,8 +230,15 @@
                 filterOn: [],
                 //GET options
                 cu: "",
-                path_url: "",
                 parent_id: 0,
+                client_statuses : [
+                    { value: 'pending', text: 'Αναμονή Πελάτη' },
+                    { value: 'OK', text: 'Συμφωνία Πελάτη' },
+                ],
+                job_statuses : [
+                    { value: 0, text: 'Ολοκληρωμένη' },
+                    { value: 1, text: 'Εκρεμμεί' },
+                ]               
             }
         },
         computed: {
@@ -245,24 +255,48 @@
         methods: {
             init(){
                 this.getCRUD()
-                this.getCompanies()
+                this.getAddresses()
+                this.getAppliances()
             },
 
-            getCompanies(){
+            getAddresses(){
                 const axios = require('axios');
-                axios.get('api/v1/companies').then((response) => {
-                    this.companies = response.data.data
-                    this.companies.unshift({
-                        id: null,
-                        name: "",
-                    })
+                axios.get('api/v1/addresses').then((response) => {
+                    this.addresses = response.data.data
 
+                    //custome fullname creation
+                    this.addresses.forEach(address => {
+                        address.fullname = address.name + ' ' + address.city
+                    })
+                    
                     //for each child add the name of the parent
                     this.items.forEach(child => {
-                        var parent = this.companies.find(obj => {
-                            return obj.id === child.company_id
+                        var parent = this.addresses.find(obj => {
+                            return obj.id === child.address_id
                         })
-                        child.company_name = parent.name;
+                        child.address_name = parent.name + ' ' + parent.city;
+                    })
+                }).catch((errors) => {
+                    console.log(errors)
+                });
+            },
+
+            getAppliances(){
+                const axios = require('axios');
+                axios.get('api/v1/appliances').then((response) => {
+                    this.appliances = response.data.data
+
+                    //custome fullname creation
+                    this.appliances.forEach(appliance => {
+                        appliance.fullname = appliance.name + ' ' + appliance.model + ' ' + appliance.brand 
+                    })
+                    
+                    //for each child add the name of the parent
+                    this.items.forEach(child => {
+                        var parent = this.appliances.find(obj => {
+                            return obj.id === child.appliance_id
+                        })
+                        child.appliance_name = parent.name + ' ' + parent.brand + ' ' + parent.model;
                     })
                 }).catch((errors) => {
                     console.log(errors)
@@ -274,7 +308,7 @@
 
                 if (this.parent_id) {
                     this.items = []
-                    axios.get('api/v1/companies/customers/' + this.parent_id).then((response) => {
+                    axios.get('api/v1/addresses/jobs/' + this.parent_id).then((response) => {
                         this.items = response.data.data
                     }).catch((errors) => {
                         console.log(errors)
@@ -302,19 +336,6 @@
                     this.cu = 'update'
                     this.$bvModal.show('modal-prevent-closing')
                     this.temp_page_table = this.selected[0];
-                }
-            },
-
-            SelectedChildren(){
-                if(!this.selected[0]) {
-                    Swal.fire(
-                            'First Select entry',
-                            'No entry Has been selected',
-                            'error'
-                    )
-                }
-                else {
-                    this.$router.push('/addresses/' + this.selected[0].id)
                 }
             },
 
@@ -410,10 +431,10 @@
             },
             checkFormValidity() {
                 const valid = this.$refs.form.checkValidity()
-                this.modal_state.nameState = valid
-                this.modal_state.surnameState = valid
-                this.modal_state.telephoneState = valid
-                this.modal_state.remarksState = valid
+                this.modal_state.client_statusState = valid
+                this.modal_state.dateState = valid
+                this.modal_state.agreed_priceState = valid
+                this.modal_state.is_completedState = valid
                 return valid
             },
             resetModal() {
@@ -463,7 +484,6 @@
             this.parent_id = this.$route.params.id
             console.log('param', this.parent_id)
             this.path_url = this.$route.path
-            console.log('mounted', this.path_url)
             this.init();
         },
     }

@@ -62,8 +62,8 @@
                     label-sort-asc=""
                     label-sort-desc=""
                     label-sort-clear=""
-                    responsive = 'sm'
-                    stacked
+                    responsive
+                    stacked = "md"
                     ref="selectableTable"
                     selectable
                     @row-selected="onRowSelected"
@@ -111,7 +111,7 @@
             </form>
             <form ref="form" @submit.stop.prevent="handleSubmit">
                 <b-form-group
-                label="address"
+                label="Διεύθυνση"
                 label-for="address-input"
                 invalid-feedback="address is required"
                 :state="modal_state.addressState"
@@ -126,7 +126,7 @@
             </form>
             <form ref="form" @submit.stop.prevent="handleSubmit">
                 <b-form-group
-                label="city"
+                label="Πόλη"
                 label-for="city-input"
                 invalid-feedback="city is required"
                 :state="modal_state.cityState"
@@ -141,7 +141,7 @@
             </form>
             <form ref="form" @submit.stop.prevent="handleSubmit">
                 <b-form-group
-                label="profession"
+                label="Εξειδίκευση"
                 label-for="profession-input"
                 invalid-feedback="profession is required"
                 :state="modal_state.professionState"
@@ -156,7 +156,7 @@
             </form>
             <form ref="form" @submit.stop.prevent="handleSubmit">
                 <b-form-group
-                label="vat"
+                label="ΑΦΜ"
                 label-for="vat-input"
                 invalid-feedback="vat is required"
                 :state="modal_state.vatState"
@@ -171,7 +171,7 @@
             </form>
             <form ref="form" @submit.stop.prevent="handleSubmit">
                 <b-form-group
-                label="irs"
+                label="ΔΟΥ"
                 label-for="irs-input"
                 invalid-feedback="irs is required"
                 :state="modal_state.irsState"

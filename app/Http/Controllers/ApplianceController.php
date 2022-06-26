@@ -17,7 +17,7 @@ class ApplianceController extends Controller
      */
     public function index()
     {
-        $appliances = Appliance::paginate(1000);
+        $appliances = Appliance::paginate(1000)->sortBy('brand');;
         return ApplianceResource::collection($appliances);
     }
 

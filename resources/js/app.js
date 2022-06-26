@@ -20,6 +20,7 @@ import Companies from './views/Companies.vue'
 import Customers from './views/Customers.vue'
 import Addresses from './views/Addresses.vue'
 import Appliances from './views/Appliances.vue'
+import Jobs from './views/Jobs.vue'
 
 
 
@@ -66,6 +67,10 @@ let router = new VueRouter({
         {
             path: '/addresses/:id',
             component: Addresses,
+        },
+        {
+            path: '/jobs',
+            component: Jobs,
         },
     ]
 });
