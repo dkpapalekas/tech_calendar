@@ -290,7 +290,7 @@
                     )
                 }
                 else {
-                    this.$router.push('/customers/5')
+                    this.$router.push('/customers/' + this.selected[0].id)
                 }
             },
 

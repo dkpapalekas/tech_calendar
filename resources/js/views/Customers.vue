@@ -219,6 +219,7 @@
                 filter: null,
                 filterOn: [],
                 cu: "",
+                parent_id: 0,
             }
         },
         computed: {
@@ -233,6 +234,11 @@
         },
 
         methods: {
+            init(){
+                this.getCustomers()
+                this.getCompanies()
+            },
+
             getCompanies(){
                 const axios = require('axios');
                 axios.get('api/v1/companies').then((response) => {
@@ -256,12 +262,23 @@
 
             getCustomers(){
                 const axios = require('axios');
-                axios.get('api/v1/customers').then((response) => {
-                    this.items = response.data.data
-                }).catch((errors) => {
-                    console.log(errors)
-                });
-                this.getCompanies()
+
+                if (this.parent_id) {
+                    this.items = []
+                    axios.get('api/v1/companies/customers/' + this.parent_id).then((response) => {
+                        this.items = response.data.data
+                    }).catch((errors) => {
+                        console.log(errors)
+                    });
+                }
+                else {
+                    this.items = []
+                    axios.get('api/v1/customers').then((response) => {
+                        this.items = response.data.data
+                    }).catch((errors) => {
+                        console.log(errors)
+                    });
+                }
             },
 
             SelectedCustomer(){
@@ -288,7 +305,7 @@
 
             createCustomer(){
                 axios.post('api/v1/customer/', this.customer).then((response) => {
-                        this.getCustomers()
+                        this.init()
                     }).catch((errors) => {
                         console.log(errors)
                         this.errors.push(errors)
@@ -301,7 +318,7 @@
             },
             updateCustomer(){
                 axios.put('api/v1/customers/' + this.selected[0].id, this.customer).then((response) => {
-                        this.getCustomers()
+                        this.init()
                     }).catch((errors) => {
                         console.log(errors)
                         this.errors.push(errors)
@@ -332,7 +349,7 @@
                     }).then((result) => {
                         if (result.isConfirmed) {
                             axios.delete('api/v1/customers/' + this.selected[0].id).then((response) => {
-                                this.getCustomers()
+                                this.init()
                             }).catch((errors) => {
                                 console.log(errors)
                                 this.errors.push(errors)
@@ -391,7 +408,7 @@
             handleSubmit() {
                 // Exit when the form isn't valid
                 if (!this.checkFormValidity()) {
-                    this.getCustomers()
+                    this.init()
                     return
                 }
                 else {
@@ -408,7 +425,7 @@
                 this.$nextTick(() => {
                     this.$bvModal.hide('modal-prevent-closing')
                 })
-                this.getCustomers()
+                this.init()
             }
         },
 
@@ -421,7 +438,9 @@
                     'error'
                 )
             }
-            this.getCustomers()
+            this.parent_id = this.$route.params.id
+            console.log('param', this.parent_id)
+            this.init();
         },
     }
 </script>

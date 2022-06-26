@@ -21,7 +21,7 @@ import Customers from './views/Customers.vue'
 
 
 let router = new VueRouter({
-    mode: 'history',
+    // mode: 'history',
     base:'/',
     routes: [
         {
@@ -46,6 +46,10 @@ let router = new VueRouter({
         },
         {
             path: '/customers',
+            component: Customers,
+        },
+        {
+            path: '/customers/:id',
             component: Customers,
         },
     ]
