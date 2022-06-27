@@ -6,7 +6,7 @@
         <div class="row justify-content-center">
             <!-- title and login,logout-->
             <div class="col-md-10">
-                <h5 class="text-center">Διευθύνσεις</h5>
+                <h5 class="text-center">Ανάγκες Εργασιών</h5>
             </div>
 
             <!-- filter -->
@@ -39,14 +39,10 @@
             <!-- crud opts -->
             <div class="col-md-10">
                 <h5 class="text-center">  </h5>
-                <button type="button" @click="clearSelected" class="btn btn-primary">Clear selections</button>
-                <button type="button" @click="deleteCRUD()" class="btn btn-danger">Delete Selected</button>
-                <b-button variant="success" v-b-modal.modal-prevent-closing @click="NewEntry()">Add New</b-button>
-                <b-button @click="Selected_modal()">Edit Selected</b-button>
-            </div>
-            <div class="col-md-10">
-                <br>
-                <b-button @click="SelectedChildren()">See Jobs in Addresses</b-button>
+                <button type="button" @click="clearSelected" class="btn btn-primary">C</button>
+                <button type="button" @click="deleteCRUD()" class="btn btn-danger">D</button>
+                <b-button variant="success" v-b-modal.modal-prevent-closing @click="NewEntry()">A</b-button>
+                <b-button @click="Selected_modal()">E</b-button>
             </div>
         </div>
         <br>
@@ -100,42 +96,12 @@
             >
             <form ref="form" @submit.stop.prevent="handleSubmit">
                 <b-form-group
-                label="Οδός"
-                label-for="name-input"
-                invalid-feedback="Name is required"
-                :state="modal_state.nameState"
-                >
-                <b-form-input
-                    id="name-input"
-                    v-model="temp_page_table.name"
-                    :state="modal_state.nameState"
-                    required
-                ></b-form-input>
-                </b-form-group>
-            </form>
-            <form ref="form" @submit.stop.prevent="handleSubmit">
-                <b-form-group
-                label="Αριθμός"
-                label-for="number-input"
-                invalid-feedback="number is required"
-                :state="modal_state.numberState"
-                >
-                <b-form-input
-                    id="number-input"
-                    v-model="temp_page_table.number"
-                    :state="modal_state.numberState"
-                    required
-                ></b-form-input>
-                </b-form-group>
-            </form>
-            <form ref="form" @submit.stop.prevent="handleSubmit">
-                <b-form-group
-                label="Πελάτης"
-                label-for="customer_id-input"
+                label="Εργασία"
+                label-for="job_id-input"
                 >
                 <b-form-select 
-                    v-model="temp_page_table.customer_id" 
-                    :options="customers"
+                    v-model="temp_page_table.job_id" 
+                    :options="jobs"
                     value-field="id"
                     text-field="fullname">
                 </b-form-select>
@@ -143,37 +109,61 @@
             </form>
             <form ref="form" @submit.stop.prevent="handleSubmit">
                 <b-form-group
-                label="Πόλη"
-                label-for="city-input"
-                invalid-feedback="city is required"
-                :state="modal_state.cityState"
+                label="Υλικό"
+                label-for="material_id-input"
+                >
+                <b-form-select 
+                    v-model="temp_page_table.material_id" 
+                    :options="materials"
+                    value-field="id"
+                    text-field="name">
+                </b-form-select>
+                </b-form-group>
+            </form>
+            <form ref="form" @submit.stop.prevent="handleSubmit">
+                <b-form-group
+                label="Ποσότητα"
+                label-for="quantity-input"
+                invalid-feedback="quantity is required"
+                :state="modal_state.quantityState"
                 >
                 <b-form-input
-                    id="city-input"
-                    v-model="temp_page_table.city"
-                    :state="modal_state.cityState"
+                    id="quantity-input"
+                    v-model="temp_page_table.quantity"
+                    :state="modal_state.quantityState"
                     required
                 ></b-form-input>
                 </b-form-group>
             </form>
             <form ref="form" @submit.stop.prevent="handleSubmit">
                 <b-form-group
-                label="Οροφος"
-                label-for="floor-input"
-                invalid-feedback="floor is required"
-                :state="modal_state.floorState"
+                label="Τιμή"
+                label-for="price-input"
+                invalid-feedback="price is required"
+                :state="modal_state.priceState"
                 >
                 <b-form-input
-                    id="floor-input"
-                    v-model="temp_page_table.floor"
-                    :state="modal_state.floorState"
+                    id="price-input"
+                    v-model="temp_page_table.price"
+                    :state="modal_state.priceState"
                     required
                 ></b-form-input>
                 </b-form-group>
             </form>
             <form ref="form" @submit.stop.prevent="handleSubmit">
                 <b-form-group
-                label="remarks"
+                label="Κατάσταση Εργασίας"
+                label-for="status-input"
+                >
+                <b-form-select 
+                    v-model="temp_page_table.status" 
+                    :options="material_statuses">
+                </b-form-select>
+                </b-form-group>
+            </form> 
+            <form ref="form" @submit.stop.prevent="handleSubmit">
+                <b-form-group
+                label="Σχόλια"
                 label-for="remarks-input"
                 invalid-feedback="remarks is required"
                 :state="modal_state.remarksState"
@@ -181,11 +171,11 @@
                 <b-form-input
                     id="remarks-input"
                     v-model="temp_page_table.remarks"
-                    :state="modal_state.remarksState"
+                    :state="modal_state.irsState"
                     required
                 ></b-form-input>
                 </b-form-group>
-            </form>
+            </form>           
         </b-modal>
     </div>
 </template>
@@ -205,47 +195,51 @@
         data() {
             return {
                 //parent table
-                customers: [],
+                jobs: [],
+                materials: [],
                 page_table: {},
                 temp_page_table: {
-                    customer_id: null,
-                    name: "",
-                    number: "",
-                    city: "",
-                    floor: "",
+                    job_id: null,
+                    material_id: null,
+                    price: 0,
+                    quantity: 0,
+                    status: "",
                     remarks: "",
                 },
                 modal_state: {
-                    nameState: null,
-                    numberState: null,
-                    cityState: null,
-                    floorState: null,
-                    remarksState: null,            
+                    priceState: null,
+                    quantityState: null,
+                    statusState: null,
+                    remarksState: null, 
                 },
                 currentUser: {},
                 token: localStorage.getItem('token'),
                 errors: [],
                 fields: [
                     {key: 'id', label: 'ID', sortable: true, sortDirection: 'desc', },
-                    {key: 'name', label: 'Οδός', sortable: true, sortDirection: 'desc', },
-                    {key: 'number', label: 'Αριθμός', sortable: true, sortDirection: 'desc', },
-                    {key: 'city', label: 'Πόλη', sortable: true, sortDirection: 'desc', },
-                    {key: 'floor', label: 'Οροφος', sortable: true, sortDirection: 'desc', },
-                    {key: 'remarks', label: 'Σχόλια', sortable: true, sortDirection: 'desc', },
-                    {key: 'customer_name', label: 'Πελάτης', sortable: true, sortDirection: 'desc', },
+                    {key: 'quantity', label: 'Ποσότητα', sortable: true, sortDirection: 'desc', },
+                    {key: 'price', label: 'Τιμή', sortable: true, sortDirection: 'desc', },
+                    {key: 'job_name', label: 'Ημ/νια Εργασίας', sortable: true, sortDirection: 'desc', },
+                    {key: 'material_name', label: 'Υλικό', sortable: true, sortDirection: 'desc', },
+                    {key: 'material_status_format', label: 'Κατάσταση Υλικών', sortable: true, sortDirection: 'desc', },
+                    {key: 'remarks', label: 'Σχόλια', sortable: true, sortDirection: 'desc',},
                 ],
                 items: [],
                 selected: [],
                 //table options
                 selectMode: 'single',
-                sortBy: '',
-                sortDesc: false,
-                sortDirection: 'asc',
+                sortBy: 'date',
+                sortDesc: true,
+                sortDirection: 'desc',
                 filter: null,
                 filterOn: [],
                 //GET options
                 cu: "",
                 parent_id: 0,
+                material_statuses : [
+                    { value: 'OK', text: 'Διατίθεται' },
+                    { value: 'pending', text: 'Εκρεμμεί' },
+                ],             
             }
         },
         computed: {
@@ -262,26 +256,57 @@
         methods: {
             init(){
                 this.getCRUD()
-                this.getCustomers()
+                this.getJobs()
+                this.getMaterials()
             },
 
-            getCustomers(){
-                const axios = require('axios');
-                axios.get('api/v1/customers').then((response) => {
-                    this.customers = response.data.data
+            formatItems() {
+                this.items.forEach(obj => {
+                    obj.material_status_format = obj.status === 'OK' ? "Διατίθεται" : "Εκρεμμεί"
+                })
+            },
 
-                    //custome fullname creation
-                    this.customers.forEach(customer => {
-                        customer.fullname = customer.name + ' ' + customer.surname
-                    })
+            getJobs(){
+                const axios = require('axios');
+                axios.get('api/v1/jobs').then((response) => {
+                    this.jobs = response.data.data
+
+                    // //custome fullname creation
+                    // this.jobs.forEach(job => {
+                    //     job.fullname = job.name + ' ' + job.city
+                    // })
                     
                     //for each child add the name of the parent
                     this.items.forEach(child => {
-                        var parent = this.customers.find(obj => {
-                            return obj.id === child.customer_id
+                        var parent = this.jobs.find(obj => {
+                            return obj.id === child.job_id
                         })
-                        child.customer_name = parent.name + ' ' + parent.surname;
+                        child.job_name = parent.date;
                     })
+                }).catch((errors) => {
+                    console.log(errors)
+                });
+            },
+
+            getMaterials(){
+                const axios = require('axios');
+                axios.get('api/v1/materials').then((response) => {
+                    this.materials = response.data.data
+
+                    // //custome fullname creation
+                    // this.materials.forEach(material => {
+                    //     material.fullname = material.name + ' ' + material.model + ' ' + material.brand 
+                    // })
+                    
+                    //for each child add the name of the parent
+                    this.items.forEach(child => {
+                        var parent = this.materials.find(obj => {
+                            return obj.id === child.material_id
+                        })
+                        child.material_name = parent.name;
+                    })
+
+                    this.formatItems()
                 }).catch((errors) => {
                     console.log(errors)
                 });
@@ -292,7 +317,7 @@
 
                 if (this.parent_id) {
                     this.items = []
-                    axios.get('api/v1/customers/addresses/' + this.parent_id).then((response) => {
+                    axios.get('api/v1/jobs/job_lines/' + this.parent_id).then((response) => {
                         this.items = response.data.data
                     }).catch((errors) => {
                         console.log(errors)
@@ -415,10 +440,9 @@
             },
             checkFormValidity() {
                 const valid = this.$refs.form.checkValidity()
-                this.modal_state.nameState = valid
-                this.modal_state.numberState = valid
-                this.modal_state.cityState = valid
-                this.modal_state.floorState = valid
+                this.modal_state.priceState = valid
+                this.modal_state.quantityState = valid
+                this.modal_state.statusState = valid
                 this.modal_state.remarksState = valid
                 return valid
             },

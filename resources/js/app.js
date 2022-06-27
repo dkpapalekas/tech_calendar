@@ -22,6 +22,7 @@ import Addresses from './views/Addresses.vue'
 import Appliances from './views/Appliances.vue'
 import Jobs from './views/Jobs.vue'
 import Materials from './views/Materials.vue'
+import Job_Lines from './views/Job_Lines.vue'
 
 
 
@@ -72,6 +73,18 @@ let router = new VueRouter({
         {
             path: '/jobs',
             component: Jobs,
+        },
+        {
+            path: '/jobs/:id',
+            component: Jobs,
+        },
+        {
+            path: '/job_lines',
+            component: Job_Lines,
+        },
+        {
+            path: '/job_lines/:id',
+            component: Job_Lines,
         },
         {
             path: '/materials',
