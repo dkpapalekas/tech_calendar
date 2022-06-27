@@ -13,6 +13,7 @@
             <b-nav-item><div class="menu-item"><router-link to="/addresses">Addresses</router-link></div></b-nav-item>
             <b-nav-item><div class="menu-item"><router-link to="/appliances">Appliances</router-link></div></b-nav-item>
             <b-nav-item><div class="menu-item"><router-link to="/jobs">Jobs</router-link></div></b-nav-item>
+            <b-nav-item><div class="menu-item"><router-link to="/materials">Materials</router-link></div></b-nav-item>
           </b-navbar-nav>
 
           <!-- Right aligned nav items -->
