@@ -21,6 +21,7 @@ import Customers from './views/Customers.vue'
 import Addresses from './views/Addresses.vue'
 import Appliances from './views/Appliances.vue'
 import Jobs from './views/Jobs.vue'
+import Materials from './views/Materials.vue'
 
 
 
@@ -71,6 +72,10 @@ let router = new VueRouter({
         {
             path: '/jobs',
             component: Jobs,
+        },
+        {
+            path: '/materials',
+            component: Materials,
         },
     ]
 });
