@@ -140,9 +140,14 @@
                 >
                 <b-form-datepicker 
                     id="example-datepicker" 
-                    v-model="temp_page_table.date" 
+                    locale="el"
+                    v-model="temp_date" 
                     class="mb-2">
                 </b-form-datepicker>
+                <b-form-timepicker 
+                    v-model="temp_time" 
+                    locale="en">
+                </b-form-timepicker>
                 </b-form-group>
             </form>
             <form ref="form" @submit.stop.prevent="handleSubmit">
@@ -212,20 +217,20 @@
                 errors: [],
                 fields: [
                     {key: 'id', label: 'ID', sortable: true, sortDirection: 'desc', },
-                    {key: 'client_status', label: 'Κατάσταση Πελάτη', sortable: true, sortDirection: 'desc', },
+                    {key: 'client_status_format', label: 'Κατάσταση Πελάτη', sortable: true, sortDirection: 'desc', },
                     {key: 'date', label: 'Ημερομηνία', sortable: true, sortDirection: 'desc', },
                     {key: 'agreed_price', label: 'Τιμή', sortable: true, sortDirection: 'desc', },
                     {key: 'address_name', label: 'Διεύθυνση', sortable: true, sortDirection: 'desc', },
-                    {key: 'is_completed', label: 'Κατάσταση Εργασίας', sortable: true, sortDirection: 'desc', },
+                    {key: 'is_completed_format', label: 'Κατάσταση Εργασίας', sortable: true, sortDirection: 'desc', },
                     {key: 'appliance_name', label: 'Συσκευή', sortable: true, sortDirection: 'desc', },
                 ],
                 items: [],
                 selected: [],
                 //table options
                 selectMode: 'single',
-                sortBy: '',
-                sortDesc: false,
-                sortDirection: 'asc',
+                sortBy: 'date',
+                sortDesc: true,
+                sortDirection: 'desc',
                 filter: null,
                 filterOn: [],
                 //GET options
@@ -238,7 +243,9 @@
                 job_statuses : [
                     { value: 0, text: 'Ολοκληρωμένη' },
                     { value: 1, text: 'Εκρεμμεί' },
-                ]               
+                ],
+                temp_date: "",              
+                temp_time: "",              
             }
         },
         computed: {
@@ -257,6 +264,13 @@
                 this.getCRUD()
                 this.getAddresses()
                 this.getAppliances()
+            },
+
+            formatItems() {
+                this.items.forEach(obj => {
+                    obj.is_completed_format = obj.is_completed === 1 ? "Ολοκληρωμένη" : "Εκρεμμεί"
+                    obj.client_status_format = obj.client_status=== "OK" ? "'Συμφωνία Πελάτη'" : "Αναμονή Πελάτη'"
+                })
             },
 
             getAddresses(){
@@ -298,6 +312,8 @@
                         })
                         child.appliance_name = parent.name + ' ' + parent.brand + ' ' + parent.model;
                     })
+
+                    this.formatItems()
                 }).catch((errors) => {
                     console.log(errors)
                 });
@@ -456,6 +472,7 @@
                 }
                 else {
                     this.page_table = this.temp_page_table;
+                    this.page_table.date = this.temp_date + ' ' + this.temp_time
                     console.log('>><<>><<> from submit \n', this.page_table)
                     if(this.cu == 'create'){
                         this.createCRUD();
