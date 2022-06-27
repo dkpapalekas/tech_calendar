@@ -39,10 +39,10 @@
             <!-- crud opts -->
             <div class="col-md-10">
                 <h5 class="text-center">  </h5>
-                <button type="button" @click="clearSelected" class="btn btn-primary">Clear selections</button>
-                <button type="button" @click="deleteCRUD()" class="btn btn-danger">Delete Selected</button>
-                <b-button variant="success" v-b-modal.modal-prevent-closing @click="NewEntry()">Add New</b-button>
-                <b-button @click="Selected_modal()">Edit Selected</b-button>
+                <button type="button" @click="clearSelected" class="btn btn-primary">C</button>
+                <button type="button" @click="deleteCRUD()" class="btn btn-danger">D</button>
+                <b-button variant="success" v-b-modal.modal-prevent-closing @click="NewEntry()">A</b-button>
+                <b-button @click="Selected_modal()">E</b-button>
             </div>
         </div>
         <br>
@@ -269,7 +269,7 @@
             formatItems() {
                 this.items.forEach(obj => {
                     obj.is_completed_format = obj.is_completed === 1 ? "Ολοκληρωμένη" : "Εκρεμμεί"
-                    obj.client_status_format = obj.client_status=== "OK" ? "'Συμφωνία Πελάτη'" : "Αναμονή Πελάτη'"
+                    obj.client_status_format = obj.client_status=== "OK" ? "Συμφωνία Πελάτη" : "Αναμονή Πελάτη"
                 })
             },
 

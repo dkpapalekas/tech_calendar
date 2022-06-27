@@ -211,7 +211,7 @@
                     {key: 'id', label: 'ID', sortable: true, sortDirection: 'desc', },
                     {key: 'name', label: 'Ονομασία', sortable: true, sortDirection: 'desc', },
                     {key: 'brand', label: 'Μάρκα', sortable: true, sortDirection: 'desc', },
-                    {key: 'model', label: 'Μοαντέλο', sortable: true, sortDirection: 'desc', },
+                    {key: 'model', label: 'Μοντέλο', sortable: true, sortDirection: 'desc', },
                     {key: 'year', label: 'Χρονολογία', sortable: true, sortDirection: 'desc', },
                     {key: 'remarks', label: 'Σχόλια', sortable: true, sortDirection: 'desc',},
                 ],

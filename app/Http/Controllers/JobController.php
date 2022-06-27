@@ -29,7 +29,7 @@ class JobController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+public function store(Request $request)
     {
         $validated = $request->validate([
             'address_id' => 'required',
