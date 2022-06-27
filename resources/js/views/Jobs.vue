@@ -197,6 +197,7 @@
                 //parent table
                 addresses: [],
                 appliances: [],
+                job_lines: [],
                 page_table: {},
                 temp_page_table: {
                     address_id: null,
@@ -223,6 +224,7 @@
                     {key: 'address_name', label: 'Διεύθυνση', sortable: true, sortDirection: 'desc', },
                     {key: 'is_completed_format', label: 'Κατάσταση Εργασίας', sortable: true, sortDirection: 'desc', },
                     {key: 'appliance_name', label: 'Συσκευή', sortable: true, sortDirection: 'desc', },
+                    {key: 'materials_status', label: 'Κατάσταση Υλικών', sortable: true, sortDirection: 'desc', },
                 ],
                 items: [],
                 selected: [],
@@ -263,6 +265,7 @@
             init(){
                 this.getCRUD()
                 this.getAddresses()
+                this.getJobLines()
                 this.getAppliances()
             },
 
@@ -314,11 +317,30 @@
                     })
 
                     this.formatItems()
-                }).catch((errors) => {
-                    console.log(errors)
-                });
+                        }).catch((errors) => {
+                            console.log(errors)
+                        });
             },
 
+            getJobLines(){
+                const axios = require('axios');
+                axios.get('api/v1/job_lines').then((response) => {
+                    this.job_lines = response.data.data
+                    
+                    //for each child add the name of the parent
+                    this.items.forEach(job => {
+                        var pending_jobs = this.job_lines.filter(job_line => {
+                            return job_line.job_id === job.id && job_line.status === "pending"
+                        })
+                        console.log(pending_jobs, pending_jobs.length === 0)
+                        job.materials_status = pending_jobs.length === 0 ? 'OK' : 'Εκκρεμεί'
+                    })
+
+                    this.formatItems()
+                        }).catch((errors) => {
+                            console.log(errors)
+                        });
+            },
             getCRUD(){
                 const axios = require('axios');
 
