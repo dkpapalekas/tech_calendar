@@ -3,14 +3,15 @@
         <div>
             <Navbar></Navbar>
         </div>
-        <!-- title -->
-        <div class="col-md-10">
-            <h5 class="text-center">Εταιρείες</h5>
-        </div>
-        <div class="row justify-content-center">
+        <div class="row justify-content-center" id='cont'>
+            <!-- title and login,logout-->
+            <div class="col-md-10 title">
+                <h5 class="text-center">Εταιρείες</h5>
+            </div>
+
             <!-- filter -->
-            <div class="col-md-10">
-                <b-col lg="6" class="my-1">
+            <div class="col-md-10 sf">
+                
                     <b-form-group
                     label="Filter"
                     label-for="filter-input"
@@ -19,33 +20,55 @@
                     label-size="sm"
                     class="mb-0"
                     >
-                    <b-input-group size="sm">
-                        <b-form-input
-                        id="filter-input"
-                        v-model="filter"
-                        type="search"
-                        placeholder="Type to Search"
-                        ></b-form-input>
+                        <b-input-group size="sm" class='filter-class'>
+                            <b-form-input
+                            id="filter-input"
+                            v-model="filter"
+                            type="search"
+                            placeholder="Type to Search"
+                            ></b-form-input>
 
-                        <b-input-group-append>
-                        <b-button :disabled="!filter" @click="filter = ''">Clear</b-button>
-                        </b-input-group-append>
-                    </b-input-group>
+                            <b-input-group-append>
+                            <b-button :disabled="!filter" @click="filter = ''">Clear</b-button>
+                            </b-input-group-append>
+                        </b-input-group>
                     </b-form-group>
-                </b-col>
-            </div>
-
-            <!-- crud opts -->
-            <div class="col-md-10">
-                <h5 class="text-center">  </h5>
-                <button type="button" @click="clearSelected" class="btn btn-primary">Clear selections</button>
-                <button type="button" @click="deleteCRUD()" class="btn btn-danger">Delete Selected</button>
-                <b-button variant="success" v-b-modal.modal-prevent-closing @click="NewEntry()">Add New</b-button>
-                <b-button @click="Selected_modal()">Edit Selected</b-button>
-                <b-button @click="SelectedChildren()">See Employees</b-button>
+                
+                    <b-form-group
+                    label="Sort"
+                    label-for="sort-by-select"
+                    label-cols-sm="3"
+                    label-align-sm="right"
+                    label-size="sm"
+                    class="mb-0"
+                    v-slot="{ ariaDescribedby }"
+                    >
+                        <b-input-group size="sm">
+                            <b-form-select
+                            id="sort-by-select"
+                            v-model="sortBy"
+                            :options="sortOptions"
+                            :aria-describedby="ariaDescribedby"
+                            class="w-75"
+                            >
+                            </b-form-select>
+                        </b-input-group>
+                    </b-form-group>
+                
             </div>
         </div>
-        <br>
+        <!-- crud opts -->
+        <div class='stickies'>
+            <div class='crud'>
+                <button type="button" @click="clearSelected" class="btn btn-primary">C</button>
+                <button type="button" @click="deleteCRUD()" class="btn btn-danger">D</button>
+                <b-button variant="success" v-b-modal.modal-prevent-closing @click="NewEntry()">+</b-button>
+                <b-button @click="Selected_modal()">E</b-button> 
+            </div>
+            <div class='query'>
+                <b-button @click="SelectedChildren()">Custs</b-button>
+            </div>
+        </div>
 
         <!-- table -->
         <div class="row justify-content-center">
@@ -187,6 +210,34 @@
         </b-modal>
     </div>
 </template>
+
+<style scoped>
+    .col-md-10.title { height:10px }
+    .col-md-10.sf { display: flex; }
+    .col-md-10.sf > * { 
+        flex: 1; 
+        margin: 10px;
+        height: 100px;
+    }
+    .stickies {
+        /* margin-left: auto; */
+        margin-right: 20%;
+        position: sticky;
+        width: 75%;
+        top: 0;
+        overflow: auto;
+    }
+    .stickies > * {
+        margin: 1px;
+        flex: 1;
+    }
+
+    @media screen and (min-width: 768px) {
+        .stickies {
+            margin-left: 7.5%;
+        }
+    }
+</style>
 
 <script>
     import axios from 'axios'
