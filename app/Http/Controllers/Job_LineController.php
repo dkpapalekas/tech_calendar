@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Job_Line;
 use App\Http\Resources\Job_LineResource;
-use App\Http\Resources\JobResource;
 use App\Http\Resources\MaterialResource;
 use Illuminate\Http\Request;
 
@@ -123,14 +122,12 @@ class Job_LineController extends Controller
     //Find in which job the job_line belongs
     public function job($job_line_id)
     {
-        $job = Job_Line::find($job_line_id)->job;//->id;
-        return new JobResource($job);
+        return Job_Line::find($job_line_id)->job;//->id;
     }
 
     //Find in which material the job_line belongs
     public function material($job_line_id)
     {
-        $material = Job_Line::find($job_line_id)->material;//->id;
-        return new JobResource($mterial);
+        return Job_Line::find($job_line_id)->material;//->id;
     }
 }

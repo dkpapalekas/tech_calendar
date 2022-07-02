@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Appliance;
 use App\Http\Resources\ApplianceResource;
-use App\Http\Resources\JobResource;
 
 use Illuminate\Http\Request;
 
@@ -118,8 +117,6 @@ class ApplianceController extends Controller
     //Retrieve all the jobs that belong to appliance with selected id
     public function jobs($appliance_id)
     {
-        $jobs = Appliance::find($appliance_id)->jobs;
-        return JobResource::collection($jobs);
+        return Appliance::find($appliance_id)->jobs;
     }
-
 }

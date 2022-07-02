@@ -4,11 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\Job;
 use App\Models\Job_Line;
-use App\Http\Resources\JobResource;
 use App\Http\Resources\AddressResource;
 use App\Http\Resources\ApplianceResource;
 use App\Http\Resources\Job_LineResource;
 use Illuminate\Http\Request;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class Jobs extends Controller
 {
@@ -17,10 +17,9 @@ class Jobs extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(): LengthAwarePaginator
     {
-        $jobs = Job::paginate(1000);
-        return JobResource::collection($jobs);
+        return Job::indexTableData();
     }
 
     /**

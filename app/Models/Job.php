@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class Job extends Model
 {
@@ -35,5 +36,37 @@ class Job extends Model
     {
         //will match customer with company_id
         return $this->hasMany(Job_Line::class);
+    }
+
+    public function scopeWithAddresses($q)
+    {
+        if (property_exists($q, 'withAddresses')) return $q;
+        $q->withAddresses = true;
+        $q->join('addresses', 'addresses.id', 'jobs.address_id');
+        return $q;
+    }
+
+    public function scopeWithCustomers($q)
+    {
+        if (property_exists($q, 'withCustomers')) return $q;
+        $q->withCustomers = true;
+        $q->withAddresses()
+            ->join('customers', 'customers.id', 'addresses.customer_id');
+        return $q;
+    }
+
+    public static function indexTableData(): LengthAwarePaginator {
+        return Job::select(
+            'jobs.*',
+            'addresses.name as address_name',
+            'addresses.number as address_number',
+            'addresses.city as address_city',
+            'addresses.floor as address_floor',
+            'customers.name as customer_name',
+            'customers.surname as custoner_surname',
+        )
+            ->withAddresses()
+            ->withCustomers()
+            ->paginate(1000);
     }
 }

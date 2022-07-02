@@ -8,7 +8,6 @@ use App\Models\Job;
 use App\Models\Job_Line;
 use App\Http\Resources\CompanyResource;
 use App\Http\Resources\AddressResource;
-use App\Http\Resources\JobResource;
 use App\Http\Resources\Job_LineResource;
 use App\Http\Resources\CustomerResource;
 use Illuminate\Http\Request;
@@ -178,7 +177,7 @@ class CustomerController extends Controller
             return Address::find($id)->jobs;
         });
         $jobs = $jobs->flatten();
-        $job_ids = JobResource::collection($jobs)->map(function ($job) {
+        $job_ids = $jobs->map(function ($job) {
             return $job->id;
         });
         $appliances = $job_ids->map(function ($id){
@@ -199,7 +198,7 @@ class CustomerController extends Controller
             return Address::find($id)->jobs;
         });
         $jobs = $jobs->flatten();
-        $job_ids = JobResource::collection($jobs)->map(function ($job) {
+        $job_ids = $jobs->map(function ($job) {
             return $job->id;
         });
         $job_lines = $job_ids->map(function ($id){
