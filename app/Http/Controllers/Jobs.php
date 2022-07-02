@@ -10,7 +10,7 @@ use App\Http\Resources\ApplianceResource;
 use App\Http\Resources\Job_LineResource;
 use Illuminate\Http\Request;
 
-class JobController extends Controller
+class Jobs extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -29,7 +29,7 @@ class JobController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-public function store(Request $request)
+    public function store(Request $request): Response
     {
         $validated = $request->validate([
             'address_id' => 'required',

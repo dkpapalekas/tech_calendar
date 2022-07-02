@@ -365,9 +365,9 @@
             Selected_modal(){
                 if(!this.selected[0]) {
                     Swal.fire(
-                            'First Select entry',
-                            'No entry Has been selected',
-                            'error'
+                        'First Select entry',
+                        'No entry Has been selected',
+                        'error'
                     )
                 }
                 else {
