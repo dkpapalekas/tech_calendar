@@ -218,6 +218,8 @@
                 errors: [],
                 fields: [
                     {key: 'id', label: 'ID', sortable: true, sortDirection: 'desc', },
+                    {key: 'customer_name', label: 'Ονομα', sortable: true, sortDirection: 'desc', },
+                    {key: 'customer_surname', label: 'Επώνυμο', sortable: true, sortDirection: 'desc', },
                     {key: 'client_status_format', label: 'Κατάσταση Πελάτη', sortable: true, sortDirection: 'desc', },
                     {key: 'date', label: 'Ημερομηνία', sortable: true, sortDirection: 'desc', },
                     {key: 'agreed_price', label: 'Τιμή', sortable: true, sortDirection: 'desc', },

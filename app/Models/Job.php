@@ -63,7 +63,7 @@ class Job extends Model
             'addresses.city as address_city',
             'addresses.floor as address_floor',
             'customers.name as customer_name',
-            'customers.surname as custoner_surname',
+            'customers.surname as customer_surname',
         )
             ->withAddresses()
             ->withCustomers()
