@@ -59,15 +59,11 @@
         </div>
         <!-- crud opts -->
         <div class='stickies'>
-            <div class='crud'>
-                <button type="button" @click="clearSelected" class="btn btn-primary">C</button>
-                <button type="button" @click="deleteCRUD()" class="btn btn-danger">D</button>
-                <b-button variant="success" v-b-modal.modal-prevent-closing @click="NewEntry()">+</b-button>
-                <b-button @click="Selected_modal()">E</b-button> 
-            </div>
-            <div class='query'>
-                <b-button @click="SelectedChildren()">Custs</b-button>
-            </div>
+            <button type="button" @click="clearSelected" class="btn btn-primary">C</button>
+            <button type="button" @click="deleteCRUD()" class="btn btn-danger">D</button>
+            <b-button variant="success" v-b-modal.modal-prevent-closing @click="NewEntry()">+</b-button>
+            <b-button @click="Selected_modal()">E</b-button> 
+            <b-button @click="SelectedChildren()">Custs</b-button>
         </div>
 
         <!-- table -->
@@ -224,7 +220,7 @@
         margin-right: 20%;
         position: sticky;
         width: 75%;
-        top: 0;
+        top: 2em;
         overflow: auto;
     }
     .stickies > * {

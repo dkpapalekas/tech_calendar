@@ -199,6 +199,7 @@
                 appliances: [],
                 job_lines: [],
                 page_table: {},
+                page_table_name: 'jobs',
                 temp_page_table: {
                     address_id: null,
                     appliance_id: null,
@@ -266,9 +267,9 @@
         methods: {
             init(){
                 this.getCRUD()
-                this.getAddresses()
-                this.getJobLines()
-                this.getAppliances()
+                // this.getAddresses()
+                // this.getJobLines()
+                // this.getAppliances()
             },
 
             formatItems() {
@@ -346,22 +347,23 @@
             getCRUD(){
                 const axios = require('axios');
 
-                if (this.parent_id) {
-                    this.items = []
-                    axios.get('api/v1/addresses/jobs/' + this.parent_id).then((response) => {
-                        this.items = response.data.data
-                    }).catch((errors) => {
-                        console.log(errors)
-                    });
+                this.items = []
+                axios.get('api/v1/' + this.page_table_name).then((response) => {
+                    this.items = response.data.data
+
+                if(this.parent_id) {
+                    console.log(this.items, 'inside filter')
+                    this.items = this.items.filter(item => {
+                        return item.address_id == this.parent_id
+                    })
                 }
-                else {
-                    this.items = []
-                    axios.get('api/v1' + this.path_url).then((response) => {
-                        this.items = response.data.data
-                    }).catch((errors) => {
-                        console.log(errors)
-                    });
-                }
+                
+                this.formatItems();
+                
+                }).catch((errors) => {
+                    console.log(errors)
+                });
+                
             },
 
             Selected_modal(){
@@ -525,6 +527,7 @@
             this.parent_id = this.$route.params.id
             console.log('param', this.parent_id)
             this.path_url = this.$route.path
+            console.log('param', this.path_url)
             this.init();
         },
     }

@@ -159,5 +159,7 @@ Route::middleware('auth:sanctum')->group(function() {
     //-------------------------------------------------------------------------------------
 
     Route::post('/revoke', 'AuthController@revoke');
-    
+
+    // rpc
+    Route::post('/rpc', [JSONRPC::class, 'route']);
 });

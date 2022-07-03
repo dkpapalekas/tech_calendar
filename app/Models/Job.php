@@ -58,12 +58,14 @@ class Job extends Model
     public static function indexTableData(): LengthAwarePaginator {
         return Job::select(
             'jobs.*',
+            'addresses.id as address_id',
             'addresses.name as address_name',
             'addresses.number as address_number',
             'addresses.city as address_city',
             'addresses.floor as address_floor',
             'customers.name as customer_name',
             'customers.surname as customer_surname',
+            'customers.id as custommer_id'
         )
             ->withAddresses()
             ->withCustomers()
