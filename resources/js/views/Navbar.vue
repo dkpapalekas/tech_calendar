@@ -3,18 +3,20 @@
       <b-navbar toggleable="lg" type="light" variant="light">
         <b-navbar-brand href="#">Fridgital</b-navbar-brand>
 
+        <b-text><router-link to="/login">Log In</router-link></b-text>
+
         <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
         <b-collapse id="nav-collapse" is-nav>
           <b-navbar-nav>
             <b-nav-item><div class="menu-item"><router-link to="/">Home</router-link></div></b-nav-item>
-            <b-nav-item><div class="menu-item"><router-link to="/companies">Companies</router-link></div></b-nav-item>
-            <b-nav-item><div class="menu-item"><router-link to="/customers">Customers</router-link></div></b-nav-item>
-            <b-nav-item><div class="menu-item"><router-link to="/addresses">Addresses</router-link></div></b-nav-item>
-            <b-nav-item><div class="menu-item"><router-link to="/appliances">Appliances</router-link></div></b-nav-item>
-            <b-nav-item><div class="menu-item"><router-link to="/jobs">Jobs</router-link></div></b-nav-item>
-            <b-nav-item><div class="menu-item"><router-link to="/job_lines">Job Lines</router-link></div></b-nav-item>
-            <b-nav-item><div class="menu-item"><router-link to="/materials">Materials</router-link></div></b-nav-item>
+            <b-nav-item><div class="menu-item"><router-link to="/jobs">Εργασίες</router-link></div></b-nav-item>
+            <b-nav-item><div class="menu-item"><router-link to="/customers">Πελάτες</router-link></div></b-nav-item>
+            <b-nav-item><div class="menu-item"><router-link to="/addresses">Διευθύνσεις</router-link></div></b-nav-item>
+            <b-nav-item><div class="menu-item"><router-link to="/job_lines">Ανάγκες Εργασιών</router-link></div></b-nav-item>
+            <b-nav-item><div class="menu-item"><router-link to="/materials">Γενικά Υλικά</router-link></div></b-nav-item>
+            <b-nav-item><div class="menu-item"><router-link to="/appliances">Συσκευές</router-link></div></b-nav-item>
+            <b-nav-item><div class="menu-item"><router-link to="/companies">Εταιρείες</router-link></div></b-nav-item>
           </b-navbar-nav>
 
           <!-- Right aligned nav items -->

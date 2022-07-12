@@ -13,7 +13,7 @@
             <div class="col-md-10 sf">
                 
                     <b-form-group
-                    label="Filter"
+                    label="Φίλτρο"
                     label-for="filter-input"
                     label-cols-sm="3"
                     label-align-sm="right"
@@ -28,14 +28,12 @@
                             placeholder="Type to Search"
                             ></b-form-input>
 
-                            <b-input-group-append>
-                            <b-button :disabled="!filter" @click="filter = ''">Clear</b-button>
-                            </b-input-group-append>
+                             
                         </b-input-group>
                     </b-form-group>
                 
                     <b-form-group
-                    label="Sort"
+                    label="Ταξινόμηση"
                     label-for="sort-by-select"
                     label-cols-sm="3"
                     label-align-sm="right"
@@ -60,15 +58,14 @@
         <!-- crud opts -->
         <div class='stickies'>
             <div class='crud'>
-                <button type="button" @click="clearSelected" class="btn btn-primary">C</button>
-                <button type="button" @click="deleteCRUD()" class="btn btn-danger">D</button>
-                <b-button variant="success" v-b-modal.modal-prevent-closing @click="NewEntry()">+</b-button>
-                <b-button @click="Selected_modal()">E</b-button> 
+                 
+                 <b-button variant="success" v-b-modal.modal-prevent-closing @click="NewEntry()">+</b-button>
+<button type="button" @click="deleteCRUD()" class="btn btn-danger">del</button>
+                
+                <b-button @click="Selected_modal()">edit</b-button> 
             </div>
             <div class='query'>
-                <b-button @click="SelectedChildren()">Addrs</b-button>
-                <b-button @click="SelectedChildren()">Jobs</b-button>
-                <b-button @click="SelectedChildren()">mtrls</b-button>
+                <b-button @click="SelectedChildren()">Διευθ.</b-button>
             </div>
         </div>
 
@@ -263,7 +260,7 @@
                     {key: 'surname', label: 'Επώνυμο', sortable: true, sortDirection: 'desc', },
                     {key: 'telephone', label: 'Τηλέφωνο', sortable: true, sortDirection: 'desc', },
                     {key: 'remarks', label: 'Σχόλια', sortable: true, sortDirection: 'desc', },
-                    {key: 'company_name', label: 'Εταιρεια', sortable: true, sortDirection: 'desc', },
+                    // {key: 'company_name', label: 'Εταιρεια', sortable: true, sortDirection: 'desc', },
                 ],
                 items: [],
                 selected: [],

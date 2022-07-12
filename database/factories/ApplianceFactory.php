@@ -14,9 +14,9 @@ class ApplianceFactory extends Factory
     public function definition()
     {
         return [
-            'name' => $this->faker->Company(1),
-            'brand' => $this->faker->Company(1),
-            'model' => $this->faker->Company(1),
+            'name' => $this->faker->lastName(),
+            'brand' => $this->faker->lastName(),
+            'model' => $this->faker->lastName(),
             'year'=> $this->faker->year(),
             'remarks' => $this->faker->text(10),
         ];

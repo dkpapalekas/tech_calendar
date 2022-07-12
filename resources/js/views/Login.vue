@@ -51,7 +51,7 @@
                 axios.post('api/v1/authenticate', this.formData).then((response) => {
                     localStorage.setItem('token', response.data.token)
                     console.log(response.data.token)
-                    this.$router.push('/companies')
+                    this.$router.push('/jobs')
                 }).catch((errors) => {
                     this.errors = errors.response.data.errors
                 })

@@ -13,7 +13,7 @@
             <div class="col-md-10 sf">
                 
                     <b-form-group
-                    label="Filter"
+                    label="Φίλτρο"
                     label-for="filter-input"
                     label-cols-sm="3"
                     label-align-sm="right"
@@ -28,14 +28,12 @@
                             placeholder="Type to Search"
                             ></b-form-input>
 
-                            <b-input-group-append>
-                            <b-button :disabled="!filter" @click="filter = ''">Clear</b-button>
-                            </b-input-group-append>
+                            <!--   -->
                         </b-input-group>
                     </b-form-group>
                 
                     <b-form-group
-                    label="Sort"
+                    label="Ταξινόμηση"
                     label-for="sort-by-select"
                     label-cols-sm="3"
                     label-align-sm="right"
@@ -45,12 +43,23 @@
                     >
                         <b-input-group size="sm">
                             <b-form-select
-                            id="sort-by-select"
-                            v-model="sortBy"
-                            :options="sortOptions"
-                            :aria-describedby="ariaDescribedby"
-                            class="w-75"
-                            >
+                                id="sort-by-select"
+                                v-model="sortBy"
+                                :options="sortOptions"
+                                :aria-describedby="ariaDescribedby"
+                                class="w-75"
+                                >
+                            </b-form-select>
+
+                            <b-form-select
+                                v-model="sortDesc"
+                                :disabled="!sortBy"
+                                :aria-describedby="ariaDescribedby"
+                                size="sm"
+                                class="w-25"
+                                >
+                                <option :value="false">Asc</option>
+                                <option :value="true">Desc</option>
                             </b-form-select>
                         </b-input-group>
                     </b-form-group>
@@ -59,10 +68,10 @@
         </div>
         <!-- crud opts -->
         <div class='stickies'>
-            <button type="button" @click="clearSelected" class="btn btn-primary">C</button>
-            <button type="button" @click="deleteCRUD()" class="btn btn-danger">D</button>
+             
+             <button type="button" @click="deleteCRUD()" class="btn btn-danger">del</button>
             <b-button variant="success" v-b-modal.modal-prevent-closing @click="NewEntry()">+</b-button>
-            <b-button @click="Selected_modal()">E</b-button> 
+            <b-button @click="Selected_modal()">edit</b-button> 
             <b-button @click="SelectedChildren()">Υλικά</b-button>
         </div>
 
@@ -283,8 +292,8 @@
                 //table options
                 selectMode: 'single',
                 sortBy: 'date',
-                sortDesc: false,
-                sortDirection: 'asc',
+                sortDesc: true,
+                sortDirection: 'desc',
                 filter: null,
                 filterOn: [],
                 //GET options
@@ -295,8 +304,8 @@
                     { value: 'OK', text: 'Συμφωνία Πελάτη' },
                 ],
                 job_statuses : [
-                    { value: 0, text: 'Ολοκληρωμένη' },
-                    { value: 1, text: 'Εκρεμμεί' },
+                    { value: 0, text: 'Εκρεμμεί' },
+                    { value: 1, text: 'Ολοκληρωμένη' },
                 ],
                 temp_date: "",              
                 temp_time: "",              
@@ -428,6 +437,8 @@
                     this.cu = 'update'
                     this.$bvModal.show('modal-prevent-closing')
                     this.temp_page_table = this.selected[0];
+                    this.temp_date = this.selected[0].date.split(' ')[0]
+                    this.temp_time = this.selected[0].date.split(' ')[1]
                     console.log(this.selected[0], '<<<')
                 }
             },

@@ -14,7 +14,7 @@ class MaterialFactory extends Factory
     public function definition()
     {
         return [
-            'name' => $this->faker->Company(10),
+            'name' => $this->faker->jobTitle(10),
             'remarks' => $this->faker->text(10),
         ];
     }

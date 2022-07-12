@@ -1,8 +1,8 @@
 <template>
     <div>
     <Navbar></Navbar>
-        <b-card bg-variant="primary" text-variant="white" header="Header" class="m-3 text-center">
-            <b-card-text>{{message}}</b-card-text>
+        <b-card bg-variant="outline-primary" header="Σύστημα Διαχείρισης Εργασιών" class="m-3 text-center">
+            <b-nav-item><div class="menu-item"><router-link to="/jobs">Εργασίες</router-link></div></b-nav-item>
         </b-card>
     </div>
 </template>

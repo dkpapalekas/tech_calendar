@@ -15,9 +15,9 @@ class AddressFactory extends Factory
     {
         return [
             'customer_id' => $this->faker->numberBetween(1, 8),
-            'name' => $this->faker->streetAddress(),
+            'name' => $this->faker->streetName(),
             'number' => $this->faker->numberBetween(1, 8),
-            'city' => $this->faker->city(),
+            'city' => $this->faker->state(),
             'floor' => $this->faker->numberBetween(1, 8),
             'remarks' => $this->faker->text(10),
         ];

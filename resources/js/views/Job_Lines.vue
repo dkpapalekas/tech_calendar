@@ -3,49 +3,64 @@
         <div>
             <Navbar></Navbar>
         </div>
-        <div class="row justify-content-center">
+        <div class="row justify-content-center" id='cont'>
             <!-- title and login,logout-->
-            <div class="col-md-10">
+            <div class="col-md-10 title">
                 <h5 class="text-center">Ανάγκες Εργασιών</h5>
             </div>
 
             <!-- filter -->
-            <div class="col-md-10">
-                <b-col lg="6" class="my-1">
+            <div class="col-md-10 sf">
+                
                     <b-form-group
-                    label="Filter"
+                    label="Φίλτρο"
                     label-for="filter-input"
                     label-cols-sm="3"
                     label-align-sm="right"
                     label-size="sm"
                     class="mb-0"
                     >
-                    <b-input-group size="sm">
-                        <b-form-input
-                        id="filter-input"
-                        v-model="filter"
-                        type="search"
-                        placeholder="Type to Search"
-                        ></b-form-input>
+                        <b-input-group size="sm" class='filter-class'>
+                            <b-form-input
+                            id="filter-input"
+                            v-model="filter"
+                            type="search"
+                            placeholder="Type to Search"
+                            ></b-form-input>
 
-                        <b-input-group-append>
-                        <b-button :disabled="!filter" @click="filter = ''">Clear</b-button>
-                        </b-input-group-append>
-                    </b-input-group>
+                             
+                        </b-input-group>
                     </b-form-group>
-                </b-col>
-            </div>
-
-            <!-- crud opts -->
-            <div class="col-md-10">
-                <h5 class="text-center">  </h5>
-                <button type="button" @click="clearSelected" class="btn btn-primary">C</button>
-                <button type="button" @click="deleteCRUD()" class="btn btn-danger">D</button>
-                <b-button variant="success" v-b-modal.modal-prevent-closing @click="NewEntry()">A</b-button>
-                <b-button @click="Selected_modal()">E</b-button>
+                
+                    <b-form-group
+                    label="Ταξινόμηση"
+                    label-for="sort-by-select"
+                    label-cols-sm="3"
+                    label-align-sm="right"
+                    label-size="sm"
+                    class="mb-0"
+                    v-slot="{ ariaDescribedby }"
+                    >
+                        <b-input-group size="sm">
+                            <b-form-select
+                            id="sort-by-select"
+                            v-model="sortBy"
+                            :options="sortOptions"
+                            :aria-describedby="ariaDescribedby"
+                            class="w-75"
+                            >
+                            </b-form-select>
+                        </b-input-group>
+                    </b-form-group>
+                
             </div>
         </div>
-        <br>
+        <!-- crud opts -->
+        <div class='stickies'>
+            <b-button variant="success" v-b-modal.modal-prevent-closing @click="NewEntry()">+</b-button>
+            <button type="button" @click="deleteCRUD()" class="btn btn-danger">del</button>
+            <b-button @click="Selected_modal()">edit</b-button>
+        </div>
 
         <!-- table -->
         <div class="row justify-content-center">
@@ -180,6 +195,34 @@
     </div>
 </template>
 
+<style scoped>
+    .col-md-10.title { height:10px }
+    .col-md-10.sf { display: flex; }
+    .col-md-10.sf > * { 
+        flex: 1; 
+        margin: 10px;
+        height: 100px;
+    }
+    .stickies {
+        /* margin-left: auto; */
+        margin-right: 20%;
+        position: sticky;
+        width: 75%;
+        top: 2em;
+        overflow: auto;
+    }
+    .stickies > * {
+        margin: 1px;
+        flex: 1;
+    }
+
+    @media screen and (min-width: 768px) {
+        .stickies {
+            margin-left: 7.5%;
+        }
+    }
+</style>
+
 <script>
     import Navbar from './Navbar.vue'
     import axios from 'axios'
@@ -217,11 +260,11 @@
                 errors: [],
                 fields: [
                     {key: 'id', label: 'ID', sortable: true, sortDirection: 'desc', },
+                    {key: 'material_name', label: 'Υλικό', sortable: true, sortDirection: 'desc', },
                     {key: 'quantity', label: 'Ποσότητα', sortable: true, sortDirection: 'desc', },
                     {key: 'price', label: 'Τιμή', sortable: true, sortDirection: 'desc', },
-                    {key: 'job_name', label: 'Ημ/νια Εργασίας', sortable: true, sortDirection: 'desc', },
-                    {key: 'material_name', label: 'Υλικό', sortable: true, sortDirection: 'desc', },
-                    {key: 'material_status_format', label: 'Κατάσταση Υλικών', sortable: true, sortDirection: 'desc', },
+                    {key: 'job_name', label: 'Ημ/νια', sortable: true, sortDirection: 'desc', },
+                    {key: 'material_status_format', label: 'Κατάσταση', sortable: true, sortDirection: 'desc', },
                     {key: 'remarks', label: 'Σχόλια', sortable: true, sortDirection: 'desc',},
                 ],
                 items: [],
@@ -273,8 +316,10 @@
 
                     //custome fullname creation
                     this.jobs.forEach(job => {
-                        job.fullname = job.name + ' ' + job.city
+                        job.fullname = job.address_name + ', ' + job.customer_surname + ', ' + job.appliance_name
                     })
+
+                    console.log('jobs', this.jobs)
                     
                     //for each child add the name of the parent
                     this.items.forEach(child => {
