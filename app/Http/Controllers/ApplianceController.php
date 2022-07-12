@@ -71,7 +71,7 @@ class ApplianceController extends Controller
     public function update(Request $request, $id)
     {
         $validated = $request->validate([
-            'name' => 'required|unique:appliances|max:255',
+            'name' => 'required|max:255',
             'brand' => 'required',
             'model' => 'required',
             'year' => 'nullable',

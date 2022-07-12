@@ -66,7 +66,7 @@
                 <b-button @click="Selected_modal()">E</b-button> 
             </div>
             <div class='query'>
-                <b-button @click="SelectedChildren()">child jobs</b-button>
+                <b-button @click="SelectedChildren()">Εργασίες</b-button>
             </div>
         </div>
 
@@ -367,6 +367,19 @@
                     this.cu = 'update'
                     this.$bvModal.show('modal-prevent-closing')
                     this.temp_page_table = this.selected[0];
+                }
+            },
+
+            SelectedChildren(){
+                if(!this.selected[0]) {
+                    Swal.fire(
+                            'First Select entry',
+                            'No entry Has been selected',
+                            'error'
+                    )
+                }
+                else {
+                    this.$router.push('/jobs/' + this.selected[0].id)
                 }
             },
 
