@@ -441,6 +441,8 @@
                 )
             }
             this.path_url = this.$route.path
+            var tokens = this.path_url.split('/').slice(1)
+            this.path_url = '/'+tokens[0]
             console.log('mounted', this.path_url)
             this.getCRUD()
         }

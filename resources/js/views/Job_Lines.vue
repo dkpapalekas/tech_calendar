@@ -271,10 +271,10 @@
                 axios.get('api/v1/jobs').then((response) => {
                     this.jobs = response.data.data
 
-                    // //custome fullname creation
-                    // this.jobs.forEach(job => {
-                    //     job.fullname = job.name + ' ' + job.city
-                    // })
+                    //custome fullname creation
+                    this.jobs.forEach(job => {
+                        job.fullname = job.name + ' ' + job.city
+                    })
                     
                     //for each child add the name of the parent
                     this.items.forEach(child => {
@@ -493,6 +493,8 @@
             this.parent_id = this.$route.params.id
             console.log('param', this.parent_id)
             this.path_url = this.$route.path
+            var tokens = this.path_url.split('/').slice(1)
+            this.path_url = '/'+tokens[0]
             this.init();
         },
     }

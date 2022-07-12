@@ -90,6 +90,10 @@ let router = new VueRouter({
             path: '/materials',
             component: Materials,
         },
+        {
+            path: '/materials/:id',
+            component: Materials,
+        },
     ]
 });
 

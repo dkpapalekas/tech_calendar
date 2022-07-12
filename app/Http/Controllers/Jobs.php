@@ -7,6 +7,7 @@ use App\Models\Job_Line;
 use App\Http\Resources\AddressResource;
 use App\Http\Resources\ApplianceResource;
 use App\Http\Resources\Job_LineResource;
+use App\Http\Resources\JobResource;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 
@@ -28,7 +29,7 @@ class Jobs extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request): Response
+    public function store(Request $request)
     {
         $validated = $request->validate([
             'address_id' => 'required',

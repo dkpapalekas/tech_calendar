@@ -3,15 +3,15 @@
         <div>
             <Navbar></Navbar>
         </div>
-        <div class="row justify-content-center">
+        <div class="row justify-content-center" id='cont'>
             <!-- title and login,logout-->
-            <div class="col-md-10">
+            <div class="col-md-10 title">
                 <h5 class="text-center">Εργασίες</h5>
             </div>
 
             <!-- filter -->
-            <div class="col-md-10">
-                <b-col lg="6" class="my-1">
+            <div class="col-md-10 sf">
+                
                     <b-form-group
                     label="Filter"
                     label-for="filter-input"
@@ -20,32 +20,51 @@
                     label-size="sm"
                     class="mb-0"
                     >
-                    <b-input-group size="sm">
-                        <b-form-input
-                        id="filter-input"
-                        v-model="filter"
-                        type="search"
-                        placeholder="Type to Search"
-                        ></b-form-input>
+                        <b-input-group size="sm" class='filter-class'>
+                            <b-form-input
+                            id="filter-input"
+                            v-model="filter"
+                            type="search"
+                            placeholder="Type to Search"
+                            ></b-form-input>
 
-                        <b-input-group-append>
-                        <b-button :disabled="!filter" @click="filter = ''">Clear</b-button>
-                        </b-input-group-append>
-                    </b-input-group>
+                            <b-input-group-append>
+                            <b-button :disabled="!filter" @click="filter = ''">Clear</b-button>
+                            </b-input-group-append>
+                        </b-input-group>
                     </b-form-group>
-                </b-col>
-            </div>
-
-            <!-- crud opts -->
-            <div class="col-md-10">
-                <h5 class="text-center">  </h5>
-                <button type="button" @click="clearSelected" class="btn btn-primary">C</button>
-                <button type="button" @click="deleteCRUD()" class="btn btn-danger">D</button>
-                <b-button variant="success" v-b-modal.modal-prevent-closing @click="NewEntry()">A</b-button>
-                <b-button @click="Selected_modal()">E</b-button>
+                
+                    <b-form-group
+                    label="Sort"
+                    label-for="sort-by-select"
+                    label-cols-sm="3"
+                    label-align-sm="right"
+                    label-size="sm"
+                    class="mb-0"
+                    v-slot="{ ariaDescribedby }"
+                    >
+                        <b-input-group size="sm">
+                            <b-form-select
+                            id="sort-by-select"
+                            v-model="sortBy"
+                            :options="sortOptions"
+                            :aria-describedby="ariaDescribedby"
+                            class="w-75"
+                            >
+                            </b-form-select>
+                        </b-input-group>
+                    </b-form-group>
+                
             </div>
         </div>
-        <br>
+        <!-- crud opts -->
+        <div class='stickies'>
+            <button type="button" @click="clearSelected" class="btn btn-primary">C</button>
+            <button type="button" @click="deleteCRUD()" class="btn btn-danger">D</button>
+            <b-button variant="success" v-b-modal.modal-prevent-closing @click="NewEntry()">+</b-button>
+            <b-button @click="Selected_modal()">E</b-button> 
+            <b-button @click="SelectedChildren()">Υλικά</b-button>
+        </div>
 
         <!-- table -->
         <div class="row justify-content-center">
@@ -180,6 +199,34 @@
     </div>
 </template>
 
+<style scoped>
+    .col-md-10.title { height:10px }
+    .col-md-10.sf { display: flex; }
+    .col-md-10.sf > * { 
+        flex: 1; 
+        margin: 10px;
+        height: 100px;
+    }
+    .stickies {
+        /* margin-left: auto; */
+        margin-right: 20%;
+        position: sticky;
+        width: 75%;
+        top: 2em;
+        overflow: auto;
+    }
+    .stickies > * {
+        margin: 1px;
+        flex: 1;
+    }
+
+    @media screen and (min-width: 768px) {
+        .stickies {
+            margin-left: 7.5%;
+        }
+    }
+</style>
+
 <script>
     import Navbar from './Navbar.vue'
     import axios from 'axios'
@@ -228,7 +275,7 @@
                     // {key: 'agreed_price', label: 'Τιμή', sortable: true, sortDirection: 'desc', visible: false},
                     {key: 'address_name', label: 'Διεύθυνση', sortable: true, sortDirection: 'desc', },
                     {key: 'is_completed_format', label: 'Κατάσταση Εργασίας', sortable: true, sortDirection: 'desc', },
-                    {key: 'appliance_name', label: 'Συσκευή', sortable: true, sortDirection: 'desc', },
+                    // {key: 'appliance_name', label: 'Συσκευή', sortable: true, sortDirection: 'desc', },
                     
                 ],
                 items: [],
@@ -236,8 +283,8 @@
                 //table options
                 selectMode: 'single',
                 sortBy: 'date',
-                sortDesc: true,
-                sortDirection: 'desc',
+                sortDesc: false,
+                sortDirection: 'asc',
                 filter: null,
                 filterOn: [],
                 //GET options
@@ -382,6 +429,19 @@
                     this.$bvModal.show('modal-prevent-closing')
                     this.temp_page_table = this.selected[0];
                     console.log(this.selected[0], '<<<')
+                }
+            },
+
+            SelectedChildren(){
+                if(!this.selected[0]) {
+                    Swal.fire(
+                            'First Select entry',
+                            'No entry Has been selected',
+                            'error'
+                    )
+                }
+                else {
+                    this.$router.push('/job_lines/' + this.selected[0].id)
                 }
             },
 
@@ -531,6 +591,8 @@
             this.parent_id = this.$route.params.id
             console.log('param', this.parent_id)
             this.path_url = this.$route.path
+            var tokens = this.path_url.split('/').slice(1)
+            this.path_url = '/'+tokens[0]
             console.log('param', this.path_url)
             this.init();
         },

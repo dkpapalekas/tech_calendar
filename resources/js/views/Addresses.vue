@@ -516,6 +516,8 @@
             this.parent_id = this.$route.params.id
             console.log('param', this.parent_id)
             this.path_url = this.$route.path
+            var tokens = this.path_url.split('/').slice(1)
+            this.path_url = '/'+tokens[0]
             this.init();
         },
     }
