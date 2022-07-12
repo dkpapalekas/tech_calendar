@@ -55,6 +55,15 @@ class Job extends Model
         return $q;
     }
 
+    public function scopeWithAppliances($q)
+    {
+        if (property_exists($q, 'withAppliances')) return $q;
+        $q->withAppliances = true;
+        $q->withAddresses()
+            ->join('appliances', 'appliances.id', 'jobs.appliance_id');
+        return $q;
+    }
+
     public static function indexTableData(): LengthAwarePaginator {
         return Job::select(
             'jobs.*',
@@ -65,10 +74,12 @@ class Job extends Model
             'addresses.floor as address_floor',
             'customers.name as customer_name',
             'customers.surname as customer_surname',
-            'customers.id as custommer_id'
+            'customers.id as custommer_id',
+            'appliances.name as appliance_name',
         )
             ->withAddresses()
             ->withCustomers()
+            ->withAppliances()
             ->paginate(1000);
     }
 }

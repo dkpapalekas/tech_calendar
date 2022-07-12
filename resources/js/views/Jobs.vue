@@ -195,6 +195,7 @@
         data() {
             return {
                 //parent table
+                uniqueIds: [],
                 addresses: [],
                 appliances: [],
                 job_lines: [],
@@ -219,15 +220,16 @@
                 errors: [],
                 fields: [
                     {key: 'id', label: 'ID', sortable: true, sortDirection: 'desc', },
+                    {key: 'date', label: 'Ημερομηνία', sortable: true, sortDirection: 'desc', },
                     {key: 'customer_name', label: 'Ονομα', sortable: true, sortDirection: 'desc', },
                     {key: 'customer_surname', label: 'Επώνυμο', sortable: true, sortDirection: 'desc', },
                     {key: 'client_status_format', label: 'Κατάσταση Πελάτη', sortable: true, sortDirection: 'desc', },
-                    {key: 'date', label: 'Ημερομηνία', sortable: true, sortDirection: 'desc', },
-                    {key: 'agreed_price', label: 'Τιμή', sortable: true, sortDirection: 'desc', },
+                    {key: 'materials_status', label: 'Κατάσταση Υλικών', sortable: true, sortDirection: 'desc', },
+                    // {key: 'agreed_price', label: 'Τιμή', sortable: true, sortDirection: 'desc', visible: false},
                     {key: 'address_name', label: 'Διεύθυνση', sortable: true, sortDirection: 'desc', },
                     {key: 'is_completed_format', label: 'Κατάσταση Εργασίας', sortable: true, sortDirection: 'desc', },
                     {key: 'appliance_name', label: 'Συσκευή', sortable: true, sortDirection: 'desc', },
-                    {key: 'materials_status', label: 'Κατάσταση Υλικών', sortable: true, sortDirection: 'desc', },
+                    
                 ],
                 items: [],
                 selected: [],
@@ -267,12 +269,12 @@
         methods: {
             init(){
                 this.getCRUD()
-                // this.getAddresses()
-                // this.getJobLines()
-                // this.getAppliances()
+                this.getAddresses()
+                this.getJobLines()
+                this.getAppliances()
             },
 
-            formatItems() {
+            formatTableFields() {
                 this.items.forEach(obj => {
                     obj.is_completed_format = obj.is_completed === 1 ? "Ολοκληρωμένη" : "Εκρεμμεί"
                     obj.client_status_format = obj.client_status=== "OK" ? "Συμφωνία Πελάτη" : "Αναμονή Πελάτη"
@@ -284,7 +286,7 @@
                 axios.get('api/v1/addresses').then((response) => {
                     this.addresses = response.data.data
 
-                    //custome fullname creation
+                    //address fullname creation
                     this.addresses.forEach(address => {
                         address.fullname = address.name + ' ' + address.city
                     })
@@ -319,7 +321,7 @@
                         child.appliance_name = parent.name + ' ' + parent.brand + ' ' + parent.model;
                     })
 
-                    this.formatItems()
+                    this.formatTableFields()
                         }).catch((errors) => {
                             console.log(errors)
                         });
@@ -339,11 +341,12 @@
                         job.materials_status = pending_jobs.length === 0 ? 'OK' : 'Εκκρεμεί'
                     })
 
-                    this.formatItems()
+                    this.formatTableFields()
                         }).catch((errors) => {
                             console.log(errors)
                         });
             },
+
             getCRUD(){
                 const axios = require('axios');
 
@@ -358,7 +361,7 @@
                     })
                 }
                 
-                this.formatItems();
+                this.formatTableFields();
                 
                 }).catch((errors) => {
                     console.log(errors)
@@ -378,6 +381,7 @@
                     this.cu = 'update'
                     this.$bvModal.show('modal-prevent-closing')
                     this.temp_page_table = this.selected[0];
+                    console.log(this.selected[0], '<<<')
                 }
             },
 
