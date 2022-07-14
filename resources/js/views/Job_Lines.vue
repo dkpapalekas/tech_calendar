@@ -167,7 +167,7 @@
             </form>
             <form ref="form" @submit.stop.prevent="handleSubmit">
                 <b-form-group
-                label="Κατάσταση Εργασίας"
+                label="Κατάσταση Υλικού"
                 label-for="status-input"
                 >
                 <b-form-select 
@@ -300,7 +300,7 @@
             init(){
                 this.getCRUD()
                 this.getJobs()
-                this.getMaterials()
+                this.getMaterials()   
             },
 
             formatItems() {
@@ -397,6 +397,10 @@
                 Object.keys(this.temp_page_table).forEach(key => {
                     this.temp_page_table[key] = null;
                 })
+                if(this.parent_id) {
+                    this.temp_page_table.job_id = this.parent_id
+                    console.log('temp job id',this.temp_page_table.job_id)
+                }
                 this.cu = 'create'
             },
 

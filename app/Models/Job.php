@@ -74,6 +74,7 @@ class Job extends Model
             'addresses.floor as address_floor',
             'customers.name as customer_name',
             'customers.surname as customer_surname',
+            'customers.telephone as customer_telephone',
             'customers.id as custommer_id',
             'appliances.name as appliance_name',
         )
