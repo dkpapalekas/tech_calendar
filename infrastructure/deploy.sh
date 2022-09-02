@@ -8,3 +8,4 @@ fi
 
 scp *deb root@$1:/root/
 ssh root@$1 'cd /root; dpkg -i *deb; rm *deb'
+rm *deb
