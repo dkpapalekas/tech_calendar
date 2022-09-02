@@ -124,14 +124,14 @@ EOF
 cat << EOF > $dirname/DEBIAN/preinst
 #!/bin/sh
 systemctl stop nginx php7.4-fpm
-cd /opt/$basename
-php artisan migrate
-chown -R www-data:www-data /opt/$basename
 EOF
 
 # postinstall script
 cat <<EOF > $dirname/DEBIAN/postinst
 #!/bin/sh
+cd /opt/$basename
+php artisan migrate --force
+chown -R www-data:www-data /opt/$basename
 systemcl start nginx php7.4-fpm
 EOF
 
