@@ -1,5 +1,4 @@
 import { BCard, BNavItem } from 'bootstrap-vue'
-import Navbar from './Navbar';
 
 const header = 'Σύστημα Διαχείρισης Εργασιών'
 const jobs = 'Εργασίες'
@@ -17,8 +16,6 @@ export default {
    render(h) {
       console.log(h(BCard))
       return h('div', [
-         h(Navbar),
-
          h(BCard, {
             'bg-variant': 'outline-primary',
             header: header,
