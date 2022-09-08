@@ -12,9 +12,9 @@
         "make:deb": "bash infrastructure/make-deb.sh",
         "deploy": "bash infrastructure/deploy.sh",
         "docker": "docker-compose --project-name tech_calendar_dev up --build",
-        "start": "sleep 3; php artisan migrate",
-        "start:frontend": "mix watch",
-        "start:backend": "php artisan migrate && php artisan serve"
+        "start": "npm run start:frontend & npm run start:backend",
+        "start:frontend": "parcel --dist-dir=./public --no-source-maps resources/index.html",
+        "start:backend": "sleep 3 ; php81 artisan serve --host 0.0.0.0"
     },
     "devDependencies": {
         "@popperjs/core": "^2.10.2",
@@ -22,6 +22,7 @@
         "bootstrap": "^5.1.3",
         "laravel-mix": "^6.0.6",
         "lodash": "^4.17.19",
+        "parcel": "^2.7.0",
         "postcss": "^8.1.14",
         "resolve-url-loader": "^3.1.2",
         "sass": "^1.32.11",
