@@ -18,3 +18,5 @@ public/js/app.js
 /public/js/app.js
 public/js/app.js*
 *deb
+/package-lock.json
+/mariadb-data

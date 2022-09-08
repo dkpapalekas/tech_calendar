@@ -10,7 +10,11 @@
         "production": "mix --production",
         "init:server": "bash infrastructure/init.sh",
         "make:deb": "bash infrastructure/make-deb.sh",
-        "deploy": "bash infrastructure/deploy.sh"
+        "deploy": "bash infrastructure/deploy.sh",
+        "docker": "docker-compose --project-name tech_calendar_dev up --build",
+        "start": "sleep 3; php artisan migrate",
+        "start:frontend": "mix watch",
+        "start:backend": "php artisan migrate && php artisan serve"
     },
     "devDependencies": {
         "@popperjs/core": "^2.10.2",

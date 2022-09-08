@@ -1,0 +1,45 @@
+version: '2'
+
+services:
+  # database
+  mariadb:
+    image: mariadb
+    restart: always
+    environment:
+      - MARIADB_DATABASE=tech_calendar
+      - MARIADB_ROOT_PASSWORD=test123
+      - MARIADB_ROOT_HOST=%
+    ports:
+      - '3306:3306'
+    networks:
+      - laravel
+    volumes:
+      - ./mariadb-data:/var/lib/mysql
+
+  # laravel
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    image: tech_calendar:dev
+    ports:
+      - '8000:8000'
+    environment:
+      - APP_ENV=local
+      - DB_HOST=mariadb
+      - DB_CONNECTION=mysql
+      - DB_PORT=3306
+      - DB_USERNAME=root
+      - DB_DATABASE=tech_calendar
+      - DB_PASSWORD=test123
+    volumes:
+      - './:/app'
+    depends_on:
+      - mariadb
+    networks:
+      - laravel
+
+
+networks:
+  laravel:
+    driver: bridge
