@@ -8,5 +8,6 @@ class PagesController extends Controller
 {
     public function index() {
         return response()->file(public_path('index.html'));
+        // return view('welcome');
     }
 }

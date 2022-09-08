@@ -7,8 +7,11 @@
         <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@200;600&display=swap" rel="stylesheet">
         </script>
         <title>Fridgital</title>
-        <script src="./js/index.ts"></script>
+        <script src="./js/index.ts" type="module"></script>
     </head>
-    <body id="app">
+    <body>
+      <main id="app">
+         <router-view :key="$route.path"></router-view>
+      </main>
     </body>
 </html>

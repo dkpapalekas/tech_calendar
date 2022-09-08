@@ -20,6 +20,7 @@ public/js/app.js*
 /public/index*html
 /public/index*js
 /public/resources*js
+/public/index*css
 *deb
 /package-lock.json
 /mariadb-data
