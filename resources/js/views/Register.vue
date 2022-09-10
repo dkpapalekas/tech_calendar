@@ -10,16 +10,19 @@
                             <input type="text" class="form-control" name="name" v-model="formData.name">
                             <p class="text-danger" v-text="errors.name"></p>
                         </div>
+
                         <div class="form-group">
                             <label for="email">Email</label>
                             <input type="text" class="form-control" name="email" v-model="formData.email">
                             <p class="text-danger" v-text="errors.email"></p>
                         </div>
+
                         <div class="form-group">
                             <label for="password">Password</label>
                             <input type="password" class="form-control" name="password" v-model="formData.password">
                             <p class="text-danger" v-text="errors.password"></p>
                         </div>
+
                         <div class="form-group">
                             <label for="password_confirmation">Confirm Password</label>
                             <input type="password" class="form-control" name="password_confirmation" v-model="formData.password_confirmation">
@@ -69,6 +72,6 @@
                     console.log(errors.response.data.errors)
                 });
             }
-        }   
+        }
     }
 </script>
