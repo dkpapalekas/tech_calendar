@@ -2,7 +2,7 @@
 import { RouterMode } from 'vue-router';
 import Frontpage from './views2/Frontpage'
 // import Test from './views/Test.vue'
-// import Login from './views/Login.vue'
+import Login from './views2/Login'
 import Register from './views2/Register'
 // import Companies from './views/Companies.vue'
 // import Customers from './views/Customers.vue'
@@ -23,10 +23,10 @@ export default {
      //       path: '/test',
      //       component: Test,
      //   },
-     //   {
-     //       path: '/login',
-     //       component: Login,
-     //   },
+       {
+           path: '/login',
+           component: Login,
+       },
        {
            path: '/register',
            component: Register,
