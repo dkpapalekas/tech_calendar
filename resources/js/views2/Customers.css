@@ -1,0 +1,29 @@
+.customers .col-md-10.title { height:10px }
+
+.customers .col-md-10.sf { display: flex; }
+
+.customers .col-md-10.sf > * {
+   flex: 1;
+   margin: 10px;
+   height: 100px;
+}
+
+.customers .stickies {
+   /* margin-left: auto; */
+   margin-right: 20%;
+   position: sticky;
+   width: 75%;
+   top: 0;
+   overflow: auto;
+}
+
+.customers .stickies > * {
+   margin: 1px;
+   flex: 1;
+}
+
+@media screen and (min-width: 768px) {
+   .customers .stickies {
+      margin-left: 7.5%;
+    }
+}

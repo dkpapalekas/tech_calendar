@@ -1,11 +1,10 @@
 // My Vue Files
 import { RouterMode } from 'vue-router';
 import Frontpage from './views2/Frontpage'
-// import Test from './views/Test.vue'
 import Login from './views2/Login'
 import Register from './views2/Register'
 // import Companies from './views/Companies.vue'
-// import Customers from './views/Customers.vue'
+import Customers from './views2/Customers'
 // import Addresses from './views/Addresses.vue'
 // import Appliances from './views/Appliances.vue'
 // import Jobs from './views/Jobs.vue'
@@ -19,18 +18,14 @@ export default {
          path: '',
          component: Frontpage,
       },
-     //   {
-     //       path: '/test',
-     //       component: Test,
-     //   },
-       {
-           path: '/login',
-           component: Login,
-       },
-       {
-           path: '/register',
-           component: Register,
-       },
+      {
+         path: '/login',
+         component: Login,
+      },
+      {
+         path: '/register',
+         component: Register,
+      },
      //   {
      //       path: '/companies',
      //       component: Companies,
@@ -39,10 +34,10 @@ export default {
      //       path: '/appliances',
      //       component: Appliances,
      //   },
-     //   {
-     //       path: '/customers',
-     //       component: Customers,
-     //   },
+      {
+         path: '/customers',
+         component: Customers,
+      },
      //   {
      //       path: '/customers/:id',
      //       component: Customers,
