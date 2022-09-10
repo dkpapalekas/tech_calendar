@@ -6,60 +6,9 @@ import API from '../API';
 import EditCustomer from '../components/EditCustomer';
 import TextFilter from '../components/TextFilter';
 import SortFilter from '../components/SortFilter';
+import CRUDButtons from '../components/CRUDButtons';
 
-const crud_options = (h, self) => h('div', { class: 'stickies' }, [
-   h('div', { class: 'crud' }, [
-      h(BButton, {
-         props: {
-            variant: 'success',
-         },
-         on: { click: self.NewEntry }
-      }, '+'),
-
-      h(BButton, {
-         props: {
-            type: 'button',
-         },
-         on: { click: self.Selected_modal },
-      }, 'edit'),
-
-      h(BButton, {
-         class: 'btn btn-danger',
-         type: 'button',
-         on: { click: self.deleteCRUD }
-      }, 'del')
-   ]),
-
-   h('div', { class: 'query' }, [
-      h(BButton, {
-         on: { click: self.SelectedChildren }
-      }, 'Διευθ.')
-   ])
-]);
-
-const table = (h, self) => h(BTable, {
-   props: {
-      items: self.items,
-      fields: self.fields,
-      'select-mode': self.selectMode,
-      filter: self.filter,
-      'filter-included-fields': self.filterOn,
-      'sort-by.sync': self.sortBy,
-      'sort-desc.sync': self.sortDesc,
-      'sort-direction': self.sortDirection,
-      'label-sort-asc': '',
-      'label-sort-desc': '',
-      'label-sort-clear': '',
-      responsive: true,
-      stacked: 'md',
-      selectable: true,
-   },
-   ref: 'selectableTable',
-   on: {
-      'row-selected': self.onRowSelected,
-      filtered: self.onFiltered,
-   },
-});
+const table = (h, self) => ;
 
 export default {
    render(h) {
@@ -85,11 +34,41 @@ export default {
                }),
             ]),
 
-            crud_options(h, this),
+            h(CRUDButtons, {
+               props: { query: 'Διευθ.' },
+               on: {
+                  add: this.NewEntry,
+                  edit: this.Selected_modal,
+                  delete: this.deleteCRUD,
+                  query: this.SelectedChildren,
+               }
+            }),
 
             h('div', { class: 'justify-content-center' }, [
                h('div', { class: 'col-md-10' }, [
-                  table(h, this),
+                  h(BTable, {
+                     props: {
+                        items: this.items,
+                        fields: this.fields,
+                        'select-mode': this.selectMode,
+                        filter: this.filter,
+                        'filter-included-fields': this.filterOn,
+                        'sort-by.sync': this.sortBy,
+                        'sort-desc.sync': this.sortDesc,
+                        'sort-direction': this.sortDirection,
+                        'label-sort-asc': '',
+                        'label-sort-desc': '',
+                        'label-sort-clear': '',
+                        responsive: true,
+                        stacked: 'md',
+                        selectable: true,
+                     },
+                     ref: 'selectableTable',
+                     on: {
+                        'row-selected': this.onRowSelected,
+                        filtered: this.onFiltered,
+                     },
+                  }),
                ])
             ]),
 
