@@ -1,10 +1,10 @@
-import { BFormGroup, BFormSelect, BInputGroup } from "bootstrap-vue";
+import { BFormGroup, BFormSelect, BInputGroup } from 'bootstrap-vue';
 
 export default {
    props: ['value', 'options'],
 
    render(h) {
-      h(BFormGroup, {
+      return h(BFormGroup, {
          props: {
             label: 'Ταξινόμηση',
             'label-for': 'sort-by-select',

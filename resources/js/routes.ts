@@ -3,7 +3,7 @@ import { RouterMode } from 'vue-router';
 import Frontpage from './views2/Frontpage';
 import Login from './views2/Login';
 import Register from './views2/Register';
-// import Companies from './views/Companies.vue'
+import Companies from './views2/Companies';
 import Customers from './views2/Customers';
 // import Addresses from './views/Addresses.vue'
 // import Appliances from './views/Appliances.vue'
@@ -26,10 +26,10 @@ export default {
          path: '/register',
          component: Register,
       },
-     //   {
-     //       path: '/companies',
-     //       component: Companies,
-     //   },
+      {
+         path: '/companies',
+         component: Companies,
+      },
      //   {
      //       path: '/appliances',
      //       component: Appliances,
@@ -38,10 +38,10 @@ export default {
          path: '/customers',
          component: Customers,
       },
-     //   {
-     //       path: '/customers/:id',
-     //       component: Customers,
-     //   },
+      {
+         path: '/customers/:id',
+         component: Customers,
+      },
      //   {
      //       path: '/addresses',
      //       component: Addresses,

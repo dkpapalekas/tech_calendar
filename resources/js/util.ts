@@ -7,4 +7,4 @@ export const slot = (f: () => VNode|string|Array<VNode|string>, rest: Record<str
 
 export const vif = (q: Boolean) => (node: string | VNode) => q ? node : ''
 
-export const vif1 = (q: Boolean) => (node: () => string | VNode) => q ? node : ''
+export const vif1 = (q: Boolean) => (node: () => string | VNode) => q ? node() : ''

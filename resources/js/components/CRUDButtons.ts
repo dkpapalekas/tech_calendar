@@ -1,3 +1,4 @@
+import './CRUDButtons.css';
 import { BButton } from 'bootstrap-vue';
 import { vif1 } from '../util';
 

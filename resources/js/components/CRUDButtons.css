@@ -1,0 +1,19 @@
+.crudbuttons {
+   /* margin-left: auto; */
+   margin-right: 20%;
+   position: sticky;
+   width: 75%;
+   top: 0;
+   overflow: auto;
+}
+
+.crudbuttons > * {
+   margin: 1px;
+   flex: 1;
+}
+
+@media screen and (min-width: 768px) {
+   .crudbuttons {
+      margin-left: 7.5%;
+   }
+}

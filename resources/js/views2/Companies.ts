@@ -1,21 +1,20 @@
-import { BModal, BTable } from 'bootstrap-vue';
-import swal from 'sweetalert2';
-import API from '../API';
-import EditCustomer from '../components/EditCustomer';
-import TextFilter from '../components/TextFilter';
-import SortFilter from '../components/SortFilter';
-import CRUDButtons from '../components/CRUDButtons';
-import Header from '../components/Header';
-import wrapped from '../components/DefaultWrapper'
+import { BModal, BTable } from "bootstrap-vue";
+import CRUDButtons from "../components/CRUDButtons";
+import EditCompany from "../components/EditCompany";
+import Header from "../components/Header"
+import SortFilter from "../components/SortFilter";
+import TextFilter from "../components/TextFilter";
+import API from "../API";
+import swal from "sweetalert2";
 
 export default {
    render(h) {
-      return wrapped(h, () => [
-         // header
-         h(Header, { props: { header: 'Πελάτες' }}),
+      return h('div', { class: 'container'}, [
+         h('div', { class: 'row justify-content-center '}, [
+            h(Header, { props: { header: 'Εταιρείες' }}),
+         ]),
 
-         // filters
-         h('div', { class: 'col-md-10 sf'}, [
+         h('div', { class: 'col-md-10 sf' }, [
             h(TextFilter, {
                props: { value: this.filter },
                on: { input: x => this.filter = x },
@@ -30,12 +29,10 @@ export default {
          ]),
 
          h(CRUDButtons, {
-            props: { query: 'Διευθ.' },
             on: {
                add: this.NewEntry,
                edit: this.Selected_modal,
                delete: this.deleteCRUD,
-               query: this.SelectedChildren,
             }
          }),
 
@@ -62,25 +59,24 @@ export default {
                   on: {
                      'row-selected': this.onRowSelected,
                      filtered: this.onFiltered,
-                  },
-               }),
-            ])
+                  }
+               })
+            ]),
          ]),
 
          h(BModal, {
             ref: 'modal',
             title: 'New Entry',
-
             on: {
                show: this.resetModal,
                hidden: this.resetModal,
                ok: this.handleOk,
             },
             scopedSlots: {
-               default: () => h(EditCustomer, {
+               default: () => h(EditCompany, {
                   props: { value: this.temp_page_table },
-                  on: { input: x => this.temp_page_table = x }
-               }),
+                  on: { input: x => this.temp_page_table = x },
+               })
             },
          }),
       ]);
@@ -88,154 +84,134 @@ export default {
 
    data() {
       return {
-         //parent table
-         companies: [],
+         companies: {},
          page_table: {},
          temp_page_table: {
-            company_id: null,
             name: "",
-            surname: "",
-            telephone: "",
-            remarks: "",
+            address: "",
+            city: "",
+            profession: "",
+            vat: "",
+            irs: "",
+         },
+         modal_state: {
+            nameState: null,
+            addressState: null,
+            cityState: null,
+            professionState: null,
+            vatState: null,
+            irsState: null,
          },
          currentUser: {},
          token: localStorage.getItem('token'),
          errors: [],
          fields: [
             {key: 'id', label: 'ID', sortable: true, sortDirection: 'desc', },
-            {key: 'name', label: 'Ονομα', sortable: true, sortDirection: 'desc', },
-            {key: 'surname', label: 'Επώνυμο', sortable: true, sortDirection: 'desc', },
-            {key: 'telephone', label: 'Τηλέφωνο', sortable: true, sortDirection: 'desc', },
-            {key: 'remarks', label: 'Σχόλια', sortable: true, sortDirection: 'desc', },
-            // {key: 'company_name', label: 'Εταιρεια', sortable: true, sortDirection: 'desc', },
+            {key: 'name', label: 'Ονομασία', sortable: true, sortDirection: 'desc', },
+            {key: 'address', label: 'Διεύθυνση', sortable: true, sortDirection: 'desc', },
+            {key: 'city', label: 'Πόλη', sortable: true, sortDirection: 'desc', },
+            {key: 'profession', label: 'Εξειδίκευση', sortable: true, sortDirection: 'desc', },
+            {key: 'vat', label: 'ΑΦΜ', sortable: true, sortDirection: 'desc', },
+            {key: 'irs', label: 'ΔΟΥ', sortable: true, sortDirection: 'desc',},
          ],
          items: [],
          selected: [],
-         //table options
          selectMode: 'single',
          sortBy: '',
          sortDesc: false,
          sortDirection: 'asc',
          filter: null,
          filterOn: [],
-         //GET options
-         cu: '',
-         parent_id: 0,
+         cu: "",
+         path_url: "",
+         parent_id: "",
          api: null,
-      };
-  },
+      }
+   },
 
-  computed: {
+   computed: {
       sortOptions() {
          // Create an options list from our fields
          return this.fields
             .filter(f => f.sortable)
             .map(f => ({ text: f.label, value: f.key }));
-      },
-
-      headers() {
-         return {
-            Authorization: `Bearer ${this.token}`
-         };
-      },
+      }
    },
 
    mounted() {
       if(!this.token)
-          swal.fire(
+         swal.fire(
             'Access Denied!',
             'Log in to see information',
             'error'
-         );
+         )
       this.api = API(this.token);
-      this.parent_id = this.$route.params.id;
-      console.log('param', this.parent_id);
-      this.init();
-  },
+      this.path_url = this.$route.path;
+      var tokens = this.path_url.split('/').slice(1);
+      this.path_url = '/'+tokens[0];
+      console.log('mounted', this.path_url);
+      this.getCRUD();
+   },
 
-  methods: {
-      init() {
-         this.getCRUD()
-         this.getCompanies()
-      },
+   methods: {
+      getCRUD(){
+         const axios = require('axios');
 
-      getCompanies() {
-         this.api.Company.all()
-            .then(data => {
-               this.companies = data;
-               this.companies.unshift({ id: null, name: "" })
-
-               //for each child add the name of the parent
-               this.items.forEach(child => {
-                  var parent = this.companies.find(obj => {
-                     return obj.id === child.company_id
-                  })
-                  child.company_name = parent.name;
-               });
-            }).catch((errors) => {
-               console.log(errors);
-            });
-      },
-
-      getCRUD() {
          if (this.parent_id) {
-            this.items = []
-            this.api.Company.customers(this.parent_id)
-               .then((data) => this.items = data)
-               .catch((errors) => {
-                  console.log(errors)
-               });
+            // this.items = []
+            // axios.get('api/v1/companies/customers/' + this.parent_id).then((response) => {
+            //     this.items = response.data.data
+            // }).catch((errors) => {
+            //     console.log(errors)
+            // });
          } else {
             this.items = []
             this.api.Customer.all()
-               .then((data) => this.items = data)
-               .catch((errors) => {
-                  console.log(errors)
-               });
+               .then(data => this.items = data)
+               .catch(console.log);
          }
       },
 
-      Selected_modal() {
+      Selected_modal(){
          if(!this.selected[0]) {
             swal.fire(
-            'First Select entry',
-            'No entry Has been selected',
-            'error'
-            )
-         } else {
-            this.cu = 'update'
-            this.$refs.modal.show();
-            this.temp_page_table = this.selected[0];
+               'First Select entry',
+               'No entry Has been selected',
+               'error'
+            );
+            return
          }
+         this.cu = 'update'
+         this.$refs.modal.show();
+         this.temp_page_table = this.selected[0];
       },
 
-      SelectedChildren() {
+      SelectedChildren(){
          if(!this.selected[0]) {
-            swal.fire(
-            'First Select entry',
-            'No entry Has been selected',
-            'error'
-            )
-         } else {
-            this.$router.push('/addresses/' + this.selected[0].id)
+               swal.fire(
+                  'First Select entry',
+                  'No entry Has been selected',
+                  'error'
+               );
+               return
          }
+         this.$router.push('/customers/' + this.selected[0].id)
       },
 
-      NewEntry() {
+      NewEntry(){
          Object.keys(this.temp_page_table).forEach(key => {
             this.temp_page_table[key] = null;
-         })
-         this.cu = 'create';
+         });
+         this.cu = 'create'
          this.$refs.modal.show();
       },
 
-      createCRUD() {
-         this.api.Customer.create(this.page_table)
-            .then((response) => {
-               this.init();
-            }).catch((errors) => {
-               console.log(errors);
-               this.errors.push(errors);
+      createCRUD(){
+         this.api.Company.create(this.page_table)
+            .then(() => this.getCrud())
+            .catch(errors => {
+               console.log(errors)
+               this.errors.push(errors)
                swal.fire(
                   'Adding new - error!',
                   'something went wrong',
@@ -244,13 +220,12 @@ export default {
             });
       },
 
-      updateCRUD() {
-         this.api.Customer.update(this.selected[0].id, this.page_table)
-            .then((response) => {
-               this.init();
-            }).catch((errors) => {
-               console.log(errors);
-               this.errors.push(errors);
+      updateCRUD(){
+         this.api.Company.update(this.selected[0].id, this.page_table)
+            .then(() => this.CRUD())
+            .catch(errors => {
+               console.log(errors)
+               this.errors.push(errors)
                swal.fire(
                   'Updating - error!',
                   'something went wrong',
@@ -259,7 +234,7 @@ export default {
             });
       },
 
-      deleteCRUD() {
+      deleteCRUD(){
          if(!this.selected[0]) {
             swal.fire(
                'First Select entry',
@@ -275,28 +250,26 @@ export default {
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, delete it!'
-         })
-         .then((result) => {
+            confirmButtonText: 'Yes, delete it!',
+         }).then((result) => {
             if (!result.isConfirmed) return;
-            this.api.Customer.delete(this.selected[0].id)
-               .then((response) => {
-                  this.init();
-               }).catch((errors) => {
-                  console.log(errors);
-                  this.errors.push(errors);
+            this.api.Company.delete(this.selected[0].id)
+               .then(() => this.getCRUD())
+               .catch(errors => {
+                  console.log(errors)
+                  this.errors.push(errors)
                   swal.fire(
                      'error!',
                      'You have added children for this entry',
                      'error'
                   );
                });
-               swal.fire(
-                  'Deleted!',
-                  'Your record has been deleted.',
-                  'success'
-               );
-            });
+            swal.fire(
+               'Deleted!',
+               'Your record has been deleted.',
+               'success'
+            );
+         });
       },
 
       onFiltered(filteredItems) {
@@ -310,6 +283,7 @@ export default {
          if (this.selected.length) {
             console.log(this.selected)
             console.log(this.selected[0].id)
+            console.log(this.selected[0].vat)
          }
       },
 
@@ -332,23 +306,18 @@ export default {
 
       handleSubmit() {
          // Exit when the form isn't valid
-         if (!this.value) {
-            this.init();
-            return;
-         } else {
-            this.page_table = this.temp_page_table;
-            console.log('>><<>><<> from submit \n', this.page_table)
-            if(this.cu == 'create'){
-               this.createCRUD();
-            } else if(this.cu == 'update'){
-               this.updateCRUD();
-            }
+         this.page_table = this.temp_page_table;
+         console.log('>><<>><<> from submit \n', this.page_table)
+         if(this.cu == 'create'){
+            this.createCRUD();
+         } else if(this.cu == 'update'){
+            this.updateCRUD();
          }
          // Hide the modal manually
          this.$nextTick(() => {
             this.$refs.modal.hide();
          });
-         this.init()
-      },
+         this.getCRUD();
+      }
    },
-};
+}

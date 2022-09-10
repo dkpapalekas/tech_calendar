@@ -1,0 +1,9 @@
+.default-wrapper .col-md-10.title { height: 10px; }
+
+.default-wrapper .sf { display: flex; }
+
+.default-wrapper .sf > * {
+   flex: 1;
+   margin: 10px;
+   height: 100px;
+}

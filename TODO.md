@@ -2,8 +2,8 @@ Port components to render functions
    - Addresses
    - **DONE** App
    - Appliances
-   - Companies
-   - **WIP** Customers
+   - **DONE** Companies
+   - **DONE** Customers
    - Job_Lines
    - Jobs
    - **DONE** Login
@@ -13,6 +13,12 @@ Port components to render functions
    - ~~Test~~ (not needed)
 
 **WIP** All API calls in API provider
+   - **DONE** Customers
+   - **DONE** Companies
+   - Appliances
+   - Addresses
+   - Jobs
+   - Materials
 
 Better authentication story
 

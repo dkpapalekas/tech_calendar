@@ -17,4 +17,28 @@ export default (token: string) => ({
          }
       }).then(x => x.data.data);
    },
+
+   create(company) {
+      return axios.post(`${v1}/companies`, company, {
+         headers: {
+            Authorization: `Bearer ${token}`
+         }
+      });
+   },
+
+   update(company_id: string, company) {
+      return axios.put(`${v1}/companies/${company_id}`, company, {
+         headers: {
+            Authorization: `Bearer ${token}`
+         }
+      });
+   },
+
+   delete(company_id: string) {
+      return axios.delete(`${v1}/companies/${company_id}`, {
+         headers: {
+            Authorization: `Bearer ${token}`
+         },
+      });
+   }
 });
