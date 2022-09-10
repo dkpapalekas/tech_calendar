@@ -1,10 +1,10 @@
 // My Vue Files
 import { RouterMode } from 'vue-router';
-import Frontpage from './views2/Frontpage'
-import Login from './views2/Login'
-import Register from './views2/Register'
+import Frontpage from './views2/Frontpage';
+import Login from './views2/Login';
+import Register from './views2/Register';
 // import Companies from './views/Companies.vue'
-import Customers from './views2/Customers'
+import Customers from './views2/Customers';
 // import Addresses from './views/Addresses.vue'
 // import Appliances from './views/Appliances.vue'
 // import Jobs from './views/Jobs.vue'
