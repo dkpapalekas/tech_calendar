@@ -4,15 +4,6 @@ const header = 'Σύστημα Διαχείρισης Εργασιών'
 const jobs = 'Εργασίες'
 
 export default {
-   components:{
-      BCard,
-      BNavItem,
-   },
-   data() {
-      return {
-            message:'Hello World'
-      }
-   },
    render(h) {
       console.log(h(BCard))
       return h('div', [

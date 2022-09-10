@@ -1,12 +1,12 @@
-import { BModal, BTable } from "bootstrap-vue";
-import CRUDButtons from "../components/CRUDButtons";
-import EditCompany from "../components/EditCompany";
-import Header from "../components/Header"
-import SortFilter from "../components/SortFilter";
-import TextFilter from "../components/TextFilter";
-import API from "../API";
-import swal from "sweetalert2";
-import wrapped from "../components/DefaultWrapper";
+import { BModal, BTable } from 'bootstrap-vue';
+import CRUDButtons from '../components/CRUDButtons';
+import EditCompany from '../components/EditCompany';
+import Header from '../components/Header'
+import SortFilter from '../components/SortFilter';
+import TextFilter from '../components/TextFilter';
+import API from '../API';
+import swal from 'sweetalert2';
+import wrapped from '../components/DefaultWrapper';
 
 export default {
    render(h) {
@@ -86,12 +86,12 @@ export default {
          companies: {},
          page_table: {},
          temp_page_table: {
-            name: "",
-            address: "",
-            city: "",
-            profession: "",
-            vat: "",
-            irs: "",
+            name: '',
+            address: '',
+            city: '',
+            profession: '',
+            vat: '',
+            irs: '',
          },
          modal_state: {
             nameState: null,
@@ -121,9 +121,9 @@ export default {
          sortDirection: 'asc',
          filter: null,
          filterOn: [],
-         cu: "",
-         path_url: "",
-         parent_id: "",
+         cu: '',
+         path_url: '',
+         parent_id: '',
          api: null,
       }
    },
@@ -244,7 +244,7 @@ export default {
          }
          swal.fire({
             title: 'Are you sure?',
-            text: "You won't be able to revert this!",
+            text: 'You won\'t be able to revert this!',
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
