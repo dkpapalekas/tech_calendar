@@ -6,13 +6,12 @@ import SortFilter from "../components/SortFilter";
 import TextFilter from "../components/TextFilter";
 import API from "../API";
 import swal from "sweetalert2";
+import wrapped from "../components/DefaultWrapper";
 
 export default {
    render(h) {
-      return h('div', { class: 'container'}, [
-         h('div', { class: 'row justify-content-center '}, [
-            h(Header, { props: { header: 'Εταιρείες' }}),
-         ]),
+      return wrapped(h, () => [
+         h(Header, { props: { header: 'Εταιρείες' }}),
 
          h('div', { class: 'col-md-10 sf' }, [
             h(TextFilter, {
@@ -79,7 +78,7 @@ export default {
                })
             },
          }),
-      ]);
+      ]));
    },
 
    data() {
