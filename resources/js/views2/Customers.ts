@@ -59,9 +59,6 @@ const table = (h, self) => h(BTable, {
       'row-selected': self.onRowSelected,
       filtered: self.onFiltered,
    },
-   scopedSlots: {
-      cell: (...xs) => console.log('!!!!!!!!!!!!!!!', xs) // TODO
-   },
 });
 
 export default {
