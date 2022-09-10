@@ -1,6 +1,6 @@
 import './Customers.css';
 
-import { BButton, BFormGroup, BFormInput, BFormSelect, BInputGroup, BTable } from 'bootstrap-vue';
+import { BButton, BFormGroup, BFormInput, BFormSelect, BInputGroup, BModal, BTable } from 'bootstrap-vue';
 
 import swal from 'sweetalert2';
 import API from '../API';
@@ -73,7 +73,6 @@ const crud_options = (h, self) => h('div', { class: 'stickies' }, [
       h(BButton, {
          props: {
             variant: 'success',
-            'v-b-modal.modal-prevent-closing': true,
          },
          on: { click: self.NewEntry }
       }, '+'),
@@ -85,6 +84,11 @@ const crud_options = (h, self) => h('div', { class: 'stickies' }, [
          on: { click: self.Selected_modal },
       }, 'edit'),
 
+      h(BButton, {
+         class: 'btn btn-danger',
+         type: 'button',
+         on: { click: self.deleteCRUD }
+      }, 'del')
    ]),
 
    h('div', { class: 'query' }, [
@@ -121,7 +125,140 @@ const table = (h, self) => h(BTable, {
    },
 });
 
-const modal = (h, self) => 'yoooooooooo'; // TODO
+const modal = (h, self) => h(BModal, {
+   ref: 'modal',
+   title: 'New Entry',
+   on: {
+      show: self.resetModal,
+      hidden: self.resetModal,
+      ok: self.handleOk,
+   },
+   scopedSlots: {
+      default: () => [
+         h('form', {
+            ref: 'form',
+            on: {
+               'submit.stop.prevent': self.handleSubmit,
+            },
+         }, [
+            form_name(h, self),
+            form_surname(h, self),
+            form_company(h, self),
+            form_tel(h, self),
+            form_remarks(h, self),
+         ]),
+      ],
+   },
+});
+
+const form_name = (h, self) => h(BFormGroup, {
+   props: {
+      label: 'Όνομα',
+      'label-for': 'name-input',
+      'invalid-feedback': 'Name is required',
+      state: self.modal_state.nameState,
+   },
+   scopedSlots: {
+      default: () => h(BFormInput, {
+         id: 'name-input',
+         props: {
+            value: self.temp_page_table.name,
+            state: self.modal_state.nameState,
+            required: true,
+         },
+         on: {
+            input: x => self.temp_page_table.name = x,
+         },
+      }),
+   },
+});
+
+const form_surname = (h, self) => h(BFormGroup, {
+   props: {
+      label: 'Επώνυμο',
+      'label-for': 'surname-input',
+      'invalid-feedback': 'Surname is required',
+      state: self.modal_state.surnameState,
+   },
+   scopedSlots: {
+      default: () => h(BFormInput, {
+         id: 'name-input',
+         props: {
+            value: self.temp_page_table.surname,
+            state: self.modal_state.surnameState,
+            required: true,
+         },
+         on: {
+            input: x => self.temp_page_table.surname = x,
+         },
+      }),
+   },
+});
+
+const form_company = (h, self) => h(BFormGroup, {
+   props: {
+      label: 'Εταιρεία',
+      'label-for': 'company_id-input',
+   },
+   scopedSlots: {
+      default: () => h(BFormSelect, {
+         props: {
+            value: self.temp_page_table.company_id,
+            options: self.companies,
+            'value-field': 'id',
+            'text-field': 'name',
+         },
+
+         on: {
+            value: x => self.temp_page_table.company_id = x,
+         }
+      }),
+   },
+});
+
+const form_tel = (h, self) => h(BFormGroup, {
+   props: {
+      label: 'Τηλέφωνο',
+      'label-for': 'telephone-input',
+      'invalid-feedback': 'Telephone is required',
+      state: self.modal_state.telephoneState,
+   },
+
+   scopedSlots: {
+      default: () => h(BFormInput, {
+         id: 'telephone-input',
+         props: {
+            value: self.temp_page_table.telephone,
+            state: self.modal_state.telephoneState,
+         },
+         on: {
+            input: x => self.temp_page_table.telephone = x,
+         }
+      }),
+   }
+});
+
+const form_remarks = (h, self) => h(BFormGroup, {
+   props: {
+      label: 'Σχόλια',
+      'label-for': 'remarks-input',
+      'invalid-feedback': 'remarks is required',
+      state: self.modal_state.remarksState,
+   },
+   scopedSlots: {
+      default: () => h(BFormInput, {
+         id: 'remarks-input',
+         props: {
+            value: self.temp_page_table.remarks,
+            state: self.modal_state.remarksState,
+            required: true,
+         },
+         on: {
+            input: x => self.temp_page_table.remarks = x,
+         }
+      }),
+   },
+});
 
 export default {
    render(h) {
@@ -265,7 +402,7 @@ export default {
             )
          } else {
             this.cu = 'update'
-            this.$bvModal.show('modal-prevent-closing')
+            this.$refs.modal.show();
             this.temp_page_table = this.selected[0];
          }
       },
@@ -286,7 +423,8 @@ export default {
          Object.keys(this.temp_page_table).forEach(key => {
             this.temp_page_table[key] = null;
          })
-         this.cu = 'create'
+         this.cu = 'create';
+         this.$refs.modal.show();
       },
 
       createCRUD() {
@@ -415,8 +553,8 @@ export default {
          }
          // Hide the modal manually
          this.$nextTick(() => {
-            this.$bvModal.hide('modal-prevent-closing')
-         })
+            this.$refs.modal.hide();
+         });
          this.init()
       },
    },
