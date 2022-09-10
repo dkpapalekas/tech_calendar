@@ -1,73 +1,11 @@
 import './Customers.css';
 
-import { BButton, BFormGroup, BFormInput, BFormSelect, BInputGroup, BModal, BTable } from 'bootstrap-vue';
-
+import { BButton, BModal, BTable } from 'bootstrap-vue';
 import swal from 'sweetalert2';
 import API from '../API';
 import EditCustomer from '../components/EditCustomer';
-
-const header = (h) => h('div', { class: 'col-md-10 title '}, [
-   h('h5', { class: 'text-center' }, 'Πελάτες')
-]);
-
-const filters = (h, self) => h('div', { class: 'col-md-10 sf'}, [
-   text_filter(h, self),
-   sort_filter(h, self),
-]);
-
-const text_filter = (h, self) => h(BFormGroup, {
-   class: 'mb-0',
-   props: {
-      label: 'Φίλτρο',
-      'label-for': 'filter-input',
-      'label-cols-sm': 3,
-      'label-align-sm': 'right',
-      'label-size': 'sm',
-   },
-   scopedSlots: {
-      default: () => h(BInputGroup, {
-         class: 'filter-class',
-         props: { size: 'sm' },
-         scopedSlots: {
-            default: () => h(BFormInput, {
-               props: {
-                  type: 'search',
-                  placeholder: 'Type to Search',
-               },
-               id: 'filter-input',
-               value: self.filter,
-               on: { value: x => self.filter = x },
-            })
-         }
-      })
-   }
-});
-
-const sort_filter = (h, self) => h(BFormGroup, {
-   props: {
-      label: 'Ταξινόμηση',
-      'label-for': 'sort-by-select',
-      'label-cols-sm': 3,
-      'label-align-sm': 'right',
-      'label-size': 'sm',
-   },
-   class: 'mb-0',
-   scopedSlots: {
-      default: () => h(BInputGroup, {
-         props: { size: 'sm', },
-         scopedSlots: {
-            default: () => h(BFormSelect, {
-               props: {
-                  options: self.sortOptions,
-                  value: self.sortBy,
-               },
-               on: { value: x => self.sortBy = x },
-               class: 'w-75',
-            })
-         },
-      })
-   }
-});
+import TextFilter from '../components/TextFilter';
+import SortFilter from '../components/SortFilter';
 
 const crud_options = (h, self) => h('div', { class: 'stickies' }, [
    h('div', { class: 'crud' }, [
@@ -126,38 +64,54 @@ const table = (h, self) => h(BTable, {
    },
 });
 
-const modal = (h, self) => h(BModal, {
-   ref: 'modal',
-   title: 'New Entry',
-
-   on: {
-      show: self.resetModal,
-      hidden: self.resetModal,
-      ok: self.handleOk,
-   },
-   scopedSlots: {
-      default: () => h(EditCustomer, {
-         props: { value: self.temp_page_table },
-         on: { input: x => self.temp_page_table = x }
-      }),
-   },
-});
-
-
 export default {
    render(h) {
       return h('div', { class: 'container customers' }, [
          h('div', { class: 'row justify-content-center' }, [
-            header(h),
-            filters(h, this),
+            // header
+            h('div', { class: 'col-md-10 title '}, [
+               h('h5', { class: 'text-center' }, 'Πελάτες')
+            ]),
+
+            // filters
+            h('div', { class: 'col-md-10 sf'}, [
+               h(TextFilter, {
+                  props: { value: this.filter },
+                  on: { input: x => this.filter = x },
+               }),
+               h(SortFilter, {
+                  props: {
+                     value: this.sortBy,
+                     options: this.sortOptions,
+                  },
+                  on: { input: x => this.sortBy = x },
+               }),
+            ]),
+
             crud_options(h, this),
+
             h('div', { class: 'justify-content-center' }, [
                h('div', { class: 'col-md-10' }, [
                   table(h, this),
                ])
             ]),
 
-            modal(h, this),
+            h(BModal, {
+               ref: 'modal',
+               title: 'New Entry',
+
+               on: {
+                  show: this.resetModal,
+                  hidden: this.resetModal,
+                  ok: this.handleOk,
+               },
+               scopedSlots: {
+                  default: () => h(EditCustomer, {
+                     props: { value: this.temp_page_table },
+                     on: { input: x => this.temp_page_table = x }
+                  }),
+               },
+            }),
          ])
       ])
    },
