@@ -35,6 +35,7 @@
         "vue-template-compiler": "^2.6.14"
     },
     "devDependencies": {
-        "fpts": "github:vaaas/fpts"
+        "fpts": "github:vaaas/fpts",
+        "ts-validate": "github:vaaas/ts-validate"
     }
 }
