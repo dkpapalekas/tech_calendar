@@ -12,6 +12,8 @@ Port components to render functions
    - **DONE** Register
    - ~~Test~~ (not needed)
 
+**WIP** All API calls in API provider
+
 Better authentication story
 
 Lint
@@ -19,3 +21,11 @@ Lint
 Calendar drag n drop
 
 Simplify job entry
+
+Remove bootstrap vue
+
+Remove bootstrap
+
+Vue3
+
+Type checking

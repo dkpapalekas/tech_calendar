@@ -2,8 +2,8 @@ import './Customers.css';
 
 import { BButton, BFormGroup, BFormInput, BFormSelect, BInputGroup, BTable } from 'bootstrap-vue';
 
-import axios from 'axios';
 import swal from 'sweetalert2';
+import API from '../API';
 
 const header = (h) => h('div', { class: 'col-md-10 title '}, [
    h('h5', { class: 'text-center' }, 'Πελάτες')
@@ -181,8 +181,8 @@ export default {
          filterOn: [],
          //GET options
          cu: '',
-         path_url: '',
          parent_id: 0,
+         api: null,
       };
   },
 
@@ -208,12 +208,9 @@ export default {
             'Log in to see information',
             'error'
          );
+      this.api = API(this.token);
       this.parent_id = this.$route.params.id;
       console.log('param', this.parent_id);
-      this.path_url = this.$route.path;
-      var tokens = this.path_url.split('/').slice(1);
-      this.path_url = '/'+tokens[0];
-      console.log('URL 22', this.path_url);
       this.init();
   },
 
@@ -224,39 +221,38 @@ export default {
       },
 
       getCompanies() {
-         axios.get('api/v1/companies', { headers: this.headers }).then((response) => {
-            this.companies = response.data.data;
-            this.companies.unshift({ id: null, name: "" })
+         this.api.Company.all()
+            .then(data => {
+               this.companies = data;
+               this.companies.unshift({ id: null, name: "" })
 
-            //for each child add the name of the parent
-            this.items.forEach(child => {
-               var parent = this.companies.find(obj => {
-                  return obj.id === child.company_id
-               })
-               child.company_name = parent.name;
+               //for each child add the name of the parent
+               this.items.forEach(child => {
+                  var parent = this.companies.find(obj => {
+                     return obj.id === child.company_id
+                  })
+                  child.company_name = parent.name;
+               });
+            }).catch((errors) => {
+               console.log(errors);
             });
-         }).catch((errors) => {
-            console.log(errors);
-         });
       },
 
       getCRUD() {
          if (this.parent_id) {
             this.items = []
-            axios.get('api/v1/companies/customers/' + this.parent_id, { headers: this.headers })
-            .then((response) => {
-               this.items = response.data.data
-            }).catch((errors) => {
-               console.log(errors)
-            });
+            this.api.Company.customers(this.parent_id)
+               .then((data) => this.items = data)
+               .catch((errors) => {
+                  console.log(errors)
+               });
          } else {
             this.items = []
-            axios.get('api/v1' + this.path_url, { headers: this.headers })
-            .then((response) => {
-               this.items = response.data.data
-            }).catch((errors) => {
-               console.log(errors)
-            });
+            this.api.Customer.all()
+               .then((data) => this.items = data)
+               .catch((errors) => {
+                  console.log(errors)
+               });
          }
       },
 
@@ -294,33 +290,33 @@ export default {
       },
 
       createCRUD() {
-         axios.post('api/v1' + this.path_url, this.page_table, { headers: this.headers })
-         .then((response) => {
-            this.init()
-         }).catch((errors) => {
-            console.log(errors)
-            this.errors.push(errors)
-            swal.fire(
-               'Adding new - error!',
-               'something went wrong',
-               'error'
-            )
-         });
+         this.api.Customer.create(this.page_table)
+            .then((response) => {
+               this.init();
+            }).catch((errors) => {
+               console.log(errors);
+               this.errors.push(errors);
+               swal.fire(
+                  'Adding new - error!',
+                  'something went wrong',
+                  'error'
+               );
+            });
       },
 
       updateCRUD() {
-         axios.put('api/v1' + this.path_url + '/' + this.selected[0].id, this.page_table, { headers: this.headers })
-         .then((response) => {
-            this.init()
-         }).catch((errors) => {
-            console.log(errors)
-            this.errors.push(errors)
-            swal.fire(
-               'Updating - error!',
-               'something went wrong',
-               'error'
-            );
-         })
+         this.api.Customer.update(this.selected[0].id, this.page_table)
+            .then((response) => {
+               this.init();
+            }).catch((errors) => {
+               console.log(errors);
+               this.errors.push(errors);
+               swal.fire(
+                  'Updating - error!',
+                  'something went wrong',
+                  'error'
+               );
+            });
       },
 
       deleteCRUD() {
@@ -330,38 +326,37 @@ export default {
                'No entry Has been selected',
                'error'
             );
-         } else {
-            swal.fire({
-               title: 'Are you sure?',
-               text: "You won't be able to revert this!",
-               icon: 'warning',
-               showCancelButton: true,
-               confirmButtonColor: '#3085d6',
-               cancelButtonColor: '#d33',
-               confirmButtonText: 'Yes, delete it!'
-            })
-            .then((result) => {
-               if (result.isConfirmed) {
-                  axios.delete('api/v1' + this.path_url + '/' + this.selected[0].id, { headers: this.headers })
-                  .then((response) => {
-                     this.init()
-                  }).catch((errors) => {
-                     console.log(errors)
-                     this.errors.push(errors)
-                     swal.fire(
-                        'error!',
-                        'You have added children for this entry',
-                        'error'
-                     )
-                  })
-                     swal.fire(
-                        'Deleted!',
-                        'Your record has been deleted.',
-                        'success'
-                     )
-                  }
-               })
+            return;
          }
+         swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+         })
+         .then((result) => {
+            if (!result.isConfirmed) return;
+            this.api.Customer.delete(this.selected[0].id)
+               .then((response) => {
+                  this.init();
+               }).catch((errors) => {
+                  console.log(errors);
+                  this.errors.push(errors);
+                  swal.fire(
+                     'error!',
+                     'You have added children for this entry',
+                     'error'
+                  );
+               });
+               swal.fire(
+                  'Deleted!',
+                  'Your record has been deleted.',
+                  'success'
+               );
+            });
       },
 
       onFiltered(filteredItems) {
