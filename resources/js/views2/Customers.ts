@@ -8,8 +8,6 @@ import TextFilter from '../components/TextFilter';
 import SortFilter from '../components/SortFilter';
 import CRUDButtons from '../components/CRUDButtons';
 
-const table = (h, self) => ;
-
 export default {
    render(h) {
       return h('div', { class: 'container customers' }, [
