@@ -32,6 +32,6 @@ export default {
          on: {
             input: x => this.$emit('input', x)
          }
-      })
-   }
+      });
+   },
 }

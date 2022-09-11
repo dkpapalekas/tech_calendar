@@ -5,7 +5,7 @@ import Login from './views2/Login';
 import Register from './views2/Register';
 import Companies from './views2/Companies';
 import Customers from './views2/Customers';
-// import Addresses from './views/Addresses.vue'
+import Addresses from './views2/Addresses';
 // import Appliances from './views/Appliances.vue'
 // import Jobs from './views/Jobs.vue'
 // import Materials from './views/Materials.vue'
@@ -42,14 +42,14 @@ export default {
          path: '/customers/:id',
          component: Customers,
       },
-     //   {
-     //       path: '/addresses',
-     //       component: Addresses,
-     //   },
-     //   {
-     //       path: '/addresses/:id',
-     //       component: Addresses,
-     //   },
+      {
+         path: '/addresses',
+         component: Addresses,
+      },
+      {
+         path: '/addresses/:id',
+         component: Addresses,
+      },
      //   {
      //       path: '/jobs',
      //       component: Jobs,

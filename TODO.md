@@ -1,5 +1,5 @@
 Port components to render functions
-   - Addresses
+   - **DONE** Addresses
    - **DONE** App
    - Appliances
    - **DONE** Companies

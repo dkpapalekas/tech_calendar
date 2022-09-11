@@ -33,4 +33,12 @@ export default (token: string) => ({
          }
       });
    },
+
+   addresses(customer_id: string) {
+      return axios.get(`${v1}/customers/addresses/${customer_id}`, {
+         headers: {
+            Authorization: `Bearer ${token}`
+         }
+      }).then(x => x.data.data);
+   },
 });
