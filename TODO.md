@@ -22,7 +22,7 @@ Port components to render functions
 
 Better authentication story
 
-Lint
+**DONE** Lint
 
 Calendar drag n drop
 
