@@ -1,4 +1,4 @@
-import { BFormGroup, BFormInput, BInputGroup } from "bootstrap-vue"
+import { BFormGroup, BFormInput, BInputGroup } from 'bootstrap-vue';
 
 export default {
    props: ['value'],
@@ -32,4 +32,4 @@ export default {
          }
       });
    }
-}
+};

@@ -15,7 +15,7 @@ export default {
          class: 'mb-0',
          scopedSlots: {
             default: () => h(BInputGroup, {
-               props: { size: 'sm', },
+               props: { size: 'sm' },
                scopedSlots: {
                   default: () => h(BFormSelect, {
                      props: {
@@ -30,4 +30,4 @@ export default {
          }
       });
    },
-}
+};

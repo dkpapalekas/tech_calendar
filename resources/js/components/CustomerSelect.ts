@@ -6,7 +6,7 @@ export default {
       return {
          api: API(localStorage.getItem('token')!),
          customers: undefined,
-      }
+      };
    },
 
    props: [
@@ -31,4 +31,4 @@ export default {
          on: { input: x => this.$emit('input', x) },
       });
    }
-}
+};

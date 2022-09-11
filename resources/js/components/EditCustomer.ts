@@ -1,4 +1,4 @@
-import { BFormGroup, BFormInput, BFormSelect } from 'bootstrap-vue';
+import { BFormGroup, BFormInput } from 'bootstrap-vue';
 import { Text } from 'ts-validate';
 import CompanySelect from './CompanySelect';
 
@@ -153,4 +153,4 @@ export default {
          form_remarks(h, this),
       ]);
    }
-}
+};

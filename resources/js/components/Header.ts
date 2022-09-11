@@ -8,4 +8,4 @@ export default {
          h('h5', { class: 'text-center' }, this.header),
       ]);
    }
-}
+};

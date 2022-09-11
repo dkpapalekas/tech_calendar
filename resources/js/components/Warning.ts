@@ -8,4 +8,4 @@ export default {
          return '';
       return h('p', { class: 'text-danger' }, this.text);
    }
-}
+};

@@ -1,11 +1,11 @@
-import { BCard, BNavItem } from 'bootstrap-vue'
+import { BCard, BNavItem } from 'bootstrap-vue';
 
-const header = 'Σύστημα Διαχείρισης Εργασιών'
-const jobs = 'Εργασίες'
+const header = 'Σύστημα Διαχείρισης Εργασιών';
+const jobs = 'Εργασίες';
 
 export default {
    render(h) {
-      console.log(h(BCard))
+      console.log(h(BCard));
       return h('div', [
          h(BCard, {
             'bg-variant': 'outline-primary',
@@ -18,6 +18,6 @@ export default {
                ])
             ])
          ])
-      ])
+      ]);
    },
 };

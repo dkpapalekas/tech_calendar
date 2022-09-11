@@ -1,5 +1,5 @@
-import { BFormGroup, BFormInput } from "bootstrap-vue";
-import { Text } from "ts-validate";
+import { BFormGroup, BFormInput } from 'bootstrap-vue';
+import { Text } from 'ts-validate';
 
 const NonEmptyString = Text(1, Infinity);
 
@@ -21,11 +21,11 @@ export default {
    watch: {
       value(x) {
          this.copy = {
-            name: this.value?.name || '',
-            address: this.value?.address || '',
-            city: this.value?.city || '',
-            profession: this.value?.profession || '',
-            irs: this.value?.irs || '',
+            name: x?.name || '',
+            address: x?.address || '',
+            city: x?.city || '',
+            profession: x?.profession || '',
+            irs: x?.irs || '',
          };
       }
    },

@@ -1,4 +1,4 @@
-import { BFormSelect } from 'bootstrap-vue'
+import { BFormSelect } from 'bootstrap-vue';
 
 import API from '../API';
 
@@ -34,4 +34,4 @@ export default {
          }
       });
    },
-}
+};

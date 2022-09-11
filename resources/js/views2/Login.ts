@@ -1,4 +1,4 @@
-import Card from '../components/Card'
+import Card from '../components/Card';
 import LabelForm from '../components/LabelForm';
 import Warning from '../components/Warning';
 import axios from 'axios';
@@ -79,31 +79,31 @@ export default {
                      action(h, this.login),
                   ]
                }
-            })
-         ])
-      ])
+            }),
+         ]),
+      ]);
    },
 
    data() {
       return {
-          formData: {
-              email: '',
-              password: '',
-              device_name: 'browser'
-          },
-          errors: {}
-      }
-  },
+         formData: {
+            email: '',
+            password: '',
+            device_name: 'browser'
+         },
+         errors: {},
+      };
+   },
 
-  methods: {
+   methods: {
       login() {
-          axios.post('api/v1/authenticate', this.formData).then((response) => {
+         axios.post('api/v1/authenticate', this.formData).then((response) => {
             localStorage.setItem('token', response.data.token);
             console.log(response.data.token);
             this.$router.push('/jobs');
-          }).catch((errors) => {
+         }).catch((errors) => {
             this.errors = errors.response.data.errors;
-          })
-      }
-  }
-}
+         });
+      },
+   },
+};

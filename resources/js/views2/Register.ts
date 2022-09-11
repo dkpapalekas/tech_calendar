@@ -103,7 +103,7 @@ export default {
       }, [
          h(Card, {
             scopedSlots: {
-               header: () => 'Register' ,
+               header: () => 'Register',
                default: () => [
                   name_form(h, this.formData, this.errors),
                   email_form(h, this.formData, this.errors),
@@ -132,20 +132,20 @@ export default {
             password_confirmation: undefined,
          }
       };
-  },
+   },
 
-  methods: {
-      registerUser(){
+   methods: {
+      registerUser() {
          axios.post('api/v1/register', this.formData).then((response) => {
-            console.log(response.data)
-            this.formData.name = this.formData.email = this.formData.password = this.formData.password_confirmation = ''
-            this.errors = {}
-            this.$router.push('/login')
-            this.$toaster.success('Account created successfully, now you can login!')
+            console.log(response.data);
+            this.formData.name = this.formData.email = this.formData.password = this.formData.password_confirmation = '';
+            this.errors = {};
+            this.$router.push('/login');
+            this.$toaster.success('Account created successfully, now you can login!');
          }).catch((errors) => {
-            this.errors = errors.response.data.errors
-            console.error(errors.response.data.errors)
+            this.errors = errors.response.data.errors;
+            console.error(errors.response.data.errors);
          });
       }
-  },
-}
+   },
+};

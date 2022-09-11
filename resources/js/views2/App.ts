@@ -6,6 +6,6 @@ export default {
    router: new VueRouter(routes),
    render: (h) => h('div', [
       h(Navbar),
-      h('router-view', { key: "$route.path" }),
-   ])
-}
+      h('router-view', { key: '$route.path' }),
+   ]),
+};

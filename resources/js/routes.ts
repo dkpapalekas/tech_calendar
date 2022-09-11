@@ -30,10 +30,10 @@ export default {
          path: '/companies',
          component: Companies,
       },
-     //   {
-     //       path: '/appliances',
-     //       component: Appliances,
-     //   },
+      //   {
+      //       path: '/appliances',
+      //       component: Appliances,
+      //   },
       {
          path: '/customers',
          component: Customers,
@@ -50,29 +50,29 @@ export default {
          path: '/addresses/:id',
          component: Addresses,
       },
-     //   {
-     //       path: '/jobs',
-     //       component: Jobs,
-     //   },
-     //   {
-     //       path: '/jobs/:id',
-     //       component: Jobs,
-     //   },
-     //   {
-     //       path: '/job_lines',
-     //       component: Job_Lines,
-     //   },
-     //   {
-     //       path: '/job_lines/:id',
-     //       component: Job_Lines,
-     //   },
-     //   {
-     //       path: '/materials',
-     //       component: Materials,
-     //   },
-     //   {
-     //       path: '/materials/:id',
-     //       component: Materials,
-     //   },
+      //   {
+      //       path: '/jobs',
+      //       component: Jobs,
+      //   },
+      //   {
+      //       path: '/jobs/:id',
+      //       component: Jobs,
+      //   },
+      //   {
+      //       path: '/job_lines',
+      //       component: Job_Lines,
+      //   },
+      //   {
+      //       path: '/job_lines/:id',
+      //       component: Job_Lines,
+      //   },
+      //   {
+      //       path: '/materials',
+      //       component: Materials,
+      //   },
+      //   {
+      //       path: '/materials/:id',
+      //       component: Materials,
+      //   },
    ]
 };

@@ -7,4 +7,4 @@ export default {
          h('div', { class: 'card-body' }, this.$scopedSlots.default()),
       ]);
    }
-}
+};

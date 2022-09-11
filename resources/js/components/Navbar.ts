@@ -3,9 +3,9 @@ import {
    BCollapse,
    BDropdownItem,
    BNavbar, BNavbarBrand, BNavbarNav, BNavbarToggle, BNavItem, BNavItemDropdown,
-} from 'bootstrap-vue'
+} from 'bootstrap-vue';
 
-const AppName = 'Fridgital'
+const AppName = 'Fridgital';
 
 const NavItems = {
    'Home': '/',
@@ -16,7 +16,7 @@ const NavItems = {
    'Γενικά Υλικά': '/materials',
    'Συσκευές': '/appliances',
    'Εταιρείες': '/companies',
-}
+};
 
 export default {
    props: ['string'],
@@ -24,18 +24,17 @@ export default {
    data() {
       return {
          dropdown_visible: false,
-      }
+      };
    },
 
    methods: {
-      logout(){
-         console.log('yoooooooooooooooooooo')
-         axios.post('api/v1/revoke').then((response) => {
-            localStorage.removeItem('token')
-            this.$router.push('/')
+      logout() {
+         axios.post('api/v1/revoke').then(() => {
+            localStorage.removeItem('token');
+            this.$router.push('/');
          }).catch((errors) => {
-            console.log(errors)
-         })
+            console.log(errors);
+         });
       },
    },
 
@@ -93,6 +92,6 @@ export default {
                ])
             ]),
          ]),
-      ])
+      ]);
    },
 };

@@ -1,6 +1,6 @@
-import { BFormGroup, BFormInput } from 'bootstrap-vue'
-import { Text } from 'ts-validate'
-import { into } from 'fpts/object'
+import { BFormGroup, BFormInput } from 'bootstrap-vue';
+import { Text } from 'ts-validate';
+import { into } from 'fpts/object';
 import CustomerSelect from './CustomerSelect';
 
 const NonEmptyString = Text(1, Infinity);
@@ -20,18 +20,18 @@ export default {
             floor: this.value?.floor || '',
             remarks: this.value?.remarks || '',
          }
-      }
+      };
    },
 
    watch: {
       value(x) {
          this.copy = {
-            name: this.value?.name || '',
-            number: this.value?.number || '',
-            customer_id: this.value?.customer_id || '',
-            city: this.value?.city || '',
-            floor: this.value?.floor || '',
-            remarks: this.value?.remarks || '',
+            name: x?.name || '',
+            number: x?.number || '',
+            customer_id: x?.customer_id || '',
+            city: x?.city || '',
+            floor: x?.floor || '',
+            remarks: x?.remarks || '',
          };
       }
    },
@@ -153,6 +153,6 @@ export default {
                })
             }
          }),
-      ])
+      ]);
    }
-}
+};

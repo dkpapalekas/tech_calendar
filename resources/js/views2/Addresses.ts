@@ -88,23 +88,23 @@ export default {
          page_table: {},
          temp_page_table: {
             customer_id: null,
-            name: "",
-            number: "",
-            city: "",
-            floor: "",
-            remarks: "",
+            name: '',
+            number: '',
+            city: '',
+            floor: '',
+            remarks: '',
          },
          currentUser: {},
          token: localStorage.getItem('token'),
          errors: [],
          fields: [
-            {key: 'id', label: 'ID', sortable: true, sortDirection: 'desc', },
-            {key: 'name', label: 'Οδός', sortable: true, sortDirection: 'desc', },
-            {key: 'number', label: 'Αριθμός', sortable: true, sortDirection: 'desc', },
-            {key: 'city', label: 'Πόλη', sortable: true, sortDirection: 'desc', },
-            {key: 'floor', label: 'Οροφος', sortable: true, sortDirection: 'desc', },
-            {key: 'remarks', label: 'Σχόλια', sortable: true, sortDirection: 'desc', },
-            {key: 'customer_name', label: 'Πελάτης', sortable: true, sortDirection: 'desc', },
+            { key: 'id', label: 'ID', sortable: true, sortDirection: 'desc' },
+            { key: 'name', label: 'Οδός', sortable: true, sortDirection: 'desc' },
+            { key: 'number', label: 'Αριθμός', sortable: true, sortDirection: 'desc' },
+            { key: 'city', label: 'Πόλη', sortable: true, sortDirection: 'desc' },
+            { key: 'floor', label: 'Οροφος', sortable: true, sortDirection: 'desc' },
+            { key: 'remarks', label: 'Σχόλια', sortable: true, sortDirection: 'desc' },
+            { key: 'customer_name', label: 'Πελάτης', sortable: true, sortDirection: 'desc' },
          ],
          items: [],
          selected: [],
@@ -116,9 +116,9 @@ export default {
          filter: null,
          filterOn: [],
          //GET options
-         cu: "",
+         cu: '',
          parent_id: 0,
-      }
+      };
    },
 
    computed: {
@@ -138,41 +138,40 @@ export default {
             'error'
          );
       this.api = API(this.token);
-      this.parent_id = this.$route.params.id
-      console.log('param', this.parent_id)
-      this.path_url = this.$route.path
-      var tokens = this.path_url.split('/').slice(1)
-      this.path_url = '/'+tokens[0]
+      this.parent_id = this.$route.params.id;
+      console.log('param', this.parent_id);
+      this.path_url = this.$route.path;
+      const tokens = this.path_url.split('/').slice(1);
+      this.path_url = '/'+tokens[0];
       this.init();
    },
 
    methods: {
-      init(){
-         this.getCRUD()
-         this.getCustomers()
+      init() {
+         this.getCRUD();
+         this.getCustomers();
       },
 
-      getCustomers(){
+      getCustomers() {
          this.api.Customer.all()
             .then(data => {
                this.customers = data;
                //customer fullname creation
                this.customers.forEach(customer => {
-                  customer.fullname = customer.name + ' ' + customer.surname
-               })
+                  customer.fullname = customer.name + ' ' + customer.surname;
+               });
 
                //for each child add the name of the parent
                this.items.forEach(child => {
-                  var parent = this.customers.find(obj => {
-                        return obj.id === child.customer_id
-                  })
+                  const parent = this.customers.find(obj => {
+                     return obj.id === child.customer_id;
+                  });
                   child.customer_name = parent.name + ' ' + parent.surname;
-               })
-            })
-            .catch(console.log);
+               });
+            }).catch(console.log);
       },
 
-      getCRUD(){
+      getCRUD() {
          if (this.parent_id)
             this.api.Customer.addresses(this.parent_id)
                .then(x => this.items = x)
@@ -183,7 +182,7 @@ export default {
                .catch(console.log);
       },
 
-      Selected_modal(){
+      Selected_modal() {
          if(!this.selected[0]) {
             swal.fire(
                'First Select entry',
@@ -192,12 +191,12 @@ export default {
             );
             return;
          }
-         this.cu = 'update'
+         this.cu = 'update';
          this.$refs.modal.show();
          this.temp_page_table = this.selected[0];
       },
 
-      SelectedChildren(){
+      SelectedChildren() {
          if(!this.selected[0]) {
             swal.fire(
                'First Select entry',
@@ -209,7 +208,7 @@ export default {
          this.$router.push('/jobs/' + this.selected[0].id);
       },
 
-      NewEntry(){
+      NewEntry() {
          Object.keys(this.temp_page_table).forEach(key => {
             this.temp_page_table[key] = null;
          });
@@ -217,12 +216,12 @@ export default {
          this.$refs.modal.show();
       },
 
-      createCRUD(){
+      createCRUD() {
          this.api.Address.create(this.page_table)
             .then(() => this.init())
             .catch(errors => {
-               console.log(errors)
-               this.errors.push(errors)
+               console.log(errors);
+               this.errors.push(errors);
                swal.fire(
                   'Adding new - error!',
                   'something went wrong',
@@ -231,12 +230,12 @@ export default {
             });
       },
 
-      updateCRUD(){
+      updateCRUD() {
          this.api.Address.update(this.selected[0].id, this.page_table)
             .then(() => this.init())
             .catch(errors => {
-               console.log(errors)
-               this.errors.push(errors)
+               console.log(errors);
+               this.errors.push(errors);
                swal.fire(
                   'Updating - error!',
                   'something went wrong',
@@ -245,7 +244,7 @@ export default {
             });
       },
 
-      deleteCRUD(){
+      deleteCRUD() {
          if(!this.selected[0]) {
             swal.fire(
                'First Select entry',
@@ -256,7 +255,7 @@ export default {
          }
          swal.fire({
             title: 'Are you sure?',
-            text: "You won't be able to revert this!",
+            text: 'You won\'t be able to revert this!',
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
@@ -268,8 +267,8 @@ export default {
             this.api.Address.delete(this.selected[0].id)
                .then(() => this.init())
                .catch(errors => {
-                  console.log(errors)
-                  this.errors.push(errors)
+                  console.log(errors);
+                  this.errors.push(errors);
                   swal.fire(
                      'error!',
                      'You have added children for this entry',
@@ -286,43 +285,42 @@ export default {
 
       onFiltered(filteredItems) {
          // Trigger pagination to update the number of buttons/pages due to filtering
-         this.totalRows = filteredItems.length
+         this.totalRows = filteredItems.length;
          // this.currentPage = 1
       },
 
       onRowSelected(items) {
-         this.selected = items
+         this.selected = items;
          if (this.selected.length) {
-            console.log(this.selected)
-            console.log(this.selected[0].id)
+            console.log(this.selected);
+            console.log(this.selected[0].id);
          }
       },
 
       clearSelected() {
-         this.$refs.selectableTable.clearSelected()
+         this.$refs.selectableTable.clearSelected();
       },
 
       resetModal() {
-         this.name = ''
-         this.nameState = null
+         this.name = '';
+         this.nameState = null;
       },
 
       handleOk(bvModalEvent) {
          // Prevent modal from closing
-         bvModalEvent.preventDefault()
+         bvModalEvent.preventDefault();
          // Trigger submit handler
-         this.handleSubmit()
-         console.log('>><<>><<> from ok \n', this.page_table)
+         this.handleSubmit();
+         console.log('>><<>><<> from ok \n', this.page_table);
       },
 
       handleSubmit() {
          // Exit when the form isn't valid
          this.page_table = this.temp_page_table;
-         console.log('>><<>><<> from submit \n', this.page_table)
-         if(this.cu == 'create'){
+         console.log('>><<>><<> from submit \n', this.page_table);
+         if(this.cu == 'create') {
             this.createCRUD();
-         }
-         else if(this.cu == 'update'){
+         } else if(this.cu == 'update') {
             this.updateCRUD();
          }
          // Hide the modal manually
@@ -330,4 +328,4 @@ export default {
          this.init();
       }
    }
-}
+};
