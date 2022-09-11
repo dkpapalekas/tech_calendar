@@ -16,7 +16,7 @@ Port components to render functions
    - **DONE** Customers
    - **DONE** Companies
    - Appliances
-   - Addresses
+   - **DONE** Addresses
    - Jobs
    - Materials
 
