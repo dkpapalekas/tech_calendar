@@ -7,7 +7,7 @@ import Companies from './views2/Companies';
 import Customers from './views2/Customers';
 import Addresses from './views2/Addresses';
 // import Appliances from './views/Appliances.vue'
-// import Jobs from './views/Jobs.vue'
+import Jobs from './views2/Jobs';
 // import Materials from './views/Materials.vue'
 // import Job_Lines from './views/Job_Lines.vue'
 
@@ -50,14 +50,14 @@ export default {
          path: '/addresses/:id',
          component: Addresses,
       },
-      //   {
-      //       path: '/jobs',
-      //       component: Jobs,
-      //   },
-      //   {
-      //       path: '/jobs/:id',
-      //       component: Jobs,
-      //   },
+      {
+         path: '/jobs',
+         component: Jobs,
+      },
+      {
+         path: '/jobs/:id',
+         component: Jobs,
+      },
       //   {
       //       path: '/job_lines',
       //       component: Job_Lines,

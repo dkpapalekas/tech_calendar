@@ -5,7 +5,7 @@ Port components to render functions
    - **DONE** Companies
    - **DONE** Customers
    - Job_Lines
-   - Jobs
+   - **DONE** Jobs
    - **DONE** Login
    - Materials
    - **DONE** Navbar
@@ -15,9 +15,10 @@ Port components to render functions
 **WIP** All API calls in API provider
    - **DONE** Customers
    - **DONE** Companies
-   - Appliances
+   - **WIP** Appliances
    - **DONE** Addresses
-   - Jobs
+   - **DONE** Jobs
+   - **WIP** JobLines
    - Materials
 
 Better authentication story
@@ -35,3 +36,5 @@ Remove bootstrap
 Vue3
 
 Type checking
+
+HTTPS

@@ -5,7 +5,9 @@ export default {
    data() {
       return {
          api: API(localStorage.getItem('token')!),
-         customers: undefined,
+         customers: [
+            { text: 'Select Customer', value: undefined, disabled: true }
+         ],
       };
    },
 
@@ -14,7 +16,11 @@ export default {
    ],
 
    async created() {
-      this.customers = await this.api.Customer.all();
+      this.customers = (await this.api.Customer.all()).map(x => ({
+         value: x.id,
+         text: `${x.name} ${x.surname}`,
+      }));
+      this.customers.push({ text: 'Select Customer', value: undefined, disabled: true });
    },
 
    render(h) {
@@ -23,10 +29,7 @@ export default {
       return h(BFormSelect, {
          props: {
             value: this.value,
-            options: this.customers.map(x => ({
-               value: x.id,
-               text: `${x.name} ${x.surname}`,
-            })),
+            options: this.customers,
          },
          on: { input: x => this.$emit('input', x) },
       });

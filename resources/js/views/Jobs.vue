@@ -11,7 +11,7 @@
 
             <!-- filter -->
             <div class="col-md-10 sf">
-                
+
                     <b-form-group
                     label="Φίλτρο"
                     label-for="filter-input"
@@ -31,7 +31,7 @@
                             <!--   -->
                         </b-input-group>
                     </b-form-group>
-                
+
                     <b-form-group
                     label="Ταξινόμηση"
                     label-for="sort-by-select"
@@ -63,23 +63,23 @@
                             </b-form-select>
                         </b-input-group>
                     </b-form-group>
-                
+
             </div>
         </div>
         <!-- crud opts -->
         <div class='stickies'>
-             
+
              <button type="button" @click="deleteCRUD()" class="btn btn-danger">del</button>
             <b-button variant="success" v-b-modal.modal-prevent-closing @click="NewEntry()">+</b-button>
-            <b-button @click="Selected_modal()">edit</b-button> 
+            <b-button @click="Selected_modal()">edit</b-button>
             <b-button @click="SelectedChildren()">Υλικά</b-button>
         </div>
 
         <!-- table -->
         <div class="row justify-content-center">
             <div class="col-md-10">
-                <b-table striped hover 
-                    :items="items" 
+                <b-table striped hover
+                    :items="items"
                     :fields="fields"
                     :select-mode="selectMode"
                     :filter="filter"
@@ -127,8 +127,8 @@
                 label="Διεύθυνση"
                 label-for="address_id-input"
                 >
-                <b-form-select 
-                    v-model="temp_page_table.address_id" 
+                <b-form-select
+                    v-model="temp_page_table.address_id"
                     :options="addresses"
                     value-field="id"
                     text-field="fullname">
@@ -140,8 +140,8 @@
                 label="Συσκευή"
                 label-for="appliance_id-input"
                 >
-                <b-form-select 
-                    v-model="temp_page_table.appliance_id" 
+                <b-form-select
+                    v-model="temp_page_table.appliance_id"
                     :options="appliances"
                     value-field="id"
                     text-field="fullname">
@@ -153,8 +153,8 @@
                 label="Κατάσταση Πελάτη"
                 label-for="client_status-input"
                 >
-                <b-form-select 
-                    v-model="temp_page_table.client_status" 
+                <b-form-select
+                    v-model="temp_page_table.client_status"
                     :options="client_statuses">
                 </b-form-select>
                 </b-form-group>
@@ -166,14 +166,14 @@
                 invalid-feedback="date is required"
                 :state="modal_state.dateState"
                 >
-                <b-form-datepicker 
-                    id="example-datepicker" 
+                <b-form-datepicker
+                    id="example-datepicker"
                     locale="el"
-                    v-model="temp_date" 
+                    v-model="temp_date"
                     class="mb-2">
                 </b-form-datepicker>
-                <b-form-timepicker 
-                    v-model="temp_time" 
+                <b-form-timepicker
+                    v-model="temp_time"
                     locale="en">
                 </b-form-timepicker>
                 </b-form-group>
@@ -198,12 +198,12 @@
                 label="Κατάσταση Εργασίας"
                 label-for="is_completed-input"
                 >
-                <b-form-select 
-                    v-model="temp_page_table.is_completed" 
+                <b-form-select
+                    v-model="temp_page_table.is_completed"
                     :options="job_statuses">
                 </b-form-select>
                 </b-form-group>
-            </form>            
+            </form>
         </b-modal>
     </div>
 </template>
@@ -211,8 +211,8 @@
 <style scoped>
     .col-md-10.title { height:10px }
     .col-md-10.sf { display: flex; }
-    .col-md-10.sf > * { 
-        flex: 1; 
+    .col-md-10.sf > * {
+        flex: 1;
         margin: 10px;
         height: 100px;
     }
@@ -241,7 +241,7 @@
     import axios from 'axios'
     window.axios = require('axios')
     import swal from 'sweetalert2';
-    window.Swal = swal; 
+    window.Swal = swal;
 
     export default {
         components:{
@@ -286,7 +286,7 @@
                     {key: 'address_name', label: 'Διεύθυνση', sortable: true, sortDirection: 'desc', },
                     {key: 'is_completed_format', label: 'Κατάσταση Εργασίας', sortable: true, sortDirection: 'desc', },
                     // {key: 'appliance_name', label: 'Συσκευή', sortable: true, sortDirection: 'desc', },
-                    
+
                 ],
                 items: [],
                 selected: [],
@@ -300,16 +300,8 @@
                 //GET options
                 cu: "",
                 parent_id: 0,
-                client_statuses : [
-                    { value: 'pending', text: 'Αναμονή Πελάτη' },
-                    { value: 'OK', text: 'Συμφωνία Πελάτη' },
-                ],
-                job_statuses : [
-                    { value: 0, text: 'Εκρεμμεί' },
-                    { value: 1, text: 'Ολοκληρωμένη' },
-                ],
-                temp_date: "",              
-                temp_time: "",              
+                temp_date: "",
+                temp_time: "",
             }
         },
         computed: {
@@ -347,7 +339,7 @@
                     this.addresses.forEach(address => {
                         address.fullname = address.name + ' ' + address.city
                     })
-                    
+
                     //for each child add the name of the parent
                     this.items.forEach(child => {
                         var parent = this.addresses.find(obj => {
@@ -367,9 +359,9 @@
 
                     //custome fullname creation
                     this.appliances.forEach(appliance => {
-                        appliance.fullname = appliance.name + ' ' + appliance.model + ' ' + appliance.brand 
+                        appliance.fullname = appliance.name + ' ' + appliance.model + ' ' + appliance.brand
                     })
-                    
+
                     //for each child add the name of the parent
                     this.items.forEach(child => {
                         var parent = this.appliances.find(obj => {
@@ -388,7 +380,7 @@
                 const axios = require('axios');
                 axios.get('api/v1/job_lines').then((response) => {
                     this.job_lines = response.data.data
-                    
+
                     //for each child add the name of the parent
                     this.items.forEach(job => {
                         var pending_jobs = this.job_lines.filter(job_line => {
@@ -417,13 +409,13 @@
                         return item.address_id == this.parent_id
                     })
                 }
-                
+
                 this.formatTableFields();
-                
+
                 }).catch((errors) => {
                     console.log(errors)
                 });
-                
+
             },
 
             Selected_modal(){
@@ -433,8 +425,7 @@
                         'No entry Has been selected',
                         'error'
                     )
-                }
-                else {
+                } else {
                     this.cu = 'update'
                     this.$bvModal.show('modal-prevent-closing')
                     this.temp_page_table = this.selected[0];
@@ -529,7 +520,7 @@
                     })
                 }
             },
-            
+
             onFiltered(filteredItems) {
                 // Trigger pagination to update the number of buttons/pages due to filtering
                 this.totalRows = filteredItems.length
