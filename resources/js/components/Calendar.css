@@ -1,0 +1,85 @@
+.calendar {
+   overflow: auto;
+   scrollbar-width: thin;
+   user-select: none;
+}
+
+.calendar * {
+   user-select: none;
+}
+
+.calendar > .body, .calendar > header .days, .calendar > .body .month {
+   display: flex;
+}
+
+.calendar > header {
+   z-index: 1;
+   display: flex;
+   position: sticky;
+   top: 0rem;
+}
+
+.calendar > header .month > .name {
+   font-weight: bold;
+   font-size: 1.5rem;
+}
+
+.calendar > header .day > .name {
+   font-variant: small-caps;
+   font-weight: bold;
+   letter-spacing: 0.1em;
+}
+
+.calendar > header .day > .number {
+   font-size: 2rem;
+}
+
+
+.calendar .month:nth-child(even) {
+   background: #fff5f5;
+}
+
+.calendar .month:nth-child(even) .day > header {
+   background: #fff5f5;
+}
+
+.calendar .month:nth-child(odd) {
+   background: white;
+}
+
+.calendar .month:nth-child(odd) .day > header {
+   background: white;
+}
+
+.calendar .month + .month {
+   border-left: 1px solid rgba(0 0 0 / 10%);
+}
+
+.calendar > .body .day:nth-child(even) .hour {
+   background: rgba(75 0 0 / 5%);
+}
+
+.calendar > .body .day:nth-child(odd) .hour {
+   background: none;
+}
+
+.calendar .body .hour {
+   cursor: pointer;
+   border: 1px solid rgba(0 0 0 / 10%);
+}
+
+.calendar .body .hour:hover {
+   border: 1px solid rgba(0 0 0 / 20%);
+   background: rgba(0 0 0 / 10%);
+}
+
+.calendar aside {
+   position: sticky;
+   left: 0rem;
+   background: white;
+}
+
+.calendar aside .hour {
+   font-size: 1.25rem;
+   padding: 0.5rem;
+}
