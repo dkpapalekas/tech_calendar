@@ -5,11 +5,49 @@ import SortFilter from '../components/SortFilter';
 import CRUDButtons from '../components/CRUDButtons';
 import API from '../API';
 import swal from 'sweetalert2';
-import { BModal, BTable } from 'bootstrap-vue';
+import { BFormCheckbox, BModal, BTable } from 'bootstrap-vue';
 import EditJob from '../components/EditJob';
+import Card from '../components/Card';
 
 export default {
    render(h) {
+      const table = (h) => h('div', { class: 'row justify-content-center' }, [
+         h('div', { class: 'col-md-10' }, [
+            h(BTable, {
+               props: {
+                  striped: true,
+                  hover: true,
+                  items: this.items,
+                  fields: this.fields,
+                  'selcet-mode': this.selectMode,
+                  filter: this.filter,
+                  'filter-included-fields': this.filterOn,
+                  'sort-by.sync': this.sortBy,
+                  'sort-desc.sync': this.sortDesc,
+                  'sort-direction': this.sortDirection,
+                  'label-sort-asc': '',
+                  'label-sort-desc': '',
+                  'label-sort-clear': '',
+                  responsive: true,
+                  stacked: 'md',
+                  ref: 'selectableTable',
+                  selectable: true,
+               },
+               on: {
+                  'row-selected': this.onRowSelected,
+                  filtered: this.onFiltered,
+               },
+            })
+         ]),
+      ]);
+
+      const cards = (h) => h('div', { class: 'cards' }, this.items.map(x => h(Card, {
+         scopedSlots: {
+            header: () => h('div', 'yooo'),
+            default: () => h('div', 'brooooooooooooooo')
+         }
+      })))
+
       return wrapped(h, () => [
          h(Header, { props: { header: 'Εργασίες' }}),
 
@@ -39,53 +77,35 @@ export default {
                delete: this.deleteCRUD,
                query: this.SelectedChildren,
             },
+            scopedSlots: {
+               default: () => h(BFormCheckbox,  {
+                  props: { checked: this.cards },
+                  on: { change: x => this.cards = x },
+               }, ['Cards view'])
+            },
          }),
 
-         h('div', { class: 'row justify-content-center' }, [
-            h('div', { class: 'col-md-10' }, [
-               h(BTable, {
-                  props: {
-                     striped: true,
-                     hover: true,
-                     items: this.items,
-                     fields: this.fields,
-                     'selcet-mode': this.selectMode,
-                     filter: this.filter,
-                     'filter-included-fields': this.filterOn,
-                     'sort-by.sync': this.sortBy,
-                     'sort-desc.sync': this.sortDesc,
-                     'sort-direction': this.sortDirection,
-                     'label-sort-asc': '',
-                     'label-sort-desc': '',
-                     'label-sort-clear': '',
-                     responsive: true,
-                     stacked: 'md',
-                     ref: 'selectableTable',
-                     selectable: true,
-                  },
-                  on: {
-                     'row-selected': this.onRowSelected,
-                     filtered: this.onFiltered,
-                  },
-               })
-            ]),
-         ]),
+         this.cards ? cards(h) : table(h),
 
          h(BModal, {
             id: 'modal-prevent-closing',
             ref: 'modal',
-            props: {
-               title: 'New Entry',
-            },
+            props: { title: 'New Entry' },
             on: {
                show: this.resetModal,
                hidden: this.resetModal,
-               ok: this.handleOk,
+               ok: () => this.$refs.edit.submit(),
             },
             scopedSlots: {
                default: () => h(EditJob, {
+                  ref: 'edit',
                   props: { value: this.temp_page_table },
-                  on: { input: x => this.temp_page_table =  x},
+                  on: {
+                     input: x => {
+                        this.temp_page_table = x;
+                        this.handleSubmit();
+                     },
+                  },
                }),
             }
          }),
@@ -190,6 +210,8 @@ export default {
          temp_date: '',
          temp_time: '',
          api: null,
+         /** toggling between cards and non-cards view */
+         cards: false,
       };
    },
 
@@ -435,14 +457,6 @@ export default {
       resetModal() {
          this.name = '';
          this.nameState = null;
-      },
-
-      handleOk(bvModalEvent) {
-         // Prevent modal from closing
-         bvModalEvent.preventDefault();
-         // Trigger submit handler
-         this.handleSubmit();
-         console.log('>><<>><<> from ok \n', this.page_table);
       },
 
       handleSubmit() {

@@ -36,6 +36,12 @@ export default {
       }
    },
 
+   methods: {
+      submit() {
+         this.$emit('input', this.copy);
+      },
+   },
+
    render(h) {
       const copy = into(this.copy);
       return h('form', {

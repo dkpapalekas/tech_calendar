@@ -30,6 +30,12 @@ export default {
       }
    },
 
+   methods: {
+      submit() {
+         this.$emit('input', this.copy);
+      },
+   },
+
    render(h) {
       return h('form', {
          ref: 'form',

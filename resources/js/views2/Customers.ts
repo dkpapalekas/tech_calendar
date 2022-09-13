@@ -74,12 +74,18 @@ export default {
             on: {
                show: this.resetModal,
                hidden: this.resetModal,
-               ok: this.handleOk,
+               ok: () => this.$refs.edit.submit(),
             },
             scopedSlots: {
                default: () => h(EditCustomer, {
+                  ref: 'edit',
                   props: { value: this.temp_page_table },
-                  on: { input: x => this.temp_page_table = x }
+                  on: {
+                     input: x => {
+                        this.temp_page_table = x;
+                        this.handleSubmit();
+                     },
+                  }
                }),
             },
          }),
@@ -312,27 +318,13 @@ export default {
          this.nameState = null;
       },
 
-      handleOk(bvModalEvent) {
-         // Prevent modal from closing
-         bvModalEvent.preventDefault();
-         // Trigger submit handler
-         this.handleSubmit();
-         console.log('>><<>><<> from ok \n', this.page_table);
-      },
-
       handleSubmit() {
-         // Exit when the form isn't valid
-         if (!this.value) {
-            this.init();
-            return;
-         } else {
-            this.page_table = this.temp_page_table;
-            console.log('>><<>><<> from submit \n', this.page_table);
-            if(this.cu == 'create') {
-               this.createCRUD();
-            } else if(this.cu == 'update') {
-               this.updateCRUD();
-            }
+         this.page_table = this.temp_page_table;
+         console.log('>><<>><<> from submit \n', this.page_table);
+         if(this.cu == 'create') {
+            this.createCRUD();
+         } else if(this.cu == 'update') {
+            this.updateCRUD();
          }
          // Hide the modal manually
          this.$nextTick(() => {

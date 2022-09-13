@@ -40,6 +40,8 @@ export default {
                on: { click: (x) => this.$emit('query', x) }
             }, this.query)
          ])),
+
+         this.$scopedSlots.default ? this.$scopedSlots.default() : '',
       ]);
    }
 };

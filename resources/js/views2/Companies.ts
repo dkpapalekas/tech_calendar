@@ -69,12 +69,18 @@ export default {
             on: {
                show: this.resetModal,
                hidden: this.resetModal,
-               ok: this.handleOk,
+               ok: () => this.$refs.edit.submit(),
             },
             scopedSlots: {
                default: () => h(EditCompany, {
+                  ref: 'edit',
                   props: { value: this.temp_page_table },
-                  on: { input: x => this.temp_page_table = x },
+                  on: {
+                     input: x => {
+                        this.temp_page_table = x;
+                        this.handleSubmit();
+                     },
+                  },
                })
             },
          }),
@@ -291,14 +297,6 @@ export default {
       resetModal() {
          this.name = '';
          this.nameState = null;
-      },
-
-      handleOk(bvModalEvent) {
-         // Prevent modal from closing
-         bvModalEvent.preventDefault();
-         // Trigger submit handler
-         this.handleSubmit();
-         console.log('>><<>><<> from ok \n', this.page_table);
       },
 
       handleSubmit() {
