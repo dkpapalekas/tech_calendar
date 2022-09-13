@@ -114,7 +114,7 @@ export default {
                   props: {
                      value: this.copy.date,
                   },
-                  on: { input: x => this.copy.date = new Date(x.target.value) },
+                  on: { change: x => this.copy.date = new Date(x.target.value) },
                }),
             },
          }),

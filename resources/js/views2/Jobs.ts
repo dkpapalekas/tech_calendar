@@ -125,7 +125,7 @@ export default {
             address_id: null,
             appliance_id: null,
             client_status: '',
-            date: '',
+            date: undefined,
             agreed_price: 0,
             is_completed: 0,
          },
@@ -207,8 +207,6 @@ export default {
             { value: 0, text: 'Εκρεμμεί' },
             { value: 1, text: 'Ολοκληρωμένη' },
          ],
-         temp_date: '',
-         temp_time: '',
          api: null,
          /** toggling between cards and non-cards view */
          cards: false,
@@ -344,8 +342,6 @@ export default {
             this.cu = 'update';
             this.$refs.modal.show();
             this.temp_page_table = this.selected[0];
-            this.temp_date = this.selected[0].date.split(' ')[0];
-            this.temp_time = this.selected[0].date.split(' ')[1];
             console.log(this.selected[0], '<<<');
          }
       },
@@ -461,7 +457,6 @@ export default {
 
       handleSubmit() {
          this.page_table = this.temp_page_table;
-         this.page_table.date = this.temp_date + ' ' + this.temp_time;
          console.log('>><<>><<> from submit \n', this.page_table);
          if (this.cu == 'create')
             this.createCRUD();

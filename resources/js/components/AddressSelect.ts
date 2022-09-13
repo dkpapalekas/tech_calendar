@@ -18,7 +18,7 @@ export default {
 
    async created() {
       this.addresses = (await this.api.Address.all()).map(x => ({
-         text: x.fullname,
+         text: x.name,
          value: x.id
       }));
       this.addresses.push({ text: 'Select Address', value: undefined, disabled: true });
