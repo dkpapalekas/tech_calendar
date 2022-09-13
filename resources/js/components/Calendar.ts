@@ -20,16 +20,6 @@ export default {
          type: String,
          default: 'figure',
       },
-      cellWidth: {
-         required: 0,
-         type: Number,
-         default: 3,
-      },
-      cellHeight: {
-         required: 0,
-         type: Number,
-         default: 3,
-      },
       contentHeight: {
          required: false,
          type: String,
@@ -40,6 +30,8 @@ export default {
    data() {
       return {
          current_year: new Date().getFullYear(),
+         cellWidth: 3,
+         cellHeight: 3,
       };
    },
 

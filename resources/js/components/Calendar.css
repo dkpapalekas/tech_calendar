@@ -55,22 +55,17 @@
    border-left: 1px solid rgba(0 0 0 / 10%);
 }
 
+.calendar .body .hour {
+   cursor: pointer;
+   border: 1px solid rgba(0 0 0 / 10%);
+}
+
 .calendar > .body .day:nth-child(even) .hour {
    background: rgba(75 0 0 / 5%);
 }
 
 .calendar > .body .day:nth-child(odd) .hour {
    background: none;
-}
-
-.calendar .body .hour {
-   cursor: pointer;
-   border: 1px solid rgba(0 0 0 / 10%);
-}
-
-.calendar .body .hour:hover {
-   border: 1px solid rgba(0 0 0 / 20%);
-   background: rgba(0 0 0 / 10%);
 }
 
 .calendar aside {

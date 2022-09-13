@@ -8,6 +8,8 @@ import swal from 'sweetalert2';
 import { BFormCheckbox, BModal, BTable } from 'bootstrap-vue';
 import EditJob from '../components/EditJob';
 import Card from '../components/Card';
+import Calendar from '../components/Calendar';
+import { vif1 } from '../util';
 
 export default {
    render(h) {
@@ -86,6 +88,12 @@ export default {
          }),
 
          this.cards ? cards(h) : table(h),
+
+         vif1(this.cards)(() => h(Calendar, {
+            props: {
+               data: [],
+            }
+         })),
 
          h(BModal, {
             id: 'modal-prevent-closing',
