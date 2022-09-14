@@ -8,8 +8,6 @@ import API from '../API';
 import swal from 'sweetalert2';
 import wrapped from '../components/DefaultWrapper';
 
-//TODO create EditAppliance forms for modal
-
 export default {
    render(h) {
       return wrapped(h, () => [
@@ -91,45 +89,45 @@ export default {
 
    ddata() {
       return {
-          companies: {},
-          page_table: {},
-          temp_page_table: {
-              name: "",
-              brand: "",
-              model: "",
-              year: "",
-              remarks: "",
-          },
-          modal_state: {
-              nameState: null,
-              brandState: null,
-              modelState: null,
-              yearState: null,
-              remarksState: null,                  
-          },
-          currentUser: {},
-          token: localStorage.getItem('token'),
-          errors: [],
-          fields: [
-              {key: 'id', label: 'ID', sortable: true, sortDirection: 'desc', },
-              {key: 'name', label: 'Ονομασία', sortable: true, sortDirection: 'desc', },
-              {key: 'brand', label: 'Μάρκα', sortable: true, sortDirection: 'desc', },
-              {key: 'model', label: 'Μοντέλο', sortable: true, sortDirection: 'desc', },
-              {key: 'year', label: 'Χρονολογία', sortable: true, sortDirection: 'desc', },
-              {key: 'remarks', label: 'Σχόλια', sortable: true, sortDirection: 'desc',},
-          ],
-          items: [],
-          selected: [],
-          selectMode: 'single',
-          sortBy: '',
-          sortDesc: false,
-          sortDirection: 'asc',
-          filter: null,
-          filterOn: [],
-          cu: "",
-          path_url: "",
-          parent_id: "",
-      }
+         companies: {},
+         page_table: {},
+         temp_page_table: {
+            name: '',
+            brand: '',
+            model: '',
+            year: '',
+            remarks: '',
+         },
+         modal_state: {
+            nameState: null,
+            brandState: null,
+            modelState: null,
+            yearState: null,
+            remarksState: null,
+         },
+         currentUser: {},
+         token: localStorage.getItem('token'),
+         errors: [],
+         fields: [
+            {key: 'id', label: 'ID', sortable: true, sortDirection: 'desc' },
+            {key: 'name', label: 'Ονομασία', sortable: true, sortDirection: 'desc' },
+            {key: 'brand', label: 'Μάρκα', sortable: true, sortDirection: 'desc' },
+            {key: 'model', label: 'Μοντέλο', sortable: true, sortDirection: 'desc' },
+            {key: 'year', label: 'Χρονολογία', sortable: true, sortDirection: 'desc' },
+            {key: 'remarks', label: 'Σχόλια', sortable: true, sortDirection: 'desc' },
+         ],
+         items: [],
+         selected: [],
+         selectMode: 'single',
+         sortBy: '',
+         sortDesc: false,
+         sortDirection: 'asc',
+         filter: null,
+         filterOn: [],
+         cu: '',
+         path_url: '',
+         parent_id: '',
+      };
    },
 
    computed: {
