@@ -10,10 +10,10 @@ export default {
       return {
          copy: {
             name: this.value?.name || '',
-            address: this.value?.address || '',
-            city: this.value?.city || '',
-            profession: this.value?.profession || '',
-            irs: this.value?.irs || '',
+            brand: this.value?.brand || '',
+            model: this.value?.model || '',
+            year: this.value?.year || '',
+            remarks: this.value?.remarks || '',
          }
       };
    },
@@ -22,10 +22,10 @@ export default {
       value(x) {
          this.copy = {
             name: x?.name || '',
-            address: x?.address || '',
-            city: x?.city || '',
-            profession: x?.profession || '',
-            irs: x?.irs || '',
+            brand: x?.brand || '',
+            model: x?.model || '',
+            year: x?.year || '',
+            remarks: x?.remarks || '',
          };
       }
    },
@@ -66,84 +66,84 @@ export default {
 
          h(BFormGroup, {
             props: {
-               label: 'Διεύθυνση',
-               'label-for': 'address-input',
-               'invalid-feedback': 'address is required',
-               state: NonEmptyString(this.copy.address),
+               label: 'Μάρκα',
+               'label-for': 'brand-input',
+               'invalid-feedback': 'brand is required',
+               state: NonEmptyString(this.copy.brand),
             },
 
             scopedSlots: {
                default: () => h(BFormInput, {
-                  id: 'address-input',
+                  id: 'brand-input',
                   props: {
-                     value: this.copy.address,
-                     state: NonEmptyString(this.copy.address),
+                     value: this.copy.brand,
+                     state: NonEmptyString(this.copy.brand),
                      required: true,
                   },
-                  on: { input: x => this.copy.address = x }
+                  on: { input: x => this.copy.brand = x }
                }),
             },
          }),
 
          h(BFormGroup, {
             props: {
-               label: 'Πόλη',
-               'label-for': 'city-input',
-               'invalid-feedback': 'city is required',
-               state: NonEmptyString(this.copy.city),
+               label: 'Μοντέλο',
+               'label-for': 'model-input',
+               'invalid-feedback': 'model is required',
+               state: NonEmptyString(this.copy.model),
             },
 
             scopedSlots: {
                default: () => h(BFormInput, {
-                  id: 'city-input',
+                  id: 'model-input',
                   props: {
-                     value: this.copy.city,
-                     state: NonEmptyString(this.copy.city),
+                     value: this.copy.model,
+                     state: NonEmptyString(this.copy.model),
                      required: true,
                   },
-                  on: { input: x => this.copy.city = x }
+                  on: { input: x => this.copy.model = x }
                }),
             },
          }),
 
          h(BFormGroup, {
             props: {
-               label: 'Εξειδίκευση',
-               'label-for': 'profession-input',
-               'invalid-feedback': 'profession is required',
-               state: NonEmptyString(this.copy.profession),
+               label: 'Χρονολογία',
+               'label-for': 'year-input',
+               'invalid-feedback': 'year is required',
+               state: NonEmptyString(this.copy.year),
             },
 
             scopedSlots: {
                default: () => h(BFormInput, {
-                  id: 'profession-input',
+                  id: 'year-input',
                   props: {
-                     value: this.copy.profession,
-                     state: NonEmptyString(this.copy.profession),
+                     value: this.copy.year,
+                     state: NonEmptyString(this.copy.year),
                      required: true,
                   },
-                  on: { input: x => this.copy.profession = x }
+                  on: { input: x => this.copy.year = x }
                }),
             },
          }),
 
          h(BFormGroup, {
             props: {
-               label: 'ΔΟΥ',
-               'label-for': 'irs-input',
-               'invalid-feedback': 'irs is required',
-               state: NonEmptyString(this.copy.irs),
+               label: 'Σχόλια',
+               'label-for': 'remarks-input',
+               'invalid-feedback': 'remarks is required',
+               state: NonEmptyString(this.copy.remarks),
             },
 
             scopedSlots: {
                default: () => h(BFormInput, {
-                  id: 'irs-input',
+                  id: 'remarks-input',
                   props: {
-                     value: this.copy.irs,
-                     state: NonEmptyString(this.copy.irs),
+                     value: this.copy.remarks,
+                     state: NonEmptyString(this.copy.remarks),
                      required: true,
                   },
-                  on: { input: x => this.copy.irs = x }
+                  on: { input: x => this.copy.remarks = x }
                }),
             },
          }),
