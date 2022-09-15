@@ -3,7 +3,7 @@ import { seq } from 'fpts/maths';
 import { map as imap, filter } from 'fpts/iter';
 import { pipe } from 'fpts/function';
 import { ofVN, get } from 'fpts/map';
-import { pipe as pipeO } from 'fpts/option';
+import { Option, pipe as pipeO } from 'fpts/option';
 
 type Data = {
    date: Date;
@@ -68,6 +68,38 @@ export default {
    },
 
    render(h) {
+      let skip = 0;
+      const Hour = (M, d) => hr => {
+         if (skip > 0) {
+            skip -= 1;
+            return '';
+         }
+         const entry: Option<Data> = pipeO(this.grouped_data, get(M), get(d), get(hr));
+         if (!entry)
+            return empty_hour(hr);
+         skip = entry.duration - 1;
+         return filled_hour(entry);
+      };
+
+      const empty_hour = (hr) => h('div', {
+         class: 'hour',
+         style: {
+            width: this.cellWidth + 'rem',
+            height: this.cellHeight + 'rem',
+         }
+      }, hr.toString());
+
+      const filled_hour = (entry: Data) => h('div', {
+         class: {
+            hour: true,
+            red: true,
+         },
+         style: {
+            width: this.cellWidth + 'rem',
+            height: entry.duration*this.cellHeight + 'rem',
+         }
+      }, entry.duration);
+
       return h(this.as, {
          class: 'calendar',
       }, [
@@ -93,18 +125,7 @@ export default {
             this.monthdays.map((m, monthNumber) =>
                h('div', { class: 'month' }, m.days.map((d, dayNumber) =>
                   h('div', { class: 'day' }, [
-                     h('div', { class: 'hours' }, Array.from(seq(0, 23)).map(hr =>
-                        h('div', {
-                           class: {
-                              hour: true,
-                              red: pipeO(this.grouped_data, get(monthNumber), get(dayNumber), get(hr)) !== undefined,
-                           },
-                           style: {
-                              width: this.cellWidth + 'rem',
-                              height: this.cellHeight + 'rem',
-                           }
-                        }, hr.toString())
-                     ))
+                     h('div', { class: 'hours' }, Array.from(seq(0, 23)).map(Hour(monthNumber, dayNumber)))
                   ])
                ))
             ),

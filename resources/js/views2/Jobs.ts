@@ -257,7 +257,7 @@ export default {
          return this.items.map(x => ({
             id: x.id,
             date: new Date(x.date),
-            duration: 1,
+            duration: 2,
          }));
       },
    },
