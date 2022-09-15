@@ -30,11 +30,11 @@
         "sass-loader": "^11.0.1",
         "sweetalert2": "^11.4.17",
         "typescript": "^4.8.3",
-        "vue": "^2.6.14",
+        "vue": "^2.7.10",
         "vue-axios": "^3.4.1",
         "vue-loader": "^15.9.8",
         "vue-router": "^3.5.4",
-        "vue-template-compiler": "^2.6.14"
+        "vue-template-compiler": "^2.7.10"
     },
     "devDependencies": {
         "@typescript-eslint/eslint-plugin": "^5.36.2",

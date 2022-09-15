@@ -4,6 +4,8 @@ import { map as imap, filter } from 'fpts/iter';
 import { pipe } from 'fpts/function';
 import { ofVN, get } from 'fpts/map';
 import { Option, pipe as pipeO } from 'fpts/option';
+import { of } from 'fpts/array';
+import { h } from 'vue';
 
 type Data = {
    date: Date;
@@ -11,7 +13,22 @@ type Data = {
    id: any;
 }
 
-export default {
+export interface Props {
+   data: Data[];
+   as: string;
+}
+
+export interface This extends Props {
+   current_year: number;
+   cellWidth: 3;
+   cellHeight: 3;
+   months: [string, string, string, string, string, string, string, string, string, string, string, string];
+   monthdays: Array<{name: string; days: string[]}>;
+   grouped_data: Map<number, Map<number, Map<number, Data>>>;
+   getDaysInMonth: (month: number) => number;
+}
+
+const Component = {
    props: {
       data: {
          required: true,
@@ -24,7 +41,7 @@ export default {
       },
    },
 
-   data() {
+   data(this: This) {
       return {
          current_year: new Date().getFullYear(),
          cellWidth: 3,
@@ -33,28 +50,28 @@ export default {
    },
 
    computed: {
-      months() {
+      months(this: This) {
          return pipe(
             seq(0, 11),
             imap(x => new Date(2020, x, 1).toLocaleString('default', { month: 'long' })),
-            Array.from,
-         ) as [string, string, string, string, string, string, string, string, string, string, string, string];
+            of,
+         );
       },
 
-      monthdays() {
-         return this.months.map((month_name: string, month: number) => ({
+      monthdays(this: This) {
+         return this.months.map((month_name, month) => ({
             name: month_name,
             days: pipe(
                seq(1, this.getDaysInMonth(month)),
-               imap((day: number) => new Date(this.current_year, month, day).toLocaleString('default', { weekday: 'short' })),
-               Array.from,
+               imap((day) => new Date(this.current_year, month, day).toLocaleString('default', { weekday: 'short' })),
+               of,
             ),
          }));
       },
 
-      grouped_data() {
+      grouped_data(this: This) {
          return pipe(
-            this.data as Array<Data>,
+            this.data,
             filter(x => x.date.getFullYear() === this.current_year),
             ofVN(x => x.date.getMonth(), x => x.date.getDate() - 1, x => x.date.getHours())
          );
@@ -62,14 +79,14 @@ export default {
    },
 
    methods: {
-      getDaysInMonth(month: number) {
+      getDaysInMonth(this: This, month: number) {
          return new Date(this.current_year, month+1, 0).getDate();
       },
    },
 
-   render(h) {
+   render(this: This) {
       let skip = 0;
-      const Hour = (M, d) => hr => {
+      const Hour = (M: number, d: number) => (hr: number) => {
          if (skip > 0) {
             skip -= 1;
             return '';
@@ -81,7 +98,7 @@ export default {
          return filled_hour(entry);
       };
 
-      const empty_hour = (hr) => h('div', {
+      const empty_hour = (hr: number) => h('div', {
          class: 'hour',
          style: {
             width: this.cellWidth + 'rem',
@@ -98,7 +115,7 @@ export default {
             width: this.cellWidth + 'rem',
             height: entry.duration*this.cellHeight + 'rem',
          }
-      }, entry.duration);
+      }, entry.duration.toString());
 
       return h(this.as, {
          class: 'calendar',
@@ -133,3 +150,5 @@ export default {
       ]);
    },
 };
+
+export default Component;
