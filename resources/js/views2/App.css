@@ -5,6 +5,7 @@
 .flex { display: flex; }
 .flex > * { flex: 1; }
 .flex.wrap { flex-wrap: wrap; }
+.flex.start { justify-content: start; }
 .pointer { cursor: pointer; }
 .red { background: red !important; }
 .flex.g1 { gap: 0.25rem; }
