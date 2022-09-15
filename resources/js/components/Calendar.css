@@ -1,6 +1,5 @@
 .calendar {
    overflow: auto;
-   scrollbar-width: thin;
    user-select: none;
 }
 

@@ -1,3 +1,4 @@
+import './Jobs.css';
 import wrapped from '../components/DefaultWrapper';
 import Header from '../components/Header';
 import TextFilter from '../components/TextFilter';
@@ -13,6 +14,8 @@ import { date_format, vif1 } from '../util';
 
 export default {
    render(h) {
+      const has_cards = vif1(this.cards);
+      const has_table = vif1(!this.cards);
       const table = (h) => h('div', { class: 'row justify-content-center' }, [
          h('div', { class: 'col-md-10' }, [
             h(BTable, {
@@ -43,17 +46,18 @@ export default {
          ]),
       ]);
 
-      const cards = (h) => h('div', { class: 'cards' }, this.items.map(x => h(Card, {
+      const cards = (h) => h('div', { class: 'cards flex flex-wrap' }, this.items.map(x => h(Card, {
+         class: 'pointer',
          scopedSlots: {
             header: () => h('div', 'yooo'),
             default: () => h('div', 'brooooooooooooooo')
          }
       })));
 
-      return wrapped(h, () => [
-         h(Header, { props: { header: 'Εργασίες' }}),
+      const children = [
+         has_table(() => h(Header, { props: { header: 'Εργασίες' }})),
 
-         h('div', { class: 'col-md-10 sf' }, [
+         has_table(() => h('div', { class: 'col-md-10 sf' }, [
             h(TextFilter, {
                props: { value: this.filter },
                on: { input: x => this.filter = x },
@@ -69,9 +73,9 @@ export default {
                   'update:direction': x => this.sortDirection = x
                },
             }),
-         ]),
+         ])),
 
-         h(CRUDButtons, {
+         has_table(() => h(CRUDButtons, {
             props: { query: 'Υλικά' },
             on: {
                add: this.NewEntry,
@@ -85,15 +89,26 @@ export default {
                   on: { change: x => this.cards = x },
                }, ['Cards view'])
             },
-         }),
-
-         this.cards ? cards(h) : table(h),
-
-         vif1(this.cards)(() => h(Calendar, {
-            props: {
-               data: [],
-            }
          })),
+
+         has_table(() => table(h)),
+
+         has_cards(() => h(BFormCheckbox,  {
+            props: { checked: this.cards },
+            on: { change: x => this.cards = x },
+         }, ['Cards view'])),
+
+         has_cards(() => h('div', { class: 'flex' }, [
+            cards(h),
+            h(Calendar, {
+               style: {
+                  height: '90vh',
+               },
+               props: {
+                  data: this.calendarItems,
+               }
+            }),
+         ])),
 
          h(BModal, {
             id: 'modal-prevent-closing',
@@ -117,7 +132,12 @@ export default {
                }),
             }
          }),
-      ]);
+      ];
+
+      if (this.cards)
+         return h('div', { class: 'jobs' }, children);
+      else
+         return wrapped(h, () => children);
    },
 
    data() {
@@ -231,9 +251,19 @@ export default {
       sortDesc() {
          return this.sortDirection === 'desc';
       },
+
+      calendarItems() {
+         if (!this.items) return []
+         return this.items.map(x => ({
+            id: x.id,
+            date: new Date(x.date),
+            duration: 1,
+         }));
+      },
    },
 
    mounted() {
+      console.debug('this', this);
       if(!this.token)
          swal.fire(
             'Access Denied!',

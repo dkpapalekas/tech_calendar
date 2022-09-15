@@ -2,11 +2,13 @@ import './Calendar.css';
 import { seq } from 'fpts/maths';
 import { map as imap, filter } from 'fpts/iter';
 import { pipe } from 'fpts/function';
-import { groupByN } from 'fpts/map';
+import { ofVN, get } from 'fpts/map';
+import { pipe as pipeO } from 'fpts/option';
 
 type Data = {
    date: Date;
    duration: 1 | 2 | 3 | 4 | 5;
+   id: any;
 }
 
 export default {
@@ -20,11 +22,6 @@ export default {
          type: String,
          default: 'figure',
       },
-      contentHeight: {
-         required: false,
-         type: String,
-         default: '50vh',
-      }
    },
 
    data() {
@@ -59,7 +56,7 @@ export default {
          return pipe(
             this.data as Array<Data>,
             filter(x => x.date.getFullYear() === this.current_year),
-            groupByN(x => x.date.getMonth(), x => x.date.getDate() - 1),
+            ofVN(x => x.date.getMonth(), x => x.date.getDate() - 1, x => x.date.getHours())
          );
       }
    },
@@ -73,9 +70,6 @@ export default {
    render(h) {
       return h(this.as, {
          class: 'calendar',
-         style: {
-            height: this.contentHeight,
-         },
       }, [
          h('header',
             this.monthdays.map(m =>
@@ -96,12 +90,15 @@ export default {
             ),
          ),
          h('div', { class: 'body' }, [
-            this.monthdays.map(m =>
-               h('div', { class: 'month' }, m.days.map(() =>
+            this.monthdays.map((m, monthNumber) =>
+               h('div', { class: 'month' }, m.days.map((d, dayNumber) =>
                   h('div', { class: 'day' }, [
                      h('div', { class: 'hours' }, Array.from(seq(0, 23)).map(hr =>
                         h('div', {
-                           class: 'hour',
+                           class: {
+                              hour: true,
+                              red: pipeO(this.grouped_data, get(monthNumber), get(dayNumber), get(hr)) !== undefined,
+                           },
                            style: {
                               width: this.cellWidth + 'rem',
                               height: this.cellHeight + 'rem',

@@ -1,0 +1,5 @@
+.flex { display: flex; }
+.flex > * { flex: 1; }
+.flex.wrap { flex-wrap: wrap; }
+.pointer { cursor: pointer; }
+.red { background: red !important; }
