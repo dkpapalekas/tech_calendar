@@ -5,9 +5,9 @@ import { pipe } from 'fpts/function';
 import { groupByN } from 'fpts/map';
 
 type Data = {
-   date: Date,
-   duration: 1 | 2 | 3 | 4 | 5,
-};
+   date: Date;
+   duration: 1 | 2 | 3 | 4 | 5;
+}
 
 export default {
    props: {
@@ -114,4 +114,4 @@ export default {
          ])
       ]);
    },
-}
+};

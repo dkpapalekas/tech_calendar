@@ -48,7 +48,7 @@ export default {
             header: () => h('div', 'yooo'),
             default: () => h('div', 'brooooooooooooooo')
          }
-      })))
+      })));
 
       return wrapped(h, () => [
          h(Header, { props: { header: 'Εργασίες' }}),
