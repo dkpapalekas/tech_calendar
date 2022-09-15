@@ -142,7 +142,7 @@ const Component = {
             this.monthdays.map((m, monthNumber) =>
                h('div', { class: 'month' }, m.days.map((d, dayNumber) =>
                   h('div', { class: 'day' }, [
-                     h('div', { class: 'hours' }, Array.from(seq(0, 23)).map(Hour(monthNumber, dayNumber)))
+                     h('div', { class: 'hours' }, of(seq(0, 23)).map(Hour(monthNumber, dayNumber)))
                   ])
                ))
             ),
