@@ -87,7 +87,7 @@ export default {
       ]);
    },
 
-   ddata() {
+   data() {
       return {
          companies: {},
          page_table: {},
@@ -109,12 +109,12 @@ export default {
          token: localStorage.getItem('token'),
          errors: [],
          fields: [
-            {key: 'id', label: 'ID', sortable: true, sortDirection: 'desc' },
-            {key: 'name', label: 'Ονομασία', sortable: true, sortDirection: 'desc' },
-            {key: 'brand', label: 'Μάρκα', sortable: true, sortDirection: 'desc' },
-            {key: 'model', label: 'Μοντέλο', sortable: true, sortDirection: 'desc' },
-            {key: 'year', label: 'Χρονολογία', sortable: true, sortDirection: 'desc' },
-            {key: 'remarks', label: 'Σχόλια', sortable: true, sortDirection: 'desc' },
+            { key: 'id', label: 'ID', sortable: true, sortDirection: 'desc' },
+            { key: 'name', label: 'Ονομασία', sortable: true, sortDirection: 'desc' },
+            { key: 'brand', label: 'Μάρκα', sortable: true, sortDirection: 'desc' },
+            { key: 'model', label: 'Μοντέλο', sortable: true, sortDirection: 'desc' },
+            { key: 'year', label: 'Χρονολογία', sortable: true, sortDirection: 'desc' },
+            { key: 'remarks', label: 'Σχόλια', sortable: true, sortDirection: 'desc' },
          ],
          items: [],
          selected: [],
@@ -165,7 +165,7 @@ export default {
             // });
          } else {
             this.items = [];
-            this.api.Customer.all()
+            this.api.Appliance.all()
                .then(data => this.items = data)
                .catch(console.log);
          }
@@ -207,7 +207,7 @@ export default {
 
       createCRUD() {
          this.api.Appliance.create(this.page_table)
-            .then(() => this.getCrud())
+            .then(() => this.getCRUD())
             .catch(errors => {
                console.log(errors);
                this.errors.push(errors);
@@ -221,7 +221,7 @@ export default {
 
       updateCRUD() {
          this.api.Appliance.update(this.selected[0].id, this.page_table)
-            .then(() => this.CRUD())
+            .then(() => this.getCRUD())
             .catch(errors => {
                console.log(errors);
                this.errors.push(errors);

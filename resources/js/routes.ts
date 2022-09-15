@@ -6,10 +6,10 @@ import Register from './views2/Register';
 import Companies from './views2/Companies';
 import Customers from './views2/Customers';
 import Addresses from './views2/Addresses';
-// import Appliances from './views/Appliances.vue'
+import Appliances from './views2/Appliances';
 import Jobs from './views2/Jobs';
-// import Materials from './views/Materials.vue'
-// import Job_Lines from './views/Job_Lines.vue'
+// import Materials from './views/Materials.vue';
+// import Job_Lines from './views/Job_Lines.vue';
 
 export default {
    mode: 'history' as RouterMode,
@@ -30,10 +30,10 @@ export default {
          path: '/companies',
          component: Companies,
       },
-      //   {
-      //       path: '/appliances',
-      //       component: Appliances,
-      //   },
+      {
+         path: '/appliances',
+         component: Appliances,
+      },
       {
          path: '/customers',
          component: Customers,
