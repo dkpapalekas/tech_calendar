@@ -18,10 +18,11 @@ export default {
 
    async created() {
       this.appliances = (await this.api.Appliance.all()).map(x => ({
-         text: x.fullname,
+         text: x.name,
          value: x.id
       }));
       this.appliances.push({ text: 'Select Appliance', value: undefined, disabled: true });
+      console.log(this.appliances);
    },
 
    render(h) {

@@ -9,7 +9,7 @@ import { BFormCheckbox, BModal, BTable } from 'bootstrap-vue';
 import EditJob from '../components/EditJob';
 import Card from '../components/Card';
 import Calendar from '../components/Calendar';
-import { vif1 } from '../util';
+import { date_format, vif1 } from '../util';
 
 export default {
    render(h) {
@@ -375,7 +375,10 @@ export default {
       },
 
       createCRUD() {
-         this.api.Job.create(this.page_table)
+         this.api.Job.create({
+            ...this.page_table,
+            date: date_format(this.page_table.date),
+         })
             .then(() => this.init())
             .catch(errors => {
                console.log(errors);
