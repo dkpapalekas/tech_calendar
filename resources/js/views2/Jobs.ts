@@ -46,7 +46,7 @@ export default {
          ]),
       ]);
 
-      const cards = (h) => h('div', { class: 'cards flex flex-wrap' }, this.items.map(x => h(Card, {
+      const cards = (h) => h('div', { class: 'cards flex wrap g3 m-3' }, this.items.map(x => h(Card, {
          class: 'pointer',
          scopedSlots: {
             header: () => h('div', 'yooo'),
