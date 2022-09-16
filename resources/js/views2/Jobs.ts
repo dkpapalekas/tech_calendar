@@ -7,7 +7,7 @@ import CRUDButtons from '../components/CRUDButtons';
 import API from '../API';
 import swal from 'sweetalert2';
 import { BFormCheckbox, BModal, BTable } from 'bootstrap-vue';
-import EditJob from '../components/EditJob';
+import EditJob, { Methods as EditJobMethods } from '../components/EditJob';
 import Card from '../components/Card';
 import Calendar from '../components/Calendar';
 import { date_format, vif1 } from '../util';
@@ -19,9 +19,7 @@ interface Refs {
       show: () => void;
       hide: () => void;
    };
-   edit: {
-      submit: () => void;
-   };
+   edit: EditJobMethods;
 }
 
 interface Methods {

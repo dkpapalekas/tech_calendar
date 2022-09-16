@@ -1,13 +1,40 @@
 import { BFormGroup, BFormSelect } from 'bootstrap-vue';
+import { Job, JobWithExtra } from '../API/Job';
 import AddressSelect from './AddressSelect';
 import ApplianceSelect from './ApplianceSelect';
+import { h } from 'vue';
+
+export interface Methods {
+   submit: () => void;
+}
+
+export interface EmitMap {
+   input: Props['copy'];
+}
+
+export interface Props {
+   value: JobWithExtra;
+   copy: Omit<JobWithExtra, 'date'> & { date: Date };
+   client_statuses: Array<{
+      value: Job['client_status'],
+      text: string;
+   }>;
+   job_statuses: Array<{
+      value: Job['is_completed'];
+      text: string;
+   }>;
+}
+
+interface This extends Methods, Props {
+   $emit: <K extends keyof EmitMap>(event: K, value: EmitMap[K]) => void;
+}
 
 export default {
    props: [
       'value',
    ],
 
-   data() {
+   data(this: This) {
       return {
          copy: {
             address_id: this.value?.address_id || undefined,
@@ -31,7 +58,7 @@ export default {
    },
 
    watch: {
-      copy(x) {
+      copy(x: JobWithExtra) {
          this.copy = {
             address_id: x?.address_id || undefined,
             appliance_id: x?.appliance_id || undefined,
@@ -44,12 +71,12 @@ export default {
    },
 
    methods: {
-      submit() {
+      submit(this: This) {
          this.$emit('input', this.copy);
       },
    },
 
-   render(h) {
+   render(this: This) {
       return h('form', {
          on: {
             'submit.stop.prevent': () => this.$emit('input', this.copy),
@@ -106,8 +133,8 @@ export default {
             },
             scopedSlots: {
                default: () => h('input', {
-                  id: 'date-input',
                   domProps: {
+                     id: 'date-input',
                      type: 'datetime-local',
                      name: 'date-input',
                   },
