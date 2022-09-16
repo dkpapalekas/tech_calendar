@@ -1,6 +1,19 @@
 import axios from 'axios';
 const v1 = '/api/v1';
 
+export interface Job {
+   id: number;
+   agreed_price: number;
+   is_completed: 0 | 1;
+   date: string;
+   client_status: 'OK' | 'pending';
+}
+
+export interface JobWithExtra extends Job {
+   address_id: number;
+   appliance_id: number;
+}
+
 export default (token: string) => ({
    all() {
       return axios.get(`${v1}/jobs`, {

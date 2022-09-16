@@ -11,12 +11,73 @@ import EditJob from '../components/EditJob';
 import Card from '../components/Card';
 import Calendar from '../components/Calendar';
 import { date_format, vif1 } from '../util';
+import { h } from 'vue';
+import { JobWithExtra } from '../API/Job';
+
+interface Refs {
+   modal: {
+      show: () => void;
+      hide: () => void;
+   };
+   edit: {
+      submit: () => void;
+   };
+}
+
+interface Methods {
+   startDrag: (event: DragEventInit, item: JobWithExtra) => void;
+   onDrop: (x: [DragEvent, Date]) => void;
+   init: () => void;
+   formatTableFields: () => void;
+   getAddresses: () => void;
+   getAppliances: () => void;
+   getJobLines: () => void;
+   getCRUD: () => void;
+   Selected_modal: () => void;
+   SelectedChildren: () => void;
+   NewEntry: () => void;
+   createCRUD: () => void;
+   updateCRUD: () => void;
+   deleteCRUD: () => void;
+   onFiltered: (filteredItems: JobWithExtra[]) => void;
+   onRowSelected: (items: JobWithExtra[]) => void;
+   resetModal: () => void;
+   handleSubmit: () => void;
+}
+
+interface This extends Methods {
+   temp_page_table: JobWithExtra;
+   items: JobWithExtra[];
+   cards: boolean;
+   sortDirection: 'asc'|'desc';
+   sortDesc: boolean;
+   selectMode: 'single';
+   fields: Array<{
+      key: keyof JobWithExtra;
+      label: string;
+      sortable: boolean;
+      sortDirection: 'asc'|'desc';
+   }>;
+   filter: null | 'string';
+   sortBy: keyof JobWithExtra;
+   calendarItems: Array<{
+      id: number;
+      date: Date;
+      duration: number;
+   }>;
+   filterOn: [];
+   sortOptions: Array<{
+      text: string;
+      value: keyof JobWithExtra;
+   }>;
+   $refs: Refs;
+}
 
 export default {
-   render(h) {
+   render(this: This) {
       const has_cards = vif1(this.cards);
       const has_table = vif1(!this.cards);
-      const table = (h) => h('div', { class: 'row justify-content-center' }, [
+      const table = () => h('div', { class: 'row justify-content-center' }, [
          h('div', { class: 'col-md-10' }, [
             h(BTable, {
                props: {
@@ -24,7 +85,7 @@ export default {
                   hover: true,
                   items: this.items,
                   fields: this.fields,
-                  'selcet-mode': this.selectMode,
+                  'select-mode': this.selectMode,
                   filter: this.filter,
                   'filter-included-fields': this.filterOn,
                   'sort-by.sync': this.sortBy,
@@ -46,8 +107,14 @@ export default {
          ]),
       ]);
 
-      const cards = (h) => h('div', { class: 'cards flex wrap g3 m-3 start' }, this.items.map(x => h(Card, {
+      const cards = () => h('div', { class: 'cards flex wrap g3 m-3 start' }, this.items.map(x => h(Card, {
          class: 'pointer',
+         domProps: {
+            draggable: true,
+         },
+         nativeOn: {
+            dragstart: (e: DragEventInit) => this.startDrag(e, x),
+         },
          scopedSlots: {
             header: () => h('div', 'yooo'),
             default: () => h('div', 'brooooooooooooooo')
@@ -91,7 +158,7 @@ export default {
             },
          })),
 
-         has_table(() => table(h)),
+         has_table(() => table()),
 
          has_cards(() => h(BFormCheckbox,  {
             props: { checked: this.cards },
@@ -99,10 +166,13 @@ export default {
          }, ['Cards view'])),
 
          has_cards(() => h('div', { class: 'flex' }, [
-            cards(h),
+            cards(),
             h(Calendar, {
                style: {
                   height: '90vh',
+               },
+               on: {
+                  setDate: this.onDrop,
                },
                props: {
                   data: this.calendarItems,
@@ -111,7 +181,9 @@ export default {
          ])),
 
          h(BModal, {
-            id: 'modal-prevent-closing',
+            domProps: {
+               id: 'modal-prevent-closing',
+            },
             ref: 'modal',
             props: { title: 'New Entry' },
             on: {
@@ -242,17 +314,17 @@ export default {
    },
 
    computed: {
-      sortOptions() {
+      sortOptions(this: This) {
          return this.fields
             .filter(f => f.sortable)
             .map(f => ({ text: f.label, value: f.key }));
       },
 
-      sortDesc() {
+      sortDesc(this: This) {
          return this.sortDirection === 'desc';
       },
 
-      calendarItems() {
+      calendarItems(this: This) {
          if (!this.items) return []
          return this.items.map(x => ({
             id: x.id,
@@ -281,6 +353,17 @@ export default {
    },
 
    methods: {
+      startDrag(this: This, event: DragEventInit, item: JobWithExtra) {
+         event.dataTransfer!.setData('jobID', item.id.toString());
+      },
+
+      onDrop(this: This, [event, date]: [DragEvent, Date]) {
+         const jobID = parseFloat(event.dataTransfer!.getData('jobID'));
+         const job = this.items.find(x => x.id === jobID);
+         if (!job) return;
+         job.date = date_format(date);
+      },
+
       init() {
          this.getCRUD();
          this.getAddresses();

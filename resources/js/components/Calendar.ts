@@ -18,15 +18,25 @@ export interface Props {
    as: string;
 }
 
-export interface This extends Props {
+export interface Methods {
+   getDaysInMonth: (month: number) => number;
+}
+
+export interface EmitMap {
+   setDate: [DragEvent, Date];
+}
+
+export interface This extends Props, Methods {
    current_year: number;
    cellWidth: 3;
    cellHeight: 3;
    months: [string, string, string, string, string, string, string, string, string, string, string, string];
    monthdays: Array<{name: string; days: string[]}>;
    grouped_data: Map<number, Map<number, Map<number, Data>>>;
-   getDaysInMonth: (month: number) => number;
+   $emit: <K extends keyof EmitMap>(event: K, value: EmitMap[K]) => void;
 }
+
+const preventDefault = (e: Event) => e.preventDefault();
 
 const Component = {
    props: {
@@ -93,17 +103,24 @@ const Component = {
          }
          const entry: Option<Data> = pipeO(this.grouped_data, get(M), get(d), get(hr));
          if (!entry)
-            return empty_hour(hr);
+            return empty_hour(M, d, hr);
          skip = entry.duration - 1;
          return filled_hour(entry);
       };
 
-      const empty_hour = (hr: number) => h('div', {
+      const empty_hour = (M, d, hr: number) => h('div', {
          class: 'hour',
          style: {
             width: this.cellWidth + 'rem',
             height: this.cellHeight + 'rem',
-         }
+         },
+         on: {
+            dragenter: preventDefault,
+            dragover: preventDefault,
+            drop: (event: DragEvent) => {
+               this.$emit('setDate', [event, new Date(this.current_year, M, d+1, hr, 0, 0)]);
+            },
+         },
       }, hr.toString());
 
       const filled_hour = (entry: Data) => h('div', {
