@@ -1,7 +1,7 @@
 Port components to render functions
    - **DONE** Addresses
    - **DONE** App
-   - Appliances
+   - **DONE** Appliances
    - **DONE** Companies
    - **DONE** Customers
    - Job_Lines

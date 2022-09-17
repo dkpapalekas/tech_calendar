@@ -1,6 +1,6 @@
 import { BModal, BTable } from 'bootstrap-vue';
 import CRUDButtons from '../components/CRUDButtons';
-import EditAppliance from '../components/EditAppliance';
+import EditMaterial from '../components/EditMaterial';
 import Header from '../components/Header';
 import SortFilter from '../components/SortFilter';
 import TextFilter from '../components/TextFilter';
@@ -11,7 +11,7 @@ import wrapped from '../components/DefaultWrapper';
 export default {
    render(h) {
       return wrapped(h, () => [
-         h(Header, { props: { header: 'Συσκευές' }}),
+         h(Header, { props: { header: 'Γενικά Ανταλλακτικά' }}),
 
          h('div', { class: 'col-md-10 sf' }, [
             h(TextFilter, {
@@ -72,7 +72,7 @@ export default {
                ok: () => this.$refs.edit.submit(),
             },
             scopedSlots: {
-               default: () => h(EditAppliance, {
+               default: () => h(EditMaterial, {
                   ref: 'edit',
                   props: { value: this.temp_page_table },
                   on: {
@@ -89,21 +89,15 @@ export default {
 
    data() {
       return {
-         appliances: {},
+         materials: {},
          page_table: {},
          temp_page_table: {
             name: '',
-            brand: '',
-            model: '',
-            year: '',
             remarks: '',
          },
          modal_state: {
             nameState: null,
-            brandState: null,
-            modelState: null,
-            yearState: null,
-            remarksState: null,
+            remarks: null,
          },
          currentUser: {},
          token: localStorage.getItem('token'),
@@ -111,9 +105,6 @@ export default {
          fields: [
             { key: 'id', label: 'ID', sortable: true, sortDirection: 'desc' },
             { key: 'name', label: 'Ονομασία', sortable: true, sortDirection: 'desc' },
-            { key: 'brand', label: 'Μάρκα', sortable: true, sortDirection: 'desc' },
-            { key: 'model', label: 'Μοντέλο', sortable: true, sortDirection: 'desc' },
-            { key: 'year', label: 'Χρονολογία', sortable: true, sortDirection: 'desc' },
             { key: 'remarks', label: 'Σχόλια', sortable: true, sortDirection: 'desc' },
          ],
          items: [],
@@ -127,6 +118,7 @@ export default {
          cu: '',
          path_url: '',
          parent_id: '',
+         api: null,
       };
    },
 
@@ -158,14 +150,14 @@ export default {
       getCRUD() {
          if (this.parent_id) {
             // this.items = []
-            // axios.get('api/v1/appliances/customers/' + this.parent_id).then((response) => {
+            // axios.get('api/v1/companies/customers/' + this.parent_id).then((response) => {
             //     this.items = response.data.data
             // }).catch((errors) => {
             //     console.log(errors)
             // });
          } else {
             this.items = [];
-            this.api.Appliance.all()
+            this.api.Material.all()
                .then(data => this.items = data)
                .catch(console.log);
          }
@@ -194,7 +186,7 @@ export default {
             );
             return;
          }
-         this.$router.push('/customers/' + this.selected[0].id);
+         this.$router.push('/job_lines/' + this.selected[0].id);
       },
 
       NewEntry() {
@@ -206,8 +198,8 @@ export default {
       },
 
       createCRUD() {
-         this.api.Appliance.create(this.page_table)
-            .then(() => this.getCRUD())
+         this.api.Material.create(this.page_table)
+            .then(() => this.getCrud())
             .catch(errors => {
                console.log(errors);
                this.errors.push(errors);
@@ -220,8 +212,8 @@ export default {
       },
 
       updateCRUD() {
-         this.api.Appliance.update(this.selected[0].id, this.page_table)
-            .then(() => this.getCRUD())
+         this.api.Material.update(this.selected[0].id, this.page_table)
+            .then(() => this.CRUD())
             .catch(errors => {
                console.log(errors);
                this.errors.push(errors);
@@ -252,7 +244,7 @@ export default {
             confirmButtonText: 'Yes, delete it!',
          }).then((result) => {
             if (!result.isConfirmed) return;
-            this.api.Appliance.delete(this.selected[0].id)
+            this.api.Material.delete(this.selected[0].id)
                .then(() => this.getCRUD())
                .catch(errors => {
                   console.log(errors);

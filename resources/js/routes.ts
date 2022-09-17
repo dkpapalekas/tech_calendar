@@ -8,7 +8,7 @@ import Customers from './views2/Customers';
 import Addresses from './views2/Addresses';
 import Appliances from './views2/Appliances';
 import Jobs from './views2/Jobs';
-// import Materials from './views/Materials.vue';
+import Materials from './views2/Materials';
 // import Job_Lines from './views/Job_Lines.vue';
 
 export default {
@@ -66,13 +66,13 @@ export default {
       //       path: '/job_lines/:id',
       //       component: Job_Lines,
       //   },
-      //   {
-      //       path: '/materials',
-      //       component: Materials,
-      //   },
-      //   {
-      //       path: '/materials/:id',
-      //       component: Materials,
-      //   },
+      {
+            path: '/materials',
+            component: Materials,
+        },
+        {
+            path: '/materials/:id',
+            component: Materials,
+        },
    ]
 };
