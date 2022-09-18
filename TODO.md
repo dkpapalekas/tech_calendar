@@ -38,3 +38,19 @@ Vue3
 Type checking
 
 HTTPS
+
+Change Jobs
+   - add duration (small integer)
+   - add file id foreign key
+
+Add files
+   - id primary key / name varchar
+   - resize down to webp
+   - add file posting, delition routes
+
+Add file picker
+   - upload file
+   - select file
+   - delete file
+
+Make remarks Optional
