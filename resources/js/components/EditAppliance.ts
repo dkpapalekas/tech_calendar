@@ -132,7 +132,7 @@ export default {
                label: 'Σχόλια',
                'label-for': 'remarks-input',
                'invalid-feedback': 'remarks is required',
-               state: NonEmptyString(this.copy.remarks),
+               //state: NonEmptyString(this.copy.remarks),
             },
 
             scopedSlots: {
@@ -140,7 +140,7 @@ export default {
                   id: 'remarks-input',
                   props: {
                      value: this.copy.remarks,
-                     state: NonEmptyString(this.copy.remarks),
+                     //state: NonEmptyString(this.copy.remarks),
                      required: true,
                   },
                   on: { input: x => this.copy.remarks = x }
