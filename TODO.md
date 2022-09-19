@@ -21,8 +21,10 @@ Port components to render functions
    - **WIP** JobLines
    - Materials
 
-**DONE** Better authentication story
-   With HTTP Basic Authentication. Not sanctum!
+**WIP** Better authentication story
+   - **DONE**With HTTP Basic Authentication
+   - change Register to Change Email/Password form
+   - alter user API endpoint
 
 **DONE** Lint
 

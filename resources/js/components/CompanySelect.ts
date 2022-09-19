@@ -5,7 +5,7 @@ import API from '../API';
 export default {
    data() {
       return {
-         api: API(localStorage.getItem('token')!),
+         api: API(),
          companies: undefined,
       };
    },

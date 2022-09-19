@@ -101,7 +101,6 @@ export default {
             remarks: '',
          },
          currentUser: {},
-         token: localStorage.getItem('token'),
          errors: [],
          fields: [
             { key: 'id', label: 'ID', sortable: true, sortDirection: 'desc' },
@@ -137,18 +136,9 @@ export default {
    },
 
    mounted() {
-      if(!this.token)
-         swal.fire(
-            'Access Denied!',
-            'Log in to see information',
-            'error'
-         );
-      this.api = API(this.token);
+      this.api = API();
       this.parent_id = this.$route.params.id;
       console.log('param', this.parent_id);
-      this.path_url = this.$route.path;
-      const tokens = this.path_url.split('/').slice(1);
-      this.path_url = '/'+tokens[0];
       this.init();
    },
 

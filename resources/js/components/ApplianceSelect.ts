@@ -5,7 +5,7 @@ import API from '../API';
 export default {
    data() {
       return {
-         api: API(localStorage.getItem('token')!),
+         api: API(),
          appliances: [
             { text: 'Select Appliance', value: undefined, disabled: true }
          ],

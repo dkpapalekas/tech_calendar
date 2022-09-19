@@ -4,7 +4,7 @@ import API from '../API';
 export default {
    data() {
       return {
-         api: API(localStorage.getItem('token')!),
+         api: API(),
          customers: [
             { text: 'Select Customer', value: undefined, disabled: true }
          ],

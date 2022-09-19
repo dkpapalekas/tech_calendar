@@ -14,36 +14,20 @@ export interface JobWithExtra extends Job {
    appliance_id: number;
 }
 
-export default (token: string) => ({
+export default () => ({
    all() {
-      return axios.get(`${v1}/jobs`, {
-         headers: {
-            Authorization: `Bearer ${token}`
-         }
-      }).then(x => x.data.data);
+      return axios.get(`${v1}/jobs`).then(x => x.data.data);
    },
 
    create(job) {
-      return axios.post(`${v1}/jobs`, job, {
-         headers: {
-            Authorization: `Bearer ${token}`
-         }
-      });
+      return axios.post(`${v1}/jobs`, job);
    },
 
    update(job_id: string, job) {
-      return axios.put(`${v1}/jobs/${job_id}`, job, {
-         headers: {
-            Authorization: `Bearer ${token}`
-         }
-      });
+      return axios.put(`${v1}/jobs/${job_id}`, job);
    },
 
    delete(job_id: string) {
-      return axios.delete(`${v1}/jobs/${job_id}`, {
-         headers: {
-            Authorization: `Bearer ${token}`
-         }
-      });
+      return axios.delete(`${v1}/jobs/${job_id}`);
    },
 });

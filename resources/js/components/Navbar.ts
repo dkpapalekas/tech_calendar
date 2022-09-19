@@ -48,7 +48,6 @@ export default {
             },
          }, [
             h(BNavbarBrand, { href: '#'}, AppName),
-            h('router-link', { props: { to: '/login' }}, ['Log In']),
             h(BNavbarToggle, {
                props: { target: 'nav-collapse' },
                on: {
@@ -74,9 +73,6 @@ export default {
                         'button-content': () => h('em', 'User')
                      },
                   }, [
-                     h(BDropdownItem, [
-                        h('router-link', { props: { to: '/login' }}, 'Log In'),
-                     ]),
                      h(BDropdownItem, [
                         h('router-link', { props: { to: '/register' }}, 'Create New'),
                      ]),

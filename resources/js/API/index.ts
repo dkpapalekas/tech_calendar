@@ -5,11 +5,11 @@ import Customer from './Customer';
 import Job from './Job';
 import JobLine from './JobLine';
 
-export default (token: string) => ({
-   Customer: Customer(token),
-   Company: Company(token),
-   Address: Address(token),
-   Appliance: Appliance(token),
-   Job: Job(token),
-   JobLine: JobLine(token),
+export default () => ({
+   Customer: Customer(),
+   Company: Company(),
+   Address: Address(),
+   Appliance: Appliance(),
+   Job: Job(),
+   JobLine: JobLine(),
 });

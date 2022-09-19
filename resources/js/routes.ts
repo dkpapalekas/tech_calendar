@@ -1,7 +1,6 @@
 // My Vue Files
 import { RouterMode } from 'vue-router';
 import Frontpage from './views2/Frontpage';
-import Login from './views2/Login';
 import Register from './views2/Register';
 import Companies from './views2/Companies';
 import Customers from './views2/Customers';
@@ -17,10 +16,6 @@ export default {
       {
          path: '',
          component: Frontpage,
-      },
-      {
-         path: '/login',
-         component: Login,
       },
       {
          path: '/register',

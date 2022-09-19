@@ -100,7 +100,6 @@ export default {
             remarks: null,
          },
          currentUser: {},
-         token: localStorage.getItem('token'),
          errors: [],
          fields: [
             { key: 'id', label: 'ID', sortable: true, sortDirection: 'desc' },
@@ -116,7 +115,6 @@ export default {
          filter: null,
          filterOn: [],
          cu: '',
-         path_url: '',
          parent_id: '',
          api: null,
       };
@@ -132,17 +130,7 @@ export default {
    },
 
    mounted() {
-      if(!this.token)
-         swal.fire(
-            'Access Denied!',
-            'Log in to see information',
-            'error'
-         );
-      this.api = API(this.token);
-      this.path_url = this.$route.path;
-      const tokens = this.path_url.split('/').slice(1);
-      this.path_url = '/'+tokens[0];
-      console.log('mounted', this.path_url);
+      this.api = API();
       this.getCRUD();
    },
 

@@ -1,12 +1,8 @@
 import axios from 'axios';
 const v1 = '/api/v1';
 
-export default (token: string) => ({
+export default () => ({
    all() {
-      return axios.get(`${v1}/job_lines`, {
-         headers: {
-            Authorization: `Bearer ${token}`
-         }
-      }).then(x => x.data.data);
+      return axios.get(`${v1}/job_lines`).then(x => x.data.data);
    },
 });
