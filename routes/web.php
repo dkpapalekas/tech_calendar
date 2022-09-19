@@ -13,4 +13,4 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/{any?}', 'PagesController@index')->where('any', '[\/\w\.-]*');
+Route::get('/{any?}', 'PagesController@index')->where('any', '[\/\w\.-]*')->middleware('auth.basic');

@@ -13,7 +13,7 @@
         "deploy": "bash infrastructure/deploy.sh",
         "docker": "docker-compose --project-name tech_calendar_dev up --build",
         "start:frontend": "parcel watch --dist-dir=./public --no-source-maps --no-hmr resources/index.html",
-        "start:backend": "sleep 3 ; php81 artisan serve --host 0.0.0.0",
+        "start:backend": "sleep 5 ; php artisan migrate && php artisan serve --host 0.0.0.0",
         "lint": "eslint --ignore-pattern=*.js resources/js"
     },
     "dependencies": {

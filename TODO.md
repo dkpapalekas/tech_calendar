@@ -21,11 +21,12 @@ Port components to render functions
    - **WIP** JobLines
    - Materials
 
-Better authentication story
+**DONE** Better authentication story
+   With HTTP Basic Authentication. Not sanctum!
 
 **DONE** Lint
 
-Calendar drag n drop
+**WIP** Calendar drag n drop
 
 Simplify job entry
 

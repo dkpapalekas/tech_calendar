@@ -21,12 +21,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Public Routes
-Route::post('/register', 'AuthController@register');
-Route::post('/authenticate', 'AuthController@authenticate');
-
 // Protected Routes
-Route::middleware('auth:sanctum')->group(function() {
+Route::middleware('auth.basic')->group(function() {
+    Route::post('/register', 'AuthController@register');
+    Route::post('/authenticate', 'AuthController@authenticate');
+
     // CompanyController Routes
     Route::get('/companies', [CompanyController::class, 'index']);
     Route::post('/companies', [CompanyController::class, 'store']);
@@ -88,7 +87,7 @@ Route::middleware('auth:sanctum')->group(function() {
     //-------------------------------------------------------------------------------------
     //-------------------------------------------------------------------------------------
     //-------------------------------------------------------------------------------------
-    
+
     // ApplianceController Routes
     Route::get('/appliances', [ApplianceController::class, 'index']);
     Route::post('/appliances', [ApplianceController::class, 'store']);
@@ -134,7 +133,7 @@ Route::middleware('auth:sanctum')->group(function() {
         //Retrieve all the job_lines that belong to job with selected id
         Route::get('/jobs/job_lines/{id}', 'job_lines');
         //Retrieve all materials of a job
-        Route::get('/jobs/materials/{id}', 'materials');    
+        Route::get('/jobs/materials/{id}', 'materials');
     });
 
     //-------------------------------------------------------------------------------------
