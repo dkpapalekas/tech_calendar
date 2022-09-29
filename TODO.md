@@ -5,9 +5,13 @@ Port components to render functions
    - **DONE** Companies
    - **DONE** Customers
    - Job_Lines
+      - **DONE** make Job_Lines API
+      - **DONE** make EditJob_Line, ASK FOR JOB SELECT import, replace EditAddress everywhere
+      - **DONE** getCRUD, ask vasilis about API/Jobs.ts withExtra
+      - **DONE** createCRUD, updateCRUD,
    - **DONE** Jobs
    - **DONE** Login
-   - Materials
+   - **DONE** Materials
    - **DONE** Navbar
    - **DONE** Register
    - ~~Test~~ (not needed)
@@ -56,4 +60,16 @@ Add file picker
    - select file
    - delete file
 
-Make remarks Optional
+dpap Make remarks Optional
+
+dpap clients
+   - defaultsort by ID, desc
+   - hide company field, remarks
+   - add to **migrations** client source (site, partner(amoiridis), vrisko.gr, referal)
+
+dpap jobs
+   - appliance shown to grid
+
+In every chain
+   - hold client id when accessing his addresses
+   - hold address when accessing its jobs

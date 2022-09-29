@@ -17,4 +17,8 @@ export default () => ({
    delete(address_id: string) {
       return axios.delete(`${v1}/addresses/${address_id}`);
    },
+
+   jobs(address_id: string) {
+      return axios.get(`${v1}/addresses/jobs/${address_id}`).then(x => x.data.data);
+   },
 });
