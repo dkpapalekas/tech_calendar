@@ -11,8 +11,8 @@ import EditJob, { Methods as EditJobMethods } from '../components/EditJob';
 import Card from '../components/Card';
 import Calendar from '../components/Calendar';
 import { date_format, vif1 } from '../util';
-import { h } from 'vue';
 import { JobWithExtra } from '../API/Job';
+import type { Data } from '../components/Calendar';
 
 interface Refs {
    modal: {
@@ -41,6 +41,7 @@ interface Methods {
    onRowSelected: (items: JobWithExtra[]) => void;
    resetModal: () => void;
    handleSubmit: () => void;
+   jobFromId: (id: number) => JobWithExtra;
 }
 
 interface This extends Methods {
@@ -72,7 +73,7 @@ interface This extends Methods {
 }
 
 export default {
-   render(this: This) {
+   render(this: This, h) {
       const has_cards = vif1(this.cards);
       const has_table = vif1(!this.cards);
       const table = () => h('div', { class: 'row justify-content-center' }, [
@@ -174,7 +175,17 @@ export default {
                },
                props: {
                   data: this.calendarItems,
-               }
+               },
+               scopedSlots: {
+                  entry: (entry: Data) => h('div', {
+                     style: {
+                        height: '100%',
+                        background: this.jobFromId(parseFloat(entry.id)).client_status === 'OK'
+                           ? 'green'
+                           : 'lightgray',
+                     },
+                  }, entry.duration.toString())
+               },
             }),
          ])),
 
@@ -340,6 +351,10 @@ export default {
    },
 
    methods: {
+      jobFromId(this: This, id: number): JobWithExtra {
+         return this.items.find(x => x.id === id)!;
+      },
+
       startDrag(this: This, event: DragEventInit, item: JobWithExtra) {
          event.dataTransfer!.setData('jobID', item.id.toString());
       },

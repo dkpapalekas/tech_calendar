@@ -6,8 +6,9 @@ import { ofVN, get } from 'fpts/map';
 import { Option, pipe as pipeO } from 'fpts/option';
 import { of } from 'fpts/array';
 import { h } from 'vue';
+import { VNode } from 'vue/types/umd';
 
-type Data = {
+export type Data = {
    date: Date;
    duration: 1 | 2 | 3 | 4 | 5;
    id: any;
@@ -34,6 +35,9 @@ export interface This extends Props, Methods {
    monthdays: Array<{name: string; days: string[]}>;
    grouped_data: Map<number, Map<number, Map<number, Data>>>;
    $emit: <K extends keyof EmitMap>(event: K, value: EmitMap[K]) => void;
+   $scopedSlots: {
+      entry: (entry: Data) => VNode;
+   };
 }
 
 const preventDefault = (e: Event) => e.preventDefault();
@@ -105,7 +109,12 @@ const Component = {
          if (!entry)
             return empty_hour(M, d, hr);
          skip = entry.duration - 1;
-         return filled_hour(entry);
+         return h('div', {
+            style: {
+               width: this.cellWidth + 'rem',
+               height: entry.duration*this.cellHeight + 'rem',
+            }
+         }, [this.$scopedSlots.entry(entry)]);
       };
 
       const empty_hour = (M, d, hr: number) => h('div', {
@@ -122,17 +131,6 @@ const Component = {
             },
          },
       }, hr.toString());
-
-      const filled_hour = (entry: Data) => h('div', {
-         class: {
-            hour: true,
-            red: true,
-         },
-         style: {
-            width: this.cellWidth + 'rem',
-            height: entry.duration*this.cellHeight + 'rem',
-         }
-      }, entry.duration.toString());
 
       return h(this.as, {
          class: 'calendar',

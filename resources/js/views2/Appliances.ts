@@ -138,6 +138,7 @@ export default {
    },
 
    mounted() {
+      console.debug('appliances', this);
       this.api = API();
       this.path_url = this.$route.path;
       this.getCRUD();
