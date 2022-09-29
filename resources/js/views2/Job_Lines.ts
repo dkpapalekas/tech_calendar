@@ -98,20 +98,20 @@ export default {
             material_id: null,
             price: 0,
             quantity: 0,
-            status: "",
-            remarks: "",
+            status: '',
+            remarks: '',
          },
          currentUser: {},
          errors: [],
          fields: [
-            {key: 'id', label: 'ID', sortable: true, sortDirection: 'desc', },
-            {key: 'material_name', label: 'Υλικό', sortable: true, sortDirection: 'desc', },
-            {key: 'quantity', label: 'Ποσότητα', sortable: true, sortDirection: 'desc', },
-            {key: 'price', label: 'Τιμή', sortable: true, sortDirection: 'desc', },
-            {key: 'job_name', label: 'Ημ/νια', sortable: true, sortDirection: 'desc', },
-            {key: 'material_status_format', label: 'Κατάσταση', sortable: true, sortDirection: 'desc', },
-            {key: 'remarks', label: 'Σχόλια', sortable: true, sortDirection: 'desc',},
-        ],
+            { key: 'id', label: 'ID', sortable: true, sortDirection: 'desc' },
+            { key: 'material_name', label: 'Υλικό', sortable: true, sortDirection: 'desc' },
+            { key: 'quantity', label: 'Ποσότητα', sortable: true, sortDirection: 'desc' },
+            { key: 'price', label: 'Τιμή', sortable: true, sortDirection: 'desc' },
+            { key: 'job_name', label: 'Ημ/νια', sortable: true, sortDirection: 'desc' },
+            { key: 'material_status_format', label: 'Κατάσταση', sortable: true, sortDirection: 'desc' },
+            { key: 'remarks', label: 'Σχόλια', sortable: true, sortDirection: 'desc' },
+         ],
          items: [],
          selected: [],
          //table options
@@ -124,10 +124,10 @@ export default {
          //GET options
          cu: '',
          parent_id: 0,
-         material_statuses : [
+         material_statuses: [
             { value: 'OK', text: 'Διατίθεται' },
             { value: 'pending', text: 'Εκρεμμεί' },
-        ], 
+         ],
       };
    },
 
@@ -156,9 +156,9 @@ export default {
 
       formatItems() {
          this.items.forEach(obj => {
-             obj.material_status_format = obj.status === 'OK' ? "Διατίθεται" : "Εκρεμμεί"
-         })
-     },
+            obj.material_status_format = obj.status === 'OK' ? 'Διατίθεται' : 'Εκρεμμεί';
+         });
+      },
 
       getJobs() {
          this.api.Job.all()
@@ -166,8 +166,8 @@ export default {
                this.jobs = data;
                //job fullname creation
                this.jobs.forEach(job => {
-                  job.fullname = job.address_name + ', ' + job.customer_surname + ', ' + job.appliance_name
-              })
+                  job.fullname = job.address_name + ', ' + job.customer_surname + ', ' + job.appliance_name;
+               });
 
                //for each child add the name of the parent
                this.items.forEach(child => {
@@ -186,12 +186,12 @@ export default {
 
                //for each child add the name of the parent
                this.items.forEach(child => {
-               var parent = this.materials.find(obj => {
-                     return obj.id === child.material_id
-               })
-               child.material_name = parent.name;
-            })
-            this.formatItems()
+                  const parent = this.materials.find(obj => {
+                     return obj.id === child.material_id;
+                  });
+                  child.material_name = parent.name;
+               });
+               this.formatItems();
             }).catch(console.log);
       },
 

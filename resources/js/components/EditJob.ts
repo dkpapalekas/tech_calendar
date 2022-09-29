@@ -16,7 +16,7 @@ export interface Props {
    value: JobWithExtra;
    copy: Omit<JobWithExtra, 'date'> & { date: Date };
    client_statuses: Array<{
-      value: Job['client_status'],
+      value: Job['client_status'];
       text: string;
    }>;
    job_statuses: Array<{

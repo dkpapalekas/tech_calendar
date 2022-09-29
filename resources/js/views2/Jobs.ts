@@ -339,7 +339,7 @@ export default {
       },
 
       calendarItems(this: This) {
-         if (!this.items) return []
+         if (!this.items) return [];
          return this.items.map(x => ({
             id: x.id,
             date: x.date ? new Date(x.date) : x.date,

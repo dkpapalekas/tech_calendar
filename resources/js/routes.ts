@@ -62,12 +62,12 @@ export default {
       //       component: Job_Lines,
       //   },
       {
-            path: '/materials',
-            component: Materials,
-        },
-        {
-            path: '/materials/:id',
-            component: Materials,
-        },
+         path: '/materials',
+         component: Materials,
+      },
+      {
+         path: '/materials/:id',
+         component: Materials,
+      },
    ]
 };

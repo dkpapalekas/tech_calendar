@@ -30,7 +30,7 @@ export default {
             options: [
                { value: 'OK', text: 'Διατίθεται' },
                { value: 'pending', text: 'Εκρεμμεί' },
-           ],
+            ],
          },
          on: { input: x => this.$emit('input', x) },
       });
