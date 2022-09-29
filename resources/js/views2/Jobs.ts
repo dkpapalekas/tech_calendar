@@ -42,6 +42,7 @@ interface Methods {
    resetModal: () => void;
    handleSubmit: () => void;
    jobFromId: (id: number) => JobWithExtra;
+   api: ReturnType<typeof API>;
 }
 
 interface This extends Methods {
@@ -69,6 +70,7 @@ interface This extends Methods {
       text: string;
       value: keyof JobWithExtra;
    }>;
+   errors: any[];
    $refs: Refs;
 }
 
@@ -106,19 +108,23 @@ export default {
          ]),
       ]);
 
-      const cards = () => h('div', { class: 'cards flex wrap g3 m-3 start' }, this.items.map(x => h(Card, {
-         class: 'pointer',
-         domProps: {
-            draggable: true,
-         },
-         nativeOn: {
-            dragstart: (e: DragEventInit) => this.startDrag(e, x),
-         },
-         scopedSlots: {
-            header: () => h('div', 'yooo'),
-            default: () => h('div', 'brooooooooooooooo')
-         }
-      })));
+      const cards = () => h('div', {
+         class: 'cards flex wrap g3 m-3 start'
+      }, this.items
+         .filter(x => x.is_completed === 0 && !x.date)
+         .map(x => h(Card, {
+            class: 'pointer',
+            domProps: {
+               draggable: true,
+            },
+            nativeOn: {
+               dragstart: (e: DragEventInit) => this.startDrag(e, x),
+            },
+            scopedSlots: {
+               header: () => h('div', x.date || 'χωρίς ημ/νία'),
+               default: () => h('div', `${x.customer_name} ${x.customer_surname}`)
+            }
+         })));
 
       const children = [
          has_table(() => h(Header, { props: { header: 'Εργασίες' }})),
@@ -180,7 +186,7 @@ export default {
                   entry: (entry: Data) => h('div', {
                      style: {
                         height: '100%',
-                        background: this.jobFromId(parseFloat(entry.id)).client_status === 'OK'
+                        background: this.jobFromId(parseFloat(entry.id)).is_completed === 1
                            ? 'green'
                            : 'lightgray',
                      },
@@ -336,8 +342,8 @@ export default {
          if (!this.items) return []
          return this.items.map(x => ({
             id: x.id,
-            date: new Date(x.date),
-            duration: 2,
+            date: x.date ? new Date(x.date) : x.date,
+            duration: x.duration || 1,
          }));
       },
    },
@@ -364,6 +370,17 @@ export default {
          const job = this.items.find(x => x.id === jobID);
          if (!job) return;
          job.date = date_format(date);
+         this.api.Job.update(job.id.toString(), job)
+            .then(() => this.init())
+            .catch(errors => {
+               console.log(errors);
+               this.errors.push(errors);
+               swal.fire(
+                  'Updating - error!',
+                  'something went wrong',
+                  'error'
+               );
+            });
       },
 
       init() {

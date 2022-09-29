@@ -35,9 +35,10 @@ class Jobs extends Controller
             'address_id' => 'required',
             'appliance_id' => 'required',
             'client_status' => 'required',
-            'date' => 'required',
+            'date' => 'nullable|string',
             'agreed_price' => 'required',
             'is_completed' => 'required',
+            'duration' => 'nullable|integer',
         ]);
 
         $job = new Job();
@@ -47,8 +48,9 @@ class Jobs extends Controller
         $job->client_status = $request->client_status;
         $job->date = $request->date;
         $job->agreed_price = $request->agreed_price;
-        $job->is_completed = $request->is_completed;  
-        
+        $job->is_completed = $request->is_completed;
+        $job->duration = $request->duration;
+
         if($job->save()){
             return new JobResource($job);
         }
@@ -79,9 +81,10 @@ class Jobs extends Controller
             'address_id' => 'required',
             'appliance_id' => 'required',
             'client_status' => 'required',
-            'date' => 'required',
+            'date' => 'nullable|string',
             'agreed_price' => 'required',
             'is_completed' => 'required',
+            'duration' => 'nullable|integer',
         ]);
 
         $job = Job::findOrFail($id);
@@ -91,8 +94,9 @@ class Jobs extends Controller
         $job->client_status = $request->client_status;
         $job->date = $request->date;
         $job->agreed_price = $request->agreed_price;
-        $job->is_completed = $request->is_completed;  
-        
+        $job->is_completed = $request->is_completed;
+        $job->duration = $request->duration;
+
         if($job->save()){
             return new JobResource($job);
         }
@@ -135,14 +139,14 @@ class Jobs extends Controller
         return new ApplianceResource($appliance);
     }
 
-    //Retrieve all the job_lines that belong to job with selected id                                 
+    //Retrieve all the job_lines that belong to job with selected id
     public function job_lines($job_id)
     {
         $job_lines = Job::find($job_id)->job_lines;
         return Job_LineResource::collection($job_lines);
     }
 
-    //Retrieve all the materials that belong to job with selected id                                 
+    //Retrieve all the materials that belong to job with selected id
     public function materials($job_id)
     {
         $job_lines = Job::find($job_id)->job_lines;

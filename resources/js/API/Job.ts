@@ -5,13 +5,16 @@ export interface Job {
    id: number;
    agreed_price: number;
    is_completed: 0 | 1;
-   date: string;
+   date: string | null | undefined;
    client_status: 'OK' | 'pending';
+   duration: number | null;
 }
 
 export interface JobWithExtra extends Job {
    address_id: number;
    appliance_id: number;
+   customer_name: string;
+   customer_surname: string;
 }
 
 export default () => ({

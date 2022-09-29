@@ -145,6 +145,26 @@ export default {
                }),
             },
          }),
+
+         h(BFormGroup, {
+            props: {
+               label: 'Διάρχεια',
+               'invalid-feedback': 'date is required',
+            },
+            scopedSlots: {
+               default: () => h('input', {
+                  domProps: {
+                     id: 'duration-input',
+                     type: 'number',
+                     name: 'duration-input',
+                  },
+                  props: {
+                     value: this.copy.date,
+                  },
+                  on: { change: x => this.copy.date = new Date(x.target.value) },
+               }),
+            },
+         }),
       ]);
    },
 };
