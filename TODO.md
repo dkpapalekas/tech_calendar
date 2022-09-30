@@ -71,5 +71,5 @@ dpap jobs
    - appliance shown to grid
 
 In every chain
-   - hold client id when accessing his addresses
+   - **DONE** hold client id when accessing his addresses
    - hold address when accessing its jobs

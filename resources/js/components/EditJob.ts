@@ -148,7 +148,7 @@ export default {
 
          h(BFormGroup, {
             props: {
-               label: 'Διάρχεια',
+               label: 'Διάρκεια',
                'invalid-feedback': 'date is required',
             },
             scopedSlots: {
@@ -159,9 +159,9 @@ export default {
                      name: 'duration-input',
                   },
                   props: {
-                     value: this.copy.date,
+                     value: this.copy.duration,
                   },
-                  on: { change: x => this.copy.date = new Date(x.target.value) },
+                  on: { change: x => this.copy.duration = x.target.value },
                }),
             },
          }),

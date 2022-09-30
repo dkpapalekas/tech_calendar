@@ -16,7 +16,7 @@ export default {
    ],
 
    async created() {
-      this.materials = (await this.api.material.all()).map(x => ({
+      this.materials = (await this.api.Material.all()).map(x => ({
          value: x.id,
          text: `${x.name} ${x.surname}`,
       }));

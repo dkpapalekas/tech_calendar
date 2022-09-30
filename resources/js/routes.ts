@@ -8,7 +8,7 @@ import Addresses from './views2/Addresses';
 import Appliances from './views2/Appliances';
 import Jobs from './views2/Jobs';
 import Materials from './views2/Materials';
-// import Job_Lines from './views/Job_Lines.vue';
+import Job_Lines from './views2/Job_Lines';
 
 export default {
    mode: 'history' as RouterMode,
@@ -53,14 +53,14 @@ export default {
          path: '/jobs/:id',
          component: Jobs,
       },
-      //   {
-      //       path: '/job_lines',
-      //       component: Job_Lines,
-      //   },
-      //   {
-      //       path: '/job_lines/:id',
-      //       component: Job_Lines,
-      //   },
+      {
+         path: '/job_lines',
+         component: Job_Lines,
+      },
+      {
+         path: '/job_lines/:id',
+         component: Job_Lines,
+      },
       {
          path: '/materials',
          component: Materials,

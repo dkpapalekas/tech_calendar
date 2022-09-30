@@ -1,7 +1,7 @@
 import { BModal, BTable } from 'bootstrap-vue';
 import CRUDButtons from '../components/CRUDButtons';
 import wrapped from '../components/DefaultWrapper';
-import EditAddress from '../components/EditAddress';
+import EditJob_Line from '../components/EditJob_Line';
 import Header from '../components/Header';
 import SortFilter from '../components/SortFilter';
 import TextFilter from '../components/TextFilter';
@@ -72,7 +72,7 @@ export default {
                ok: () => this.$refs.edit.submit(),
             },
             scopedSlots: {
-               default: () => h(EditAddress, {
+               default: () => h(EditJob_Line, {
                   ref: 'edit',
                   props: { value: this.temp_page_table },
                   on: {
@@ -197,7 +197,7 @@ export default {
 
       getCRUD() {
          if (this.parent_id)
-            this.api.Customer.addresses(this.parent_id)
+            this.api.Job_Line.addresses(this.parent_id)
                .then(x => this.items = x)
                .catch(console.log);
          else

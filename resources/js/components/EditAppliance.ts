@@ -111,7 +111,6 @@ export default {
                label: 'Χρονολογία',
                'label-for': 'year-input',
                'invalid-feedback': 'year is required',
-               state: NonEmptyString(this.copy.year),
             },
 
             scopedSlots: {
@@ -119,7 +118,6 @@ export default {
                   id: 'year-input',
                   props: {
                      value: this.copy.year,
-                     state: NonEmptyString(this.copy.year),
                      required: true,
                   },
                   on: { input: x => this.copy.year = x }

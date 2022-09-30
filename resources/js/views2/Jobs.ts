@@ -440,7 +440,7 @@ export default {
       },
 
       getJobLines() {
-         this.api.JobLine.all()
+         this.api.Job_Line.all()
             .then(data => {
                this.job_lines = data;
 
@@ -502,11 +502,13 @@ export default {
          Object.keys(this.temp_page_table).forEach(key => {
             this.temp_page_table[key] = null;
          });
+         if (this.parent_id) this.temp_page_table.address_id = this.parent_id;
          this.cu = 'create';
          this.$refs.modal.show();
       },
 
       createCRUD() {
+         console.log(JSON.parse(JSON.stringify((this.page_table))));
          this.api.Job.create({
             ...this.page_table,
             date: date_format(this.page_table.date),

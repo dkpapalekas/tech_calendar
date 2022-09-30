@@ -52,6 +52,21 @@ export default {
       }, [
          h(BFormGroup, {
             props: {
+               label: 'Πελάτης',
+               'label-for': 'customer_id-input',
+               'invalid-feedback': 'Name is required',
+            },
+            scopedSlots: {
+               default: () => h(CustomerSelect, {
+                  id: 'customer_id-input',
+                  props: { value: this.copy.customer_id },
+                  on: { input: copy('customer_id') }
+               })
+            }
+         }),
+         
+         h(BFormGroup, {
+            props: {
                label: 'Οδός',
                'label-for': 'name-input',
                'invalid-feedback': 'Name is required',
@@ -84,21 +99,6 @@ export default {
                      state: NonEmptyString(this.copy.number),
                   },
                   on: { input: copy('number') }
-               })
-            }
-         }),
-
-         h(BFormGroup, {
-            props: {
-               label: 'Πελάτης',
-               'label-for': 'customer_id-input',
-               'invalid-feedback': 'Name is required',
-            },
-            scopedSlots: {
-               default: () => h(CustomerSelect, {
-                  id: 'customer_id-input',
-                  props: { value: this.copy.customer_id },
-                  on: { input: copy('customer_id') }
                })
             }
          }),
@@ -146,14 +146,12 @@ export default {
                label: 'remarks',
                'label-for': 'remarks-input',
                'invalid-feedback': 'remarks is required',
-               state: NonEmptyString(this.copy.remarks),
             },
             scopedSlots: {
                default: () => h(BFormInput, {
                   id: 'name-input',
                   props: {
                      value: this.copy.remarks,
-                     state: NonEmptyString(this.copy.remarks),
                   },
                   on: { input: copy('remarks') }
                })

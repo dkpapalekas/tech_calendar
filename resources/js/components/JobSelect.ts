@@ -16,9 +16,9 @@ export default {
    ],
 
    async created() {
-      this.jobs = (await this.api.job.all()).map(x => ({
+      this.jobs = (await this.api.Job.all()).map(x => ({
          value: x.id,
-         text: `${x.name} ${x.surname}`,
+         text: `${x.address_name} ${x.customer_surname} ${x.appliance_name}`,
       }));
       this.jobs.push({ text: 'Select job', value: undefined, disabled: true });
    },

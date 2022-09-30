@@ -20,7 +20,7 @@ class CreateAddressesTable extends Migration
             $table->integer('number');
             $table->string('city');
             $table->integer('floor');
-            $table->text('remarks');
+            $table->text('remarks')->nullable();
             $table->timestamps();
             $table->unique(['customer_id', 'name', 'city', 'floor']);
         });

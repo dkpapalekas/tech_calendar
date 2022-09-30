@@ -127,7 +127,7 @@ export default {
                'invalid-feedback': 'required',
             },
             scopedSlots: {
-               default: () => h(MaterialSelect, {
+               default: () => h(Material_stateSelect, {
                   id: 'status-input',
                   props: { value: this.copy.status },
                   on: { input: copy('status') }

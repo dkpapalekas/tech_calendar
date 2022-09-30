@@ -86,24 +86,24 @@ export default {
                }),
             },
          }),
-         h(BFormGroup, {
-            props: {
-               label: 'Εταιρεία',
-               'label-for': 'company_id-input',
-            },
+         // h(BFormGroup, {
+         //    props: {
+         //       label: 'Εταιρεία',
+         //       'label-for': 'company_id-input',
+         //    },
 
-            scopedSlots: {
-               default: () => h(CompanySelect, {
-                  props: {
-                     value: this.copy.company_id,
-                  },
+         //    scopedSlots: {
+         //       default: () => h(CompanySelect, {
+         //          props: {
+         //             value: this.copy.company_id,
+         //          },
 
-                  on: {
-                     input: x => this.copy.company_id = x,
-                  },
-               }),
-            },
-         }),
+         //          on: {
+         //             input: x => this.copy.company_id = x,
+         //          },
+         //       }),
+         //    },
+         // }),
          h(BFormGroup, {
             props: {
                label: 'Τηλέφωνο',
@@ -130,14 +130,12 @@ export default {
                label: 'Σχόλια',
                'label-for': 'remarks-input',
                'invalid-feedback': 'remarks is required',
-               state: NonEmptyString(this.copy.remarks),
             },
             scopedSlots: {
                default: () => h(BFormInput, {
                   id: 'remarks-input',
                   props: {
                      value: this.copy.remarks,
-                     state: NonEmptyString(this.copy.remarks),
                      required: true,
                   },
                   on: {
