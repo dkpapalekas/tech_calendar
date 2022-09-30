@@ -4,6 +4,7 @@ import Company from './Company';
 import Customer from './Customer';
 import Job from './Job';
 import JobLine from './JobLine';
+import File from './File';
 
 export default () => ({
    Customer: Customer(),
@@ -12,4 +13,5 @@ export default () => ({
    Appliance: Appliance(),
    Job: Job(),
    JobLine: JobLine(),
+   File: File(),
 });

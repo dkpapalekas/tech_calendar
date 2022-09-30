@@ -1,0 +1,24 @@
+.file-select .files {
+   margin-top: 8px;
+   display: flex;
+   flex-wrap: wrap;
+}
+
+.file-select .files img {
+   object-fit: cover;
+   cursor: pointer;
+}
+
+.file-select .files div:hover {
+   outline: 4px solid #4af;
+   z-index: 100;
+}
+
+.file-select .files div.selected {
+   outline: 8px solid #4af;
+   z-index: 100;
+}
+
+.file-select .files div.selected img {
+   opacity: 0.2;
+}
