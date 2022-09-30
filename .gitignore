@@ -14,9 +14,8 @@ yarn-error.log
 /.idea
 /.vscode
 composer.lock
-public/js/app.js
 /public/js/app.js
-public/js/app.js*
+/public/js/app.js*
 /public/index*html
 /public/index*js
 /public/resources*js
