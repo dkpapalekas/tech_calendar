@@ -6,6 +6,7 @@ use App\Http\Controllers\AddressController;
 use App\Http\Controllers\ApplianceController;
 use App\Http\Controllers\MaterialController;
 use App\Http\Controllers\Job_LineController;
+use App\Http\Controllers\Files;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -161,4 +162,8 @@ Route::middleware('auth.basic')->group(function() {
 
     // rpc
     Route::post('/rpc', [JSONRPC::class, 'route']);
+
+    // files
+    Route::get('/files', [Files::class, 'index']);
+    Route::post('/files', [Files::class, 'create']);
 });

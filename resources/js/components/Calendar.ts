@@ -86,7 +86,7 @@ const Component = {
       grouped_data(this: This) {
          return pipe(
             this.data,
-            filter(x => x.date.getFullYear() === this.current_year),
+            filter(x => x.date && x.date.getFullYear() === this.current_year),
             ofVN(x => x.date.getMonth(), x => x.date.getDate() - 1, x => x.date.getHours())
          );
       }

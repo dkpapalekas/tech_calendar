@@ -2,11 +2,19 @@
 
 # setup variables
 # use timestamp for version
+. ./variables.sh
 version=`date '+%s'`
-basename='tech-calendar'
 arch=amd64
 dirname="$basename"_"$version"_"$arch"
-domain=104.207.131.83
+
+# clean up old builds
+rm -vr \
+    public/js/app.js    \
+    public/js/app.js*   \
+    public/index*html   \
+    public/index*js     \
+    public/resources*js \
+    public/index*css
 
 # run the build
 npm run prod
@@ -15,49 +23,13 @@ npm run prod
 mkdir -p $dirname/opt/$basename $dirname/etc/nginx/sites-enabled
 cp -pr --parents app bootstrap config database public resources routes storage vendor artisan server.php $dirname/opt/$basename
 
-# nginx file
-cat << EOF > $dirname/etc/nginx/sites-enabled/$basename.conf
-server {
-    listen 80;
-    listen [::]:80;
-    server_name $domain;
-    root /opt/$basename/public;
- 
-    add_header X-Frame-Options "SAMEORIGIN";
-    add_header X-Content-Type-Options "nosniff";
- 
-    index index.php;
- 
-    charset utf-8;
- 
-    location / {
-        try_files \$uri \$uri/ /index.php?\$query_string;
-    }
- 
-    location = /favicon.ico { access_log off; log_not_found off; }
-    location = /robots.txt  { access_log off; log_not_found off; }
- 
-    error_page 404 /index.php;
- 
-    location ~ \.php\$ {
-        fastcgi_pass unix:/run/php/php7.4-fpm.sock;
-        fastcgi_param SCRIPT_FILENAME \$realpath_root\$fastcgi_script_name;
-        include fastcgi_params;
-    }
- 
-    location ~ /\.(?!well-known).* {
-        deny all;
-    }
-}
-EOF
-
 # .env
 cat <<EOF > $dirname/opt/$basename/.env
 APP_NAME=TECH_CALENDAR
 APP_ENV=local
 APP_KEY=base64:gZTLOCKX5M4rn4JfzftH97g+j+rhR2cRswAsRvoE0Ck=
 APP_DEBUG=true
-APP_URL=http://$domain
+APP_URL=https://$domain
 
 LOG_CHANNEL=stack
 LOG_DEPRECATIONS_CHANNEL=null
