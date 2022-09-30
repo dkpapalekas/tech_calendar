@@ -208,6 +208,7 @@ export default {
          Object.keys(this.temp_page_table).forEach(key => {
             this.temp_page_table[key] = null;
          });
+         if (this.parent_id) this.temp_page_table.customer_id = this.parent_id;
          this.cu = 'create';
          this.$refs.modal.show();
       },
