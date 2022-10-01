@@ -1,4 +1,4 @@
-- add new job with empty date
+- [DONE] add new job with empty date
 
 **WIP** Better authentication story
    - [DONE] With HTTP Basic Authentication
