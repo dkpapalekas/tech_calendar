@@ -12,6 +12,9 @@ export interface Job {
 
 export interface JobWithExtra extends Job {
    address_id: number;
+   address_name: string;
+   address_number: number;
+   appliance_name: string;
    appliance_id: number;
    customer_name: string;
    customer_surname: string;

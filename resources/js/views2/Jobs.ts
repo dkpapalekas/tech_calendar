@@ -44,6 +44,8 @@ interface Methods {
    handleSubmit: () => void;
    jobFromId: (id: number) => JobWithExtra;
    api: ReturnType<typeof API>;
+   calendar_item_hovered: (e: MouseEvent, id: string) => void;
+   calendar_item_unhovered: (e: MouseEvent) => void;
 }
 
 interface This extends Methods {
@@ -72,6 +74,9 @@ interface This extends Methods {
       value: keyof JobWithExtra;
    }>;
    errors: any[];
+   preview: boolean;
+   preview_position: { left: number, top: number };
+   preview_job: JobWithExtra;
    $refs: Refs;
 }
 
@@ -192,9 +197,34 @@ export default {
                            ? 'green'
                            : 'lightgray',
                      },
+                     on: {
+                        mouseover: e => this.calendar_item_hovered(e, entry.id),
+                        mouseleave: this.calendar_item_unhovered,
+                     },
                   }, entry.duration.toString())
                },
             }),
+         ])),
+
+
+         vif1(Boolean(this.cards && this.preview))(() => h('div', {
+            class: 'preview',
+            style: {
+               left: this.preview_position.left + 'px',
+               top: this.preview_position.top + 'px',
+            },
+         }, [
+            h('div', [
+               this.preview_job.customer_name,
+               ' ',
+               this.preview_job.customer_surname,
+            ]),
+            h('div', [
+               this.preview_job.address_name,
+               ' ',
+               this.preview_job.address_number,
+            ]),
+            h('div', this.preview_job.appliance_name),
          ])),
 
          h(BModal, {
@@ -326,6 +356,11 @@ export default {
          api: null,
          /** toggling between cards and non-cards view */
          cards: false,
+         preview: false,
+         preview_position: {
+            left: 0,
+            top: 0,
+         },
       };
    },
 
@@ -377,6 +412,17 @@ export default {
    },
 
    methods: {
+      calendar_item_hovered(this: This, e: MouseEvent, id: string) {
+         this.preview = true;
+         this.preview_position.left = e.clientX - 200;
+         this.preview_position.top = e.clientY - 50;
+         this.preview_job = this.jobFromId(parseFloat(id));
+      },
+
+      calendar_item_unhovered(this: This, e: MouseEvent) {
+         this.preview = false;
+      },
+
       jobFromId(this: This, id: number): JobWithExtra {
          return this.items.find(x => x.id === id)!;
       },
