@@ -16,3 +16,11 @@ export const date_format = (x: Date): string|undefined =>
    isNaN(x)
       ? undefined
       : `${x.getFullYear()}-${zeroes(x.getMonth()+1)}-${zeroes(x.getDate())} ${zeroes(x.getHours())}:${zeroes(x.getMinutes())}:${zeroes(x.getSeconds())}`;
+
+const seconds = x => x * 1000;
+const minutes = x => seconds(x * 60);
+const hours = x => minutes(x * 60);
+const days = x => hours(x * 24);
+
+export const days_between = (a: Date, b: Date) =>
+   Math.abs(a.getTime() - b.getTime()) / days(1);

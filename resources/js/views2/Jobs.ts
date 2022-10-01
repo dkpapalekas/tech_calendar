@@ -10,9 +10,10 @@ import { BFormCheckbox, BModal, BTable } from 'bootstrap-vue';
 import EditJob, { Methods as EditJobMethods } from '../components/EditJob';
 import Card from '../components/Card';
 import Calendar from '../components/Calendar';
-import { date_format, vif1 } from '../util';
+import { date_format, days_between, vif1 } from '../util';
 import { JobWithExtra } from '../API/Job';
 import type { Data } from '../components/Calendar';
+import { next_frame } from 'fpts/promise';
 
 interface Refs {
    modal: {
@@ -173,6 +174,7 @@ export default {
          has_cards(() => h('div', { class: 'flex' }, [
             cards(),
             h(Calendar, {
+               ref: 'calendar',
                style: {
                   height: '90vh',
                },
@@ -328,6 +330,14 @@ export default {
    },
 
    computed: {
+      start_of_current_year() {
+         return new Date(new Date().getFullYear(), 0, 1);
+      },
+
+      days_since_year_start() {
+         return Math.floor(days_between(new Date(), this.start_of_current_year));
+      },
+
       sortOptions(this: This) {
          return this.fields
             .filter(f => f.sortable)
@@ -356,6 +366,16 @@ export default {
       this.init();
    },
 
+   watch: {
+      async cards(value: boolean) {
+         if (value) {
+            await this.$nextTick();
+            await next_frame();
+            this.$refs.calendar.$el.scrollLeft = (this.days_since_year_start - 3) * 48
+         }
+      },
+   },
+
    methods: {
       jobFromId(this: This, id: number): JobWithExtra {
          return this.items.find(x => x.id === id)!;
@@ -373,7 +393,7 @@ export default {
          this.api.Job.update(job.id.toString(), job)
             .then(() => this.init())
             .catch(errors => {
-               console.log(errors);
+               console.error(errors);
                this.errors.push(errors);
                swal.fire(
                   'Updating - error!',
@@ -440,7 +460,7 @@ export default {
       },
 
       getJobLines() {
-         this.api.Job_Line.all()
+         this.api.JobLine.all()
             .then(data => {
                this.job_lines = data;
 

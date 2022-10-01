@@ -9,7 +9,7 @@
 
 [WIP] Calendar drag n drop
    - Calendar: See job customer_surname, address, appliance on hover
-   - optional: Start from the current day, not from january first
+   - [DONE] optional: Start from the current day, not from january first
 
 dpap Make remarks Optional
 dpap clients
