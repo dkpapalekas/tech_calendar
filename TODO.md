@@ -1,3 +1,16 @@
+- Calendar: See job customer_surname, address, appliance on hover
+- optional: Start from the current day, not from january first
+
+**Leave what says dpap to me**
+dpap Make remarks Optional
+dpap clients
+   - defaultsort by ID, desc
+   - hide company field, remarks
+   - add to **migrations** client source (site, partner(amoiridis), vrisko.gr, referal)
+
+dpap In every chain
+   - **DONE** hold client id when accessing his addresses
+   - **DON** hold address when accessing its jobs
 Port components to render functions
    - **DONE** Addresses
    - **DONE** App
@@ -34,42 +47,17 @@ Port components to render functions
 
 **WIP** Calendar drag n drop
 
-Simplify job entry
 
+**See what is important, i dont know** 
+??
 Remove bootstrap vue
-
 Remove bootstrap
-
 Vue3
-
 Type checking
-
 HTTPS
+??
 
 Change Jobs
    - add duration (small integer)
-   - add file id foreign key
 
-Add files
-   - id primary key / name varchar
-   - resize down to webp
-   - add file posting, delition routes
 
-Add file picker
-   - upload file
-   - select file
-   - delete file
-
-dpap Make remarks Optional
-
-dpap clients
-   - defaultsort by ID, desc
-   - hide company field, remarks
-   - add to **migrations** client source (site, partner(amoiridis), vrisko.gr, referal)
-
-dpap jobs
-   - appliance shown to grid
-
-In every chain
-   - **DONE** hold client id when accessing his addresses
-   - hold address when accessing its jobs
