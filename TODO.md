@@ -8,7 +8,7 @@
    - HTTPS
 
 [WIP] Calendar drag n drop
-   - Calendar: See job customer_surname, address, appliance on hover
+   - [DONE] Calendar: See job customer_surname, address, appliance on hover
    - [DONE] optional: Start from the current day, not from january first
 
 dpap Make remarks Optional

@@ -128,8 +128,6 @@ export default {
             props: {
                label: 'Ημ/νία',
                'label-for': 'date-input',
-               'invalid-feedback': 'date is required',
-               state: this.copy.date instanceof Date,
             },
             scopedSlots: {
                default: () => h('input', {
