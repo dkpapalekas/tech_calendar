@@ -1,5 +1,8 @@
 - Calendar: See job customer_surname, address, appliance on hover
 - optional: Start from the current day, not from january first
+- add new job with empty date
+
+-check for domain name
 
 **Leave what says dpap to me**
 dpap Make remarks Optional
