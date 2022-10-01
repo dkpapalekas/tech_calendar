@@ -40,7 +40,7 @@ export default {
             address_id: this.value?.address_id || undefined,
             appliance_id: this.value?.appliance_id || undefined,
             client_status: this.value?.client_status || 'pending',
-            date: this.value?.date || new Date(),
+            date: this.value?.date || undefined,
             agreed_price: this.value?.agreed_price || 0,
             is_completed: this.value?.is_completed || 0,
          },
@@ -63,7 +63,7 @@ export default {
             address_id: x?.address_id || undefined,
             appliance_id: x?.appliance_id || undefined,
             client_status: x?.client_status || 'pending',
-            date: x?.date || new Date(),
+            date: x?.date || undefined,
             agreed_price: x?.agreed_price || 0,
             is_completed: x?.is_completed || 0,
          };
@@ -135,8 +135,6 @@ export default {
                      id: 'date-input',
                      type: 'datetime-local',
                      name: 'date-input',
-                  },
-                  props: {
                      value: this.copy.date,
                   },
                   on: { change: x => this.copy.date = new Date(x.target.value) },

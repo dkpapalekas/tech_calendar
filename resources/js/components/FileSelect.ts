@@ -25,7 +25,7 @@ export default {
       },
 
       imageClicked(x) {
-         this.$emit('input', x)
+         this.$emit('input', x);
       },
    },
 
@@ -60,4 +60,4 @@ export default {
          ]))),
       ]);
    },
-}
+};

@@ -32,12 +32,12 @@ interface Methods {
    getAppliances: () => void;
    getJobLines: () => void;
    getCRUD: () => void;
-   Selected_modal: () => void;
+   showEditModal: () => void;
    SelectedChildren: () => void;
    NewEntry: () => void;
-   createCRUD: () => void;
-   updateCRUD: () => void;
-   deleteCRUD: () => void;
+   createJob: () => void;
+   updateJob: () => void;
+   deleteJob: () => void;
    onFiltered: (filteredItems: JobWithExtra[]) => void;
    onRowSelected: (items: JobWithExtra[]) => void;
    resetModal: () => void;
@@ -75,7 +75,7 @@ interface This extends Methods {
    }>;
    errors: any[];
    preview: boolean;
-   preview_position: { left: number, top: number };
+   preview_position: { left: number; top: number };
    preview_job: JobWithExtra;
    $refs: Refs;
 }
@@ -157,8 +157,8 @@ export default {
             props: { query: 'Υλικά' },
             on: {
                add: this.NewEntry,
-               edit: this.Selected_modal,
-               delete: this.deleteCRUD,
+               edit: this.showEditModal,
+               delete: this.deleteJob,
                query: this.SelectedChildren,
             },
             scopedSlots: {
@@ -406,7 +406,7 @@ export default {
          if (value) {
             await this.$nextTick();
             await next_frame();
-            this.$refs.calendar.$el.scrollLeft = (this.days_since_year_start - 3) * 48
+            this.$refs.calendar.$el.scrollLeft = (this.days_since_year_start - 3) * 48;
          }
       },
    },
@@ -537,19 +537,19 @@ export default {
             }).catch(console.log);
       },
 
-      Selected_modal() {
+      showEditModal() {
          if (!this.selected[0]) {
             swal.fire(
                'First Select entry',
                'No entry Has been selected',
                'error'
             );
-         } else {
-            this.cu = 'update';
-            this.$refs.modal.show();
-            this.temp_page_table = this.selected[0];
-            console.log(this.selected[0], '<<<');
+            return;
          }
+         this.cu = 'update';
+         this.temp_page_table = { ...this.selected[0] };
+         this.$refs.modal.show();
+         console.debug(this.selected[0], '<<<');
       },
 
       SelectedChildren() {
@@ -573,8 +573,7 @@ export default {
          this.$refs.modal.show();
       },
 
-      createCRUD() {
-         console.log(JSON.parse(JSON.stringify((this.page_table))));
+      createJob() {
          this.api.Job.create({
             ...this.page_table,
             date: date_format(this.page_table.date),
@@ -591,7 +590,7 @@ export default {
             });
       },
 
-      updateCRUD() {
+      updateJob() {
          this.api.Job.update(this.selected[0].id, this.page_table)
             .then(() => this.init())
             .catch(errors => {
@@ -605,7 +604,7 @@ export default {
             });
       },
 
-      deleteCRUD() {
+      deleteJob() {
          if(!this.selected[0]) {
             swal.fire(
                'First Select entry',
@@ -670,9 +669,9 @@ export default {
          this.page_table = this.temp_page_table;
          console.log('>><<>><<> from submit \n', this.page_table);
          if (this.cu == 'create')
-            this.createCRUD();
+            this.createJob();
          else if (this.cu == 'update')
-            this.updateCRUD();
+            this.updateJob();
          // Hide the modal manually
          this.$nextTick(() => {
             this.$refs.modal.hide();
