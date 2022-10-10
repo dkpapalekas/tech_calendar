@@ -20,9 +20,10 @@ CREATE DATABASE tech_db;
 GRANT ALL ON tech_db.* TO 'tech_user'@'localhost';
 EOF
 
-# unblock port 80 because reasons
+# unblock port 80 and 443 because reasons
 mkdir /etc/iptables
 /sbin/iptables -I INPUT -p tcp -m tcp --dport 80 -j ACCEPT
+/sbin/iptables -I INPUT -p tcp -m tcp --dport 443 -j ACCEPT
 /sbin/iptables-save > /etc/iptables/rules.v4
 
 # update caddyfile
