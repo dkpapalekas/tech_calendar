@@ -7,7 +7,7 @@
         "watch-poll": "mix watch -- --watch-options-poll=1000",
         "hot": "mix watch --hot",
         "prod": "npm run production",
-        "production": "mix --production",
+        "production": "NODE_ENV=production parcel build --dist-dir=./public --no-source-maps resources/index.html",
         "init:server": "bash infrastructure/init.sh",
         "make:deb": "bash infrastructure/make-deb.sh",
         "deploy": "bash infrastructure/deploy.sh",

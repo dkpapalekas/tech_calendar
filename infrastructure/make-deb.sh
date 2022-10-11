@@ -1,8 +1,8 @@
-#!/bin/sh
+#!/bin/bash
 
 # setup variables
 # use timestamp for version
-. ./variables.sh
+. infrastructure/variables.sh
 version=`date '+%s'`
 arch=amd64
 dirname="$basename"_"$version"_"$arch"
